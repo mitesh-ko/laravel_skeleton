@@ -197,6 +197,7 @@ return [
         Spatie\Permission\PermissionServiceProvider::class,
         Yajra\DataTables\DataTablesServiceProvider::class,
         OwenIt\Auditing\AuditingServiceProvider::class,
+        App\Providers\SiteConfigServiceProvider::class,
 
     ],
 
