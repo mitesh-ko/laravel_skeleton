@@ -1,7 +1,6 @@
 <?php
 
-use App\Http\Controllers\{LoggingController};
-use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\{LoggingController, SiteConfigController, UserSelfController};
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -16,18 +15,21 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('logs', [LoggingController::class, 'index']);
-Route::get('/', function () {
-    return view('welcome');
-});
-
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
+Route::view('/', 'welcome');
 
 Route::middleware(['auth', 'verified'])->group(function () {
-    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
-    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
-    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+    Route::view('dashboard', 'dashboard')->name('dashboard');
+    Route::prefix('myself')->group(function () {
+        Route::get('profile', [UserSelfController::class, 'profile'])->name('profile');
+        Route::get('account', [UserSelfController::class, 'account'])->name('account');
+        Route::put('account', [UserSelfController::class, 'update'])->name('account.update');
+        Route::post('deactivate', [UserSelfController::class, 'deactivate'])->name('deactivate');
+    });
+    Route::prefix('site-config')->group(function () {
+        Route::get('/', [SiteConfigController::class, 'index'])->name('siteConfig');
+        Route::post('site-settings', [SiteConfigController::class, 'siteSettingsUpdate'])->name('siteConfig.siteSettings');
+        Route::post('mail-settings', [SiteConfigController::class, 'mailSettingsUpdate'])->name('siteConfig.mailSettings');
+    });
 });
 
 require __DIR__ . '/auth.php';
