@@ -2,7 +2,7 @@
     "private": true,
     "scripts": {
         "dev": "vite",
-        "build": "vite build"
+        "build": "vite build --watch"
     },
     "devDependencies": {
         "alpinejs": "^3.4.2",

@@ -41,7 +41,7 @@
           class="template-customizer-core-css"/>
     <link rel="stylesheet" href="/assets/vendor/css/theme-default{{ true ? '-dark' : '' }}.css"
           class="template-customizer-theme-css"/>
-    <link rel="stylesheet" href="/assets/css/demo.css"/>
+    @vite(['resources/css/assets/demo.css'])
 
     <!-- Vendors CSS -->
     <link rel="stylesheet" href="/assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.css"/>
@@ -51,7 +51,10 @@
 
     <!-- Helpers -->
     <script src="/assets/vendor/js/helpers.js"></script>
-    <script src="/assets/js/config.js"></script>
+    @vite(['resources/js/assets/config.js'])
+
+    <script src="/assets/vendor/libs/jquery/jquery.js"></script>
+    <script src="/assets/vendor/libs/popper/popper.js"></script>
 </head>
 
 <body>
@@ -143,12 +146,9 @@
             <!-- / Navbar -->
 
             <!-- Content wrapper -->
-            <div class="content-wrapper">
-                <!-- Content -->
+            <main>
                 {{ $slot }}
-                <!-- / Content -->
-                <div class="content-backdrop fade"></div>
-            </div>
+            </main>
             <!-- Content wrapper -->
         </div>
         <!-- / Layout page -->
@@ -164,8 +164,6 @@
 
 <!-- Core JS -->
 <!-- build:js assets/vendor/js/core.js -->
-<script src="/assets/vendor/libs/jquery/jquery.js"></script>
-<script src="/assets/vendor/libs/popper/popper.js"></script>
 <script src="/assets/vendor/js/bootstrap.js"></script>
 <script src="/assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.js"></script>
 <script src="/assets/vendor/libs/node-waves/node-waves.js"></script>
@@ -178,7 +176,7 @@
 <!-- Vendors JS -->
 
 <!-- Main JS -->
-<script src="/assets/js/main.js"></script>
+@vite(['resources/js/assets/main.js'])
 
 <!-- Page JS -->
 </body>
