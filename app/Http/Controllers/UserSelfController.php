@@ -12,12 +12,12 @@ class UserSelfController extends Controller
 {
     public function profile(Request $request)
     {
-        return view('user.profile');
+        return view('user-self.profile');
     }
 
     public function account(Request $request)
     {
-        return view('user.account',['user' => $request->user()]);
+        return view('user-self.account',['user' => $request->user()]);
     }
 
     /**
@@ -35,7 +35,7 @@ class UserSelfController extends Controller
 
         $request->user()->save();
 
-        return Redirect::route('profile')->with('success', 'Profile updated successfully.');
+        return Redirect::route('user.index')->with('success', 'User updated successfully.');
     }
 
     public function deactivate(Request $request): RedirectResponse
