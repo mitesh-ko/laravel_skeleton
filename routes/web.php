@@ -1,6 +1,6 @@
 <?php
 
-use App\Http\Controllers\{LoggingController, SiteConfigController, UserSelfController};
+use App\Http\Controllers\{LoggingController, SiteConfigController, UserController, UserSelfController};
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -19,16 +19,17 @@ Route::view('/', 'welcome');
 
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::view('dashboard', 'dashboard')->name('dashboard');
+    Route::resource('user', UserController::class);
+    Route::prefix('site-config')->group(function () {
+        Route::get('/', [SiteConfigController::class, 'index'])->name('siteConfig');
+        Route::post('site-settings', [SiteConfigController::class, 'siteSettingsUpdate'])->name('siteConfig.siteSettings');
+        Route::post('mail-settings', [SiteConfigController::class, 'mailSettingsUpdate'])->name('siteConfig.mailSettings');
+    });
     Route::prefix('myself')->group(function () {
         Route::get('profile', [UserSelfController::class, 'profile'])->name('profile');
         Route::get('account', [UserSelfController::class, 'account'])->name('account');
         Route::put('account', [UserSelfController::class, 'update'])->name('account.update');
         Route::post('deactivate', [UserSelfController::class, 'deactivate'])->name('deactivate');
-    });
-    Route::prefix('site-config')->group(function () {
-        Route::get('/', [SiteConfigController::class, 'index'])->name('siteConfig');
-        Route::post('site-settings', [SiteConfigController::class, 'siteSettingsUpdate'])->name('siteConfig.siteSettings');
-        Route::post('mail-settings', [SiteConfigController::class, 'mailSettingsUpdate'])->name('siteConfig.mailSettings');
     });
 });
 

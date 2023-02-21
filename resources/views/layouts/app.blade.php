@@ -37,9 +37,9 @@
     <link rel="stylesheet" href="/assets/vendor/fonts/flag-icons.css"/>
 
     <!-- Core CSS -->
-    <link rel="stylesheet" href="/assets/vendor/css/core{{ true ? '-dark' : '' }}.css"
+    <link rel="stylesheet" href="/assets/vendor/css/rtl/core{{ true ? '-dark' : '' }}.css"
           class="template-customizer-core-css"/>
-    <link rel="stylesheet" href="/assets/vendor/css/theme-default{{ true ? '-dark' : '' }}.css"
+    <link rel="stylesheet" href="/assets/vendor/css/rtl/theme-default{{ true ? '-dark' : '' }}.css"
           class="template-customizer-theme-css"/>
     @vite(['resources/css/assets/demo.css'])
 
@@ -51,8 +51,8 @@
 
     <!-- Helpers -->
     <script src="/assets/vendor/js/helpers.js"></script>
-    @vite(['resources/js/assets/config.js'])
-
+    <script src="/assets/vendor/js/template-customizer.js"></script>
+    <script src="/assets/vendor/js/config.js"></script>
     <script src="/assets/vendor/libs/jquery/jquery.js"></script>
     <script src="/assets/vendor/libs/popper/popper.js"></script>
 </head>
@@ -136,6 +136,11 @@
                         </div>
                     @endif
                     <ul class="navbar-nav flex-row align-items-center ms-auto">
+                        <li class="nav-item me-2 me-xl-0">
+                            <a class="nav-link style-switcher-toggle hide-arrow" href="javascript:void(0);">
+                                <i class="ti ti-md"></i>
+                            </a>
+                        </li>
                         <!-- User -->
                         @include('layouts.user')
                         <!--/ User -->

@@ -5,6 +5,23 @@
     <x-nav-link :href="route('siteConfig')" :active="request()->routeIs('siteConfig')">
         {{ __('Site Config') }}
     </x-nav-link>
+    <x-nav-link :href="route('user.index')" :active="request()->routeIs('user.index')">
+        {{ __('User') }}
+    </x-nav-link>
+    <li class="menu-item active open">
+        <a href="javascript:void(0);" class="menu-link menu-toggle">
+            <i class="menu-icon tf-icons ti ti-file"></i>
+            <div data-i18n="Pages">Manage access</div>
+        </a>
+        <ul class="menu-sub">
+            <x-nav-link :href="route('profile')" :active="request()->routeIs('profile')">
+                {{ __('Role') }}
+            </x-nav-link>
+            <x-nav-link :href="route('account')" :active="request()->routeIs('account')">
+                {{ __('Permission') }}
+            </x-nav-link>
+        </ul>
+    </li>
     <li class="menu-item active open">
         <a href="javascript:void(0);" class="menu-link menu-toggle">
             <i class="menu-icon tf-icons ti ti-file"></i>
@@ -19,4 +36,5 @@
             </x-nav-link>
         </ul>
     </li>
+
 </ul>
