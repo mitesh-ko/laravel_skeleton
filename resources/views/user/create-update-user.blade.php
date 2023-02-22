@@ -1,6 +1,6 @@
 <x-app-layout>
     <x-slot name="header">
-        {{ __('My Account') }}
+        {{  isset($user) ? __('Update user') : __('Create new user') }}
     </x-slot>
     <div class="content-wrapper">
         <div class="container-xxl flex-grow-1 container-p-y">
@@ -33,9 +33,9 @@
                 </div>
                 <hr class="my-0"/>
                 <div class="card-body">
-                    <form id="formAccountSettings" method="POST" action="{{ $user ? route('user.update', $user->id) :  route('user.store') }}">
+                    <form id="formAccountSettings" method="POST" action="{{ isset($user) ? route('users.update', $user->id) :  route('users.store') }}">
                         @csrf
-                        @if($user)
+                        @isset($user)
                             @method('PUT')
                         @endif
                         <div class="row">
@@ -61,7 +61,7 @@
                         </div>
                         <div class="mt-2">
                             <button type="submit" class="btn btn-primary me-2">Save</button>
-                            <a class="btn btn-label-secondary" href="{{ route('user.index') }}">Cancel</a>
+                            <a class="btn btn-label-secondary" href="{{ route('users.index') }}">Cancel</a>
                         </div>
                     </form>
                 </div>

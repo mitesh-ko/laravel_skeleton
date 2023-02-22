@@ -33,7 +33,7 @@
                                         <select class="form-control" id="timezone" name="timezone">
                                             @foreach(config('timezones') as $value)
                                                 <option
-                                                    value="{{ $value['name'] }}" @selected($data['timezone'] == $value['name'])>
+                                                    value="{{ $value['name'] }}" @selected($data['timezone'] ?? '' == $value['name'])>
                                                     {{ $value['name'] }}</option>
                                             @endforeach
                                         </select>

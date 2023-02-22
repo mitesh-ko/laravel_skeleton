@@ -15,12 +15,14 @@ class PermissionSeeder extends Seeder
      */
     public function run()
     {
-        $role = Role::create(['name' => 'superUser']);
+        $role = Role::updateOrCreate(['name' => 'superUser'], ['name' => 'superUser']);
         foreach (config('constants.permissions') as $key => $value) {
-            Permission::updateOrCreate(['name' => $value], [
-                'name'       => $value,
-                'guard_name' => 'web'
-            ]);
+            foreach (config('constants.permissions.' . $key) as $value2) {
+                Permission::updateOrCreate(['name' => $value2['name']], [
+                    'name'       => $value2['name'],
+                    'guard_name' => $value2['guard_name']
+                ]);
+            }
         }
         $permissions = Permission::pluck('id', 'id')->all();
         $role->syncPermissions($permissions);

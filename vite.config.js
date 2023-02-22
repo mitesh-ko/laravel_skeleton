@@ -12,7 +12,9 @@ export default defineConfig({
                 'resources/js/assets/account.js',
                 'resources/js/assets/profile.js',
                 'resources/js/assets/main.js',
-                'resources/js/assets/index-user.js'
+                'resources/js/assets/index-user.js',
+                'resources/js/assets/index-role.js',
+                'resources/js/assets/create-update-role.js'
             ],
         }),
     ],

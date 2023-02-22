@@ -5,8 +5,11 @@
     <x-nav-link :href="route('siteConfig')" :active="request()->routeIs('siteConfig')">
         {{ __('Site Config') }}
     </x-nav-link>
-    <x-nav-link :href="route('user.index')" :active="request()->routeIs('user.index')">
+    <x-nav-link :href="route('users.index')" :active="request()->routeIs(['users.index', 'users.edit'])">
         {{ __('User') }}
+    </x-nav-link>
+    <x-nav-link :href="route('emailTemplate.index')" :active="request()->routeIs(['emailTemplate.index', 'emailTemplate.edit'])">
+        {{ __('Email Template') }}
     </x-nav-link>
     <li class="menu-item active open">
         <a href="javascript:void(0);" class="menu-link menu-toggle">
@@ -14,10 +17,10 @@
             <div data-i18n="Pages">Manage access</div>
         </a>
         <ul class="menu-sub">
-            <x-nav-link :href="route('profile')" :active="request()->routeIs('profile')">
+            <x-nav-link :href="route('roles.index')" :active="request()->routeIs(['roles.index', 'roles.edit'])">
                 {{ __('Role') }}
             </x-nav-link>
-            <x-nav-link :href="route('account')" :active="request()->routeIs('account')">
+            <x-nav-link :href="route('permissions.list')" :active="request()->routeIs('permissions.list')">
                 {{ __('Permission') }}
             </x-nav-link>
         </ul>
@@ -36,5 +39,4 @@
             </x-nav-link>
         </ul>
     </li>
-
 </ul>

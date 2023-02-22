@@ -11,7 +11,7 @@
             <div class="card">
                 <div class="card-header">
                     <div class="text-end pt-3 pt-md-0">
-                        <a class="btn btn-success" href="{{ route('user.create') }}">
+                        <a class="btn btn-success" href="{{ route('users.create') }}">
                             <span>
                                 <i class="ti ti-plus me-sm-1"></i>
                                 <span class="d-none d-sm-inline-block">Add New User</span>
@@ -21,7 +21,7 @@
                 </div>
                 <!--Search Form -->
                 <div class="card-body">
-                    <form class="user-search" method="POST" data-url="{{ route('user.index') }}">
+                    <form class="user-search" method="POST" data-url="{{ route('users.index') }}">
                         <div class="row">
                             <div class="col-12">
                                 <div class="row g-3">
