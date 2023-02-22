@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 use App\Models\SiteConfig;
+use Config;
 use Illuminate\Contracts\Encryption\DecryptException;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Crypt;
@@ -46,6 +47,6 @@ class SiteConfigServiceProvider extends ServiceProvider
         config('mail.from.address', $value['mail_from_address']);
         config('mail.from.name', $value['mail_from_name']);
         config('app.timezone', $value['timezone']);
-        config('site', $value);
+        Config::set('site', $value);
     }
 }
