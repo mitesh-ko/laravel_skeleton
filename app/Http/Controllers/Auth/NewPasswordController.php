@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use Carbon\Carbon;
+use DB;
 use Illuminate\Auth\Events\PasswordReset;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -17,9 +19,19 @@ class NewPasswordController extends Controller
     /**
      * Display the password reset view.
      */
-    public function create(Request $request): View
+    public function create(Request $request)
     {
-        return view('auth.reset-password', ['request' => $request]);
+        $record = DB::table('password_resets')->where('email', $request->email)->first();
+
+        $canResetPassword = $record &&
+            !Carbon::parse($record->created_at)->addSeconds(60 * 60)->isPast();
+
+        if ($canResetPassword) {
+            return view('auth.reset-password', ['request' => $request]);
+        } else {
+            DB::table('password_resets')->where('email', $request->email)->delete();
+            return redirect()->route('login')->with('status', __('Your password reset link was expired request a new password reset link.'));
+        }
     }
 
     /**
