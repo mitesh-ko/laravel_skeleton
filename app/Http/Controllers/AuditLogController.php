@@ -13,7 +13,7 @@ class AuditLogController extends Controller
 	public function index(Request $request)
 	{
         if($request->ajax()) {
-            $audits = Audit::with('user')->select(['created_at', 'user_id', 'event', 'ip_address', 'id', 'user_type']);
+            $audits = Audit::with('user')->select(['created_at', 'user_id', 'event', 'ip_address', 'id', 'user_type', 'auditable_type'])->latest();
             return DataTables::eloquent($audits)
                 ->filter(function ($query) use ($request) {
                     if ($request->name) {
@@ -42,6 +42,6 @@ class AuditLogController extends Controller
 
     public function show(Audit $audit)
     {
-        dd($audit);
+        return view('audit-log.show-audit-log', ['audit' => $audit]);
     }
 }
