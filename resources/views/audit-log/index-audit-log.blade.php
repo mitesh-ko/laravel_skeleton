@@ -83,6 +83,7 @@
                         <tr>
                             <th>Time</th>
                             <th>User</th>
+                            <th>Module</th>
                             <th>Action</th>
                             <th>IP</th>
                             <th>View</th>

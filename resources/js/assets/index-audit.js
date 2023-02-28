@@ -12,6 +12,7 @@ $(function () {
             columns: [
                 {data: 'created_at'},
                 {data: 'user'},
+                {data: 'auditable_type'},
                 {data: 'event'},
                 {data: 'ip_address'},
                 {data: 'view'},
