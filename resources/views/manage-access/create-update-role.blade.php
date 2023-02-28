@@ -62,7 +62,8 @@
                                                             <input class="form-check-input" type="checkbox"
                                                                    id="{{ $value2['name'] }}"
                                                                    name="permissions[{{ $value2['name'] }}]"
-                                                            @checked(isset($role) && $role->hasPermissionTo($value2['name']))
+                                                                   value="{{ $value2['name'] }}"
+                                                            @checked(isset($role) && $role->hasPermissionTo($value2['name'])) />
                                                             <label class="form-check-label"
                                                                    for="{{ $value2['name'] }}">{{ $value2['displayName'] }}</label>
                                                         </div>
