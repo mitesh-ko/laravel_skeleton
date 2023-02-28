@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 
 <html
-    lang="{{ str_replace('_', '-', app()->getLocale()) }}"
+{{--    lang="{{ str_replace('_', '-', app()->getLocale()) }}"--}}
     class="light-style layout-navbar-fixed layout-menu-fixed"
     dir="ltr"
     data-theme="theme-default"
@@ -130,7 +130,7 @@
                             <div class="nav-item navbar-search-wrapper mb-0">
                                 <a class="nav-item nav-link search-toggler d-flex align-items-center px-0"
                                    href="javascript:void(0);">
-                                    <h4 class="d-none d-md-inline-block mb-0">{{ $header }}</h4>
+                                    <h4 class="d-none d-md-inline-block mb-0">{{ $header }} </h4>
                                 </a>
                             </div>
                         </div>

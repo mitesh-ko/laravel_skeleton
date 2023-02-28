@@ -11,7 +11,10 @@
     <x-nav-link :href="route('emailTemplate.index')" :active="request()->routeIs(['emailTemplate.index', 'emailTemplate.edit'])">
         {{ __('Email Template') }}
     </x-nav-link>
-    <li class="menu-item active open">
+    <x-nav-link :href="route('audits.index')" :active="request()->routeIs('audits.index')">
+        {{ __('Audit Logs') }}
+    </x-nav-link>
+    <li class="menu-item active">
         <a href="javascript:void(0);" class="menu-link menu-toggle">
             <i class="menu-icon tf-icons ti ti-file"></i>
             <div data-i18n="Pages">Manage access</div>
@@ -25,7 +28,7 @@
             </x-nav-link>
         </ul>
     </li>
-    <li class="menu-item active open">
+    <li class="menu-item active">
         <a href="javascript:void(0);" class="menu-link menu-toggle">
             <i class="menu-icon tf-icons ti ti-file"></i>
             <div data-i18n="Pages">Myself</div>
