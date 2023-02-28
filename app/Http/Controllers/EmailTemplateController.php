@@ -12,6 +12,13 @@ use Yajra\DataTables\Facades\DataTables;
 
 class EmailTemplateController extends Controller
 {
+    function __construct()
+    {
+//        $this->middleware('permission:email-template-list|email-template-edit|email-template-delete', ['only' => ['index', 'store']]);
+//        $this->middleware('permission:email-template-create', ['only' => ['create', 'store']]);
+//        $this->middleware('permission:email-template-edit', ['only' => ['edit', 'update']]);
+//        $this->middleware('permission:email-template-delete', ['only' => ['destroy']]);
+    }
     public function index(Request $request)
     {
         if ($request->ajax()) {
