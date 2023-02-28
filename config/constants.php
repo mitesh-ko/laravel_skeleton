@@ -14,21 +14,21 @@ return [
             ],
             [
                 'displayName' => 'Create',
-                'name'        => 'roleList',
+                'name'        => 'roleCreate',
                 'guard_name'  => 'web',
                 'desc'        => '',
                 'marginLeft'  => 0
             ],
             [
                 'displayName' => 'Update',
-                'name'        => 'roleList',
+                'name'        => 'roleUpdate',
                 'guard_name'  => 'web',
                 'desc'        => '',
                 'marginLeft'  => 0
             ],
             [
                 'displayName' => 'Delete',
-                'name'        => 'roleList',
+                'name'        => 'roleDelete',
                 'guard_name'  => 'web',
                 'desc'        => '',
                 'marginLeft'  => 0
@@ -38,7 +38,7 @@ return [
         'Permission Management' => [
             [
                 'displayName' => 'List',
-                'name'        => 'roleList',
+                'name'        => 'permissionList',
                 'guard_name'  => 'web',
                 'desc'        => '',
                 'marginLeft'  => 0
@@ -48,14 +48,14 @@ return [
         'Email Template Management' => [
             [
                 'displayName' => 'List',
-                'name'        => 'roleList',
+                'name'        => 'emailTemplateList',
                 'guard_name'  => 'web',
                 'desc'        => '',
                 'marginLeft'  => 0
             ],
             [
                 'displayName' => 'Update',
-                'name'        => 'roleList',
+                'name'        => 'emailTemplateUpdate',
                 'guard_name'  => 'web',
                 'desc'        => '',
                 'marginLeft'  => 0
