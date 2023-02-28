@@ -3,7 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\ProfileUpdateRequest;
-use App\Models\User;
+use App\Models\Role;
+use Event;
 use Exception;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
@@ -12,11 +13,9 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
-use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Redirect;
-use Illuminate\Validation\Rule;
+use OwenIt\Auditing\Events\AuditCustom;
 use Spatie\Permission\Models\Permission;
-use Spatie\Permission\Models\Role;
 use Yajra\DataTables\Facades\DataTables;
 
 class ManageAccessController extends Controller
@@ -70,11 +69,19 @@ class ManageAccessController extends Controller
         $role = Role::create([
             'name' => $request->role_name,
         ]);
-        foreach ($request->permissions ?? [] as $permission) {
-            $permissionName[] = $permission;
-        }
-        $permissions = Permission::whereIn('name', $permissionName ?? [])->pluck('id', 'id');
+
+        $permissionName = array_values($request->permissions ?? []);
+
+        $permissions = Permission::whereIn('name', $permissionName)->pluck('id', 'id');
         $role->syncPermissions($permissions);
+
+        $role->auditEvent = 'created';
+        $role->isCustomEvent = true;
+        $role->getAllPermissions();
+        $role->auditCustomOld = [];
+        $role->auditCustomNew = array_merge($role->toArray(),
+            ['permission' => json_encode($permissionName, JSON_UNESCAPED_SLASHES)]);
+        Event::dispatch(AuditCustom::class, [$role]);
         return Redirect::route('roles.index')->with('success', 'User Created successfully.');
     }
 
@@ -112,15 +119,29 @@ class ManageAccessController extends Controller
         $request->validate([
             'role_name' => 'required|max:150'
         ]);
-        foreach ($request->permissions ?? [] as $permission) {
-            $permissionName[] = $permission;
-        }
-        $permissions = Permission::whereIn('name', $permissionName ?? [])->pluck('id', 'id');
+
+        $data = $role->permissions()->get(['name'])->map(function ($value) {
+            return $value->name;
+        });
+        $oldData = array_merge(['permission' => json_encode($data->toArray(), JSON_UNESCAPED_SLASHES)], $role->toArray());
+        $permissionsName = array_values($request->permissions ?? []);
+
+        $permissions = Permission::whereIn('name', $permissionsName)->pluck('id', 'id');
+
         $role->syncPermissions($permissions);
         $role->update([
             'name' => $request->role_name,
         ]);
 
+        $role->auditEvent = 'updated';
+        $role->isCustomEvent = true;
+        $role->getAllPermissions();
+        $role->auditCustomOld = $oldData;
+        $role->auditCustomNew = [
+            'name'       => $request->role_name,
+            'permission' => json_encode($permissionsName, JSON_UNESCAPED_SLASHES)
+        ];
+        Event::dispatch(AuditCustom::class, [$role]);
         return Redirect::route('roles.index')->with('success', 'Role updated successfully.');
     }
 

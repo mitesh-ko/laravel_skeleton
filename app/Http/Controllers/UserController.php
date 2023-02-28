@@ -115,14 +115,13 @@ class UserController extends Controller
      * @param int $id
      * @return RedirectResponse
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, User $user)
     {
         $validData = $request->validate([
-            'name'  => ['required', 'string', 'max:255'],
-            'email' => ['required', 'email', 'max:255', Rule::unique(User::class)->ignore($id)],
+            'name'  => ['required', 'max:255'],
+            'email' => ['required', 'email', 'max:255', Rule::unique(User::class)->ignore($user->id)],
         ]);
 
-        $user = User::find($id);
         if ($user->isDirty('email')) {
             $validData['email_verified_at'] = null;
         }
