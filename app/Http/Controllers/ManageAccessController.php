@@ -77,7 +77,6 @@ class ManageAccessController extends Controller
 
         $role->auditEvent = 'created';
         $role->isCustomEvent = true;
-        $role->getAllPermissions();
         $role->auditCustomOld = [];
         $role->auditCustomNew = array_merge($role->toArray(),
             ['permission' => $permissionName]);
