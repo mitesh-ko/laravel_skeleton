@@ -4,9 +4,11 @@ namespace App\Http\Controllers;
 
 use App\Models\SiteConfig;
 use Crypt;
+use Event;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redirect;
+use OwenIt\Auditing\Events\AuditCustom;
 
 class SiteConfigController extends Controller
 {
@@ -23,9 +25,18 @@ class SiteConfigController extends Controller
     public function siteSettingsUpdate(Request $request)
     {
         foreach ($request->all() as $key => $value) {
-            SiteConfig::where('key', $key)->update(['value' => $value]);
+            $siteConfig = SiteConfig::where('key', $key)->first();
+            if ($siteConfig && $siteConfig->value != $value) {
+                SiteConfig::where('key', $key)->update(['value' => $value]);
+
+                $siteConfig->auditEvent = 'updated';
+                $siteConfig->isCustomEvent = true;
+                $siteConfig->auditCustomOld = ['key' => $siteConfig->key, 'value' => $siteConfig->value];
+                $siteConfig->auditCustomNew = ['key' => $key, 'value' => $value];
+                Event::dispatch(AuditCustom::class, [$siteConfig]);
+            }
         }
-        return Redirect::back();
+        return Redirect::back()->with('success', 'Site config updated successfully.');
     }
 
     /**
@@ -38,8 +49,17 @@ class SiteConfigController extends Controller
             if ($key == 'mail_password') {
                 $value = Crypt::encryptString($value);
             }
-            SiteConfig::where('key', $key)->update(['value' => $value]);
+            $siteConfig = SiteConfig::where('key', $key)->first();
+            if ($siteConfig && $siteConfig->value != $value) {
+                SiteConfig::where('key', $key)->update(['value' => $value]);
+
+                $siteConfig->auditEvent = 'updated';
+                $siteConfig->isCustomEvent = true;
+                $siteConfig->auditCustomOld = ['key' => $siteConfig->key, 'value' => $siteConfig->value];
+                $siteConfig->auditCustomNew = ['key' => $key, 'value' => $value];
+                Event::dispatch(AuditCustom::class, [$siteConfig]);
+            }
         }
-        return Redirect::back();
+        return Redirect::back()->with('success', 'mail setting updated successfully.');
     }
 }
