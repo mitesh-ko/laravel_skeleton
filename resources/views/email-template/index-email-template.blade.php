@@ -29,5 +29,5 @@
     <script src="/assets/vendor/libs/sweetalert2/sweetalert2.js"></script>
     <script src="/assets/vendor/libs/moment/moment.js"></script>
     <script src="/assets/vendor/libs/flatpickr/flatpickr.js"></script>
-    @vite(['resources/js/assets/index-role.js'])
+    @vite(['resources/js/assets/index-email-template.js'])
 </x-app-layout>
