@@ -19,7 +19,7 @@
                                 <div class="row">
                                     <div class="mb-3 col-md-12">
                                         <label for="site_name" class="form-label">Site name</label>
-                                        <input class="form-control" type="text" id="site_name" name="site_name"
+                                        <input class="form-control" type="text" id="site_name" name="name"
                                                value="{{ $data['name'] ?? '' }}" autofocus/>
                                     </div>
                                     <div class="mb-3 col-md-12">
