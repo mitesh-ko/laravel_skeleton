@@ -46,7 +46,8 @@
     <!-- Vendors CSS -->
     <link rel="stylesheet" href="/assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.css"/>
     <link rel="stylesheet" href="/assets/vendor/libs/node-waves/node-waves.css"/>
-
+    <link rel="stylesheet" href="/assets/vendor/libs/toastr/toastr.css" />
+    <link rel="stylesheet" href="/assets/vendor/libs/animate-css/animate.css" />
     <!-- Page CSS -->
 
     <!-- Helpers -->
@@ -159,6 +160,23 @@
         <!-- / Layout page -->
     </div>
 
+    <div>
+        <div
+            class="bs-toast toast toast-ex animate__animated my-2 bg-label-success"
+            role="alert"
+            aria-live="assertive"
+            aria-atomic="true"
+            data-bs-delay="2000"
+        >
+            <div class="toast-header bg-label-primary">
+                <i class="ti ti-bell ti-xs me-2"></i>
+                <div class="me-auto fw-semibold">Bootstrap</div>
+                <small class="text-muted">11 mins ago</small>
+                <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+            </div>
+            <div class="toast-body">Hello, world! This is a toast message.</div>
+        </div>
+    </div>
     <!-- Overlay -->
     <div class="layout-overlay layout-menu-toggle"></div>
 
@@ -176,12 +194,14 @@
 <script src="/assets/vendor/libs/hammer/hammer.js"></script>
 
 <script src="/assets/vendor/js/menu.js"></script>
+<script src="/assets/vendor/libs/toastr/toastr.js"></script>
 <!-- endbuild -->
 
 <!-- Vendors JS -->
 
 <!-- Main JS -->
 @vite(['resources/js/assets/main.js'])
+@vite(['resources/js/assets/toaster.js'])
 
 <!-- Page JS -->
 </body>

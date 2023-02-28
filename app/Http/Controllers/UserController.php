@@ -45,7 +45,6 @@ class UserController extends Controller
                 ->addColumn('action', function ($row) {
                     $btn = '<a href="' . route('users.edit', $row->id) . '" class="btn btn-primary btn-sm mx-1 my-1">View/Update</a>';
                     $btn .= '<button data-url="' . route('users.destroy', $row->id) . '" class="btn btn-danger btn-sm mx-1 my-1 delete-user">Delete</button>';
-                    $btn .= '<a href="javascript:void(0)" class="btn btn-warning btn-sm mx-1 my-1">Send password reset link</a>';
                     return $btn;
                 })
                 ->rawColumns(['action'])

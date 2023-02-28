@@ -159,4 +159,14 @@ class ManageAccessController extends Controller
         $role->delete();
         return Redirect::route('roles.index')->with('success', 'Role deleted successfully.');
     }
+
+    public function permissions (Request $request)
+    {
+        if ($request->ajax()) {
+            $role = Permission::query();
+            return DataTables::eloquent($role)
+                ->make();
+        }
+        return view('manage-access.list-permission');
+    }
 }
