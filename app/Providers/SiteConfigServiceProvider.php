@@ -46,7 +46,6 @@ class SiteConfigServiceProvider extends ServiceProvider
         config('mail.mailers.smtp.password', $value['mail_password']);
         config('mail.from.address', $value['mail_from_address']);
         config('mail.from.name', $value['mail_from_name']);
-        config('app.timezone', $value['timezone']);
         Config::set('site', $value);
     }
 }
