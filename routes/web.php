@@ -34,14 +34,14 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
     Route::resource('users', UserController::class);
 
-    Route::get('email-template', [EmailTemplateController::class, 'index'])->name('emailTemplate.index');
-    Route::get('email-template/{emailTemplate}/edit', [EmailTemplateController::class, 'edit'])->name('emailTemplate.edit');
-    Route::put('email-template/{emailTemplate}', [EmailTemplateController::class, 'update'])->name('emailTemplate.update');
+    Route::resource('email-template', EmailTemplateController::class,
+        ['names' => 'emailTemplate'])->except(['store', 'show']);
 
     Route::prefix('access-management')->group(function () {
         Route::resource('roles', ManageAccessController::class);
         Route::get('permissions', [ManageAccessController::class, 'permissions'])->name('permissions.list');
     });
+
     Route::prefix('site-config')->group(function () {
         Route::get('/', [SiteConfigController::class, 'index'])->name('siteConfig');
         Route::post('site-settings', [SiteConfigController::class, 'siteSettingsUpdate'])->name('siteConfig.siteSettings');
