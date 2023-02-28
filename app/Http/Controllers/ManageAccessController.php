@@ -80,7 +80,7 @@ class ManageAccessController extends Controller
         $role->getAllPermissions();
         $role->auditCustomOld = [];
         $role->auditCustomNew = array_merge($role->toArray(),
-            ['permission' => json_encode($permissionName, JSON_UNESCAPED_SLASHES)]);
+            ['permission' => $permissionName]);
         Event::dispatch(AuditCustom::class, [$role]);
         return Redirect::route('roles.index')->with('success', 'User Created successfully.');
     }
@@ -123,7 +123,7 @@ class ManageAccessController extends Controller
         $data = $role->permissions()->get(['name'])->map(function ($value) {
             return $value->name;
         });
-        $oldData = array_merge(['permission' => json_encode($data->toArray(), JSON_UNESCAPED_SLASHES)], $role->toArray());
+        $oldData = array_merge(['permission' => $data->toArray()], $role->toArray());
         $permissionsName = array_values($request->permissions ?? []);
 
         $permissions = Permission::whereIn('name', $permissionsName)->pluck('id', 'id');
@@ -139,7 +139,7 @@ class ManageAccessController extends Controller
         $role->auditCustomOld = $oldData;
         $role->auditCustomNew = [
             'name'       => $request->role_name,
-            'permission' => json_encode($permissionsName, JSON_UNESCAPED_SLASHES)
+            'permission' => $permissionsName
         ];
         Event::dispatch(AuditCustom::class, [$role]);
         return Redirect::route('roles.index')->with('success', 'Role updated successfully.');
