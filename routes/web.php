@@ -1,6 +1,7 @@
 <?php
 
-use App\Http\Controllers\{EmailTemplateController,
+use App\Http\Controllers\{AuditLogController,
+    EmailTemplateController,
     LoggingController,
     ManageAccessController,
     SiteConfigController,
@@ -27,11 +28,15 @@ Route::get('/', function () {
 
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::view('dashboard', 'dashboard')->name('dashboard');
+
+    Route::get('audits', [AuditLogController::class, 'index'])->name('audits.index');
+    Route::get('show-audit/{audit}', [AuditLogController::class, 'show'])->name('audits.show');
+
     Route::resource('users', UserController::class);
 
     Route::get('email-template', [EmailTemplateController::class, 'index'])->name('emailTemplate.index');
-    Route::get('email-template/{id}/edit', [EmailTemplateController::class, 'edit'])->name('emailTemplate.edit');
-    Route::put('email-template/{id}/edit', [EmailTemplateController::class, 'update'])->name('emailTemplate.edit');
+    Route::get('email-template/{emailTemplate}/edit', [EmailTemplateController::class, 'edit'])->name('emailTemplate.edit');
+    Route::put('email-template/{emailTemplate}', [EmailTemplateController::class, 'update'])->name('emailTemplate.update');
 
     Route::prefix('access-management')->group(function () {
         Route::resource('roles', ManageAccessController::class);
