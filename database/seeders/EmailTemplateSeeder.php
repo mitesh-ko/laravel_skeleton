@@ -17,7 +17,8 @@ class EmailTemplateSeeder extends Seeder
     {
         $items = [
             [
-                'name'    => 'welcome_email',
+                'key'     => 'welcomeEmail',
+                'name'    => 'Welcome email',
                 'subject' => 'Account created on {SITE_NAME} ',
                 'body'    => '<table>
                                 <tbody>
@@ -33,7 +34,8 @@ class EmailTemplateSeeder extends Seeder
                                 </tbody>
                               </table>'],
             [
-                'name'    => 'reset_password',
+                'key'     => 'resetPassword',
+                'name'    => 'Reset password',
                 'subject' => 'Password reset on {SITE_NAME} ',
                 'body'    => '<table>
                                 <tbody>
@@ -46,7 +48,8 @@ class EmailTemplateSeeder extends Seeder
                                 </tbody>
                               </table> '],
             [
-                'name'    => 'notification_mail',
+                'key'     => 'notificationMail',
+                'name'    => 'Notification mail',
                 'subject' => '{SUBJECT} on {SITE_NAME} ',
                 'body'    => '<table>
                                 <tbody>
@@ -61,7 +64,7 @@ class EmailTemplateSeeder extends Seeder
                                       </td>
                                     </tr>
                                   </tbody>
-                                </table> '
+                                </table>'
             ],
         ];
 
