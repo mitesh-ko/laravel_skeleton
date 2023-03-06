@@ -11,12 +11,14 @@
             <div class="card">
                 <div class="card-header">
                     <div class="text-end pt-3 pt-md-0">
-                        <a class="btn btn-success" href="{{ route('users.create') }}">
+                        @can(config('constants.permissions.User management.Create.name'))
+                            <a class="btn btn-success" href="{{ route('users.create') }}">
                             <span>
                                 <i class="ti ti-plus me-sm-1"></i>
                                 <span class="d-none d-sm-inline-block">Add New User</span>
                             </span>
-                        </a>
+                            </a>
+                        @endcan
                     </div>
                 </div>
                 <!--Search Form -->

@@ -30,7 +30,7 @@
                                         <ul
                                             class="list-inline mb-0 d-flex align-items-center flex-wrap justify-content-sm-start justify-content-center gap-2"
                                         >
-                                            {!! isset(auth()->user()->roles[0]) ? '<li class="list-inline-item"> <i class="ti ti-color-swatch"></i></li>' . auth()->user()->roles[0] : '' !!}
+                                            {!! isset(auth()->user()->roles[0]) ? '<li class="list-inline-item"> <i class="ti ti-color-swatch"></i></li>' . auth()->user()->roles[0]?->name : '' !!}
                                             <li class="list-inline-item"><i class="ti ti-calendar mb-2"></i>
                                                 Joined {{ \Carbon\Carbon::parse(auth()->user()->email_verified_at)->format('M Y') }}
                                             </li>
@@ -85,7 +85,7 @@
                                 </li>
                                 <li class="d-flex align-items-center mb-3">
                                     <i class="ti ti-crown"></i><span class="fw-bold mx-2">Role:</span>
-                                    <span>{{ auth()->user()->roles[0] ?? 'Role not assigned' }}</span>
+                                    <span>{{ auth()->user()->roles[0]?->name ?? 'Role not assigned' }}</span>
                                 </li>
                                 <li class="d-flex align-items-center mb-3">
                                     <i class="ti ti-flag"></i><span class="fw-bold mx-2">Country:</span>

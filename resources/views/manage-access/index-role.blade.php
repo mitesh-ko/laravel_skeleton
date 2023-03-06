@@ -11,12 +11,14 @@
             <div class="card">
                 <div class="card-header">
                     <div class="text-end pt-3 pt-md-0">
-                        <a class="btn btn-success" href="{{ route('roles.create') }}">
+                        @can(config('constants.permissions.Role Management.Create.name'))
+                            <a class="btn btn-success" href="{{ route('roles.create') }}">
                             <span>
                                 <i class="ti ti-plus me-sm-1"></i>
                                 <span class="d-none d-sm-inline-block">Add New Role</span>
                             </span>
-                        </a>
+                            </a>
+                        @endcan
                     </div>
                 </div>
                 <div class="card-datatable table-responsive">
