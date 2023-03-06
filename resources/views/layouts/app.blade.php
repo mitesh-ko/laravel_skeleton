@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 
 <html
-{{--    lang="{{ str_replace('_', '-', app()->getLocale()) }}"--}}
+    {{--    lang="{{ str_replace('_', '-', app()->getLocale()) }}"--}}
     class="light-style layout-navbar-fixed layout-menu-fixed"
     dir="ltr"
     data-theme="theme-default"
@@ -46,8 +46,7 @@
     <!-- Vendors CSS -->
     <link rel="stylesheet" href="/assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.css"/>
     <link rel="stylesheet" href="/assets/vendor/libs/node-waves/node-waves.css"/>
-    <link rel="stylesheet" href="/assets/vendor/libs/toastr/toastr.css" />
-    <link rel="stylesheet" href="/assets/vendor/libs/animate-css/animate.css" />
+    <link rel="stylesheet" href="/assets/vendor/libs/animate-css/animate.css"/>
     <!-- Page CSS -->
 
     <!-- Helpers -->
@@ -161,21 +160,41 @@
     </div>
 
     <div>
-        <div
-            class="bs-toast toast toast-ex animate__animated my-2 bg-label-success"
-            role="alert"
-            aria-live="assertive"
-            aria-atomic="true"
-            data-bs-delay="2000"
-        >
-            <div class="toast-header bg-label-primary">
-                <i class="ti ti-bell ti-xs me-2"></i>
-                <div class="me-auto fw-semibold">Bootstrap</div>
-                <small class="text-muted">11 mins ago</small>
-                <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+        @if($status = Session::get('toastStatus'))
+            @php($toaster = [
+                    'success' => [
+                        'label' => 'bg-label-success',
+                        'title' => 'Success',
+                        'textColor' => 'text-success',
+                        'icon' => 'ti-circle-check'
+                    ],
+                    'warning' => [
+                        'label' => 'bg-label-warning',
+                        'title' => 'Warning',
+                        'textColor' => 'text-warning',
+                        'icon' => 'ti-alert-triangle'
+                    ],
+                    'error' => [
+                        'label' => 'bg-label-danger',
+                        'title' => 'Error',
+                        'textColor' => 'text-danger',
+                        'icon' => 'ti-alert-triangle'
+                    ]
+            ])
+            <div
+                class="bs-toast toast toast-ex animate__animated my-2 {{ $toaster[$status]['label'] }} fade animate__fade"
+                role="alert" aria-live="assertive" aria-atomic="true" data-bs-delay="5000">
+                <div class="toast-header bg-label-secondary">
+                    <i class="ti {{ $toaster[$status]['icon'] }} ti-xs me-2 {{ $toaster[$status]['textColor'] }}"></i>
+                    <div
+                        class="me-auto fw-semibold {{ $toaster[$status]['textColor'] }}">{{ $toaster[$status]['title'] }}</div>
+                    <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+                </div>
+                <div class="toast-body">
+                    {{ Session::get('message') }}
+                </div>
             </div>
-            <div class="toast-body">Hello, world! This is a toast message.</div>
-        </div>
+        @endif
     </div>
     <!-- Overlay -->
     <div class="layout-overlay layout-menu-toggle"></div>
@@ -194,7 +213,6 @@
 <script src="/assets/vendor/libs/hammer/hammer.js"></script>
 
 <script src="/assets/vendor/js/menu.js"></script>
-<script src="/assets/vendor/libs/toastr/toastr.js"></script>
 <!-- endbuild -->
 
 <!-- Vendors JS -->
