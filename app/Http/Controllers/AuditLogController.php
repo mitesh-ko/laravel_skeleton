@@ -22,15 +22,6 @@ class AuditLogController extends Controller
             $seeDetails = auth()->user()->hasPermissionTo(config('constants.permissions.Audit Logs.Check log details.name'));
             $audits = Audit::with('user')->select(['created_at', 'user_id', 'event', 'ip_address', 'id', 'user_type', 'auditable_type'])->latest();
             return DataTables::eloquent($audits)
-                ->filter(function ($query) use ($request) {
-                    if ($request->name) {
-                        $query->where('name', 'like', "%" . $request->name . "%");
-                    }
-
-                    if ($request->email) {
-                        $query->where('email', 'like', "%" . $request->email . "%");
-                    }
-                })
                 ->addColumn('view', function ($row) use($seeDetails){
                     return $seeDetails ? '<a href="' . route('audits.show', $row->id) . '" class="btn btn-primary btn-sm mx-1 my-1">View</a>' :
                     '<span class="badge bg-label-gray">No Access</span>';

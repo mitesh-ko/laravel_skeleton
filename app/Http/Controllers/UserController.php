@@ -42,15 +42,6 @@ class UserController extends Controller
             $accessToDelete = auth()->user()->hasPermissionTo(config('constants.permissions.User management.Delete.name'));
             $user = User::query()->select(['id', 'name', 'email', DB::raw("DATE_FORMAT(created_at, '%d/%b/%Y') as joined_on")]);
             return DataTables::eloquent($user)
-                ->filter(function ($query) use ($request) {
-                    if ($request->name) {
-                        $query->where('name', 'like', "%" . $request->name . "%");
-                    }
-
-                    if ($request->email) {
-                        $query->where('email', 'like', "%" . $request->email . "%");
-                    }
-                })
                 ->addColumn('action', function ($row) use($accessToModify,$accessToDelete) {
                     $btn = $accessToModify ?'<a href="' . route('users.edit', $row->id) . '" class="btn btn-primary btn-sm mx-1 my-1">View/Update</a>' :
                         '<span class="badge bg-label-gray mx-1 my-1">No Access</span>';

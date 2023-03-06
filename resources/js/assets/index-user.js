@@ -23,7 +23,8 @@ $(function () {
         }).then((result) => {
         })
     })
-    let dt_adv_filter_table = $('.dt-advanced-search');
+    // ====================================================================================
+    let userListTable = $('.user-list-table');
 
     var rangePickr = $('.flatpickr-range'),
         dateFormat = 'MM/DD/YYYY';
@@ -51,23 +52,7 @@ $(function () {
         });
     }
 
-    function filterColumn(i, val) {
-        if (i === 5) {
-            var startDate = startDateEle.val(),
-                endDate = endDateEle.val();
-            if (startDate !== '' && endDate !== '') {
-                $.fn.dataTableExt.afnFiltering.length = 0; // Reset datatable filter
-                dt_adv_filter_table.dataTable().fnDraw(); // Draw table after filter
-                filterByDate(i, startDate, endDate); // We call our filter function
-            }
-            dt_adv_filter_table.dataTable().fnDraw();
-        } else {
-            dt_adv_filter_table.DataTable().column(i).search(val, false, true).draw();
-        }
-    }
 
-    // Advance filter function
-    // We pass the column location, the start date, and the end date
     $.fn.dataTableExt.afnFiltering.length = 0;
     var filterByDate = function (column, startDate, endDate) {
         // Custom filter syntax requires pushing the new filter to the global filter array
@@ -98,14 +83,12 @@ $(function () {
     };
     // Advanced Search Functions Ends
 
-    // Advanced Search
     // --------------------------------------------------------------------
 
-    // Advanced Filter table
-    if (dt_adv_filter_table.length) {
-        let table = dt_adv_filter_table.DataTable({
+    if (userListTable.length) {
+        let userTable = userListTable.DataTable({
             dom: "<'row'<'col-sm-12'tr>><'row'<'col-sm-12 col-md-6'i><'col-sm-12 col-md-6 dataTables_pager'p>>",
-            ajax: $(".user-search").attr('data-url'),
+            ajax: userListTable.attr('data-url'),
             processing: true,
             serverSide: true,
             columns: [
@@ -124,19 +107,18 @@ $(function () {
             ],
             orderCellsTop: true,
         });
-        $(".email").keyup(function () {
-            table.draw();
-        });
+
+        function searchUser() {
+            userTable.column(0).search($("#search-name").val()).draw();
+            userTable.column(1).search($("#search-email").val()).draw();
+        }
+        $("#search-request").click(function () {
+            searchUser()
+        })
+        $("#clear-search").click(function () {
+            $("#search-name").val('');
+            $("#search-email").val('');
+            searchUser()
+        })
     }
-
-    $('input.dt-input').on('keyup', function () {
-        filterColumn($(this).attr('data-column'), $(this).val());
-    });
-
-    // Filter form control to default size
-    // ? setTimeout used for multilingual table initialization
-    setTimeout(() => {
-        $('.dataTables_filter .form-control').removeClass('form-control-sm');
-        $('.dataTables_length .form-select').removeClass('form-select-sm');
-    }, 200);
 });

@@ -4,7 +4,7 @@ $(function () {
     let role_table = $('.audit_table');
 
     if (role_table.length) {
-        let table = role_table.DataTable({
+        let auditTable = role_table.DataTable({
             dom: "<'row'<'col-sm-12'tr>><'row'<'col-sm-12 col-md-6'i><'col-sm-12 col-md-6 dataTables_pager'p>>",
             ajax: role_table.attr('data-url'),
             processing: true,
@@ -27,5 +27,20 @@ $(function () {
             ],
             orderCellsTop: true,
         });
+
+        function searchAudit() {
+            auditTable.column(2).search($("#search-model").val()).draw();
+            auditTable.column(3).search($("#search-action").val()).draw();
+            auditTable.column(4).search($("#search-ip").val()).draw();
+        }
+        $("#search-request").click(function () {
+            searchAudit()
+        })
+        $("#clear-search").click(function () {
+            $("#search-model").val('');
+            $("#search-action").val('');
+            $("#search-ip").val('');
+            searchAudit()
+        })
     }
 });
