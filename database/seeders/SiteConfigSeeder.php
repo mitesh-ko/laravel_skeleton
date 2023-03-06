@@ -63,9 +63,9 @@ class SiteConfigSeeder extends Seeder
             ],
         ];
         foreach ($insertData as $i => $value) {
-            $insertData[$i]['created_at'] = now();
-            $insertData[$i]['updated_at'] = now();
+            if(!SiteConfig::where('key', $value)->first()) {
+                SiteConfig::create($insertData);
+            }
         }
-        SiteConfig::insert($insertData);
     }
 }

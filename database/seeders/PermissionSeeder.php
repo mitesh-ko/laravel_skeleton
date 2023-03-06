@@ -15,7 +15,8 @@ class PermissionSeeder extends Seeder
      */
     public function run()
     {
-        $role = Role::updateOrCreate(['name' => 'superUser'], ['name' => 'superUser']);
+        $role = Role::updateOrCreate(['name' => 'Super User'], ['name' => 'Super User']);
+        Role::updateOrCreate(['name' => 'Public User'], ['name' => 'Public User']);
         foreach (config('constants.permissions') as $key => $value) {
             foreach (config('constants.permissions.' . $key) as $value2) {
                 Permission::updateOrCreate(['name' => $value2['name']], [
