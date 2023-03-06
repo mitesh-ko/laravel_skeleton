@@ -113,40 +113,94 @@
                 </div>
                 <!-- /Account -->
             </div>
-            <div class="card">
-                <h5 class="card-header">Delete Account</h5>
-                <div class="card-body">
-                    <div class="mb-3 col-12 mb-0">
-                        <div class="alert alert-warning">
-                            <h5 class="alert-heading mb-1">Are you sure you want to delete your account?</h5>
-                            <p class="mb-0">Once you delete your account, there is no going back. Please be certain.</p>
+
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="card mb-4">
+                        <h5 class="card-header">Change Password</h5>
+                        <div class="card-body">
+                            <form action="{{ route('changePassword') }}" method="post">
+                                @csrf
+                                @method('PUT')
+                                <div class="mb-3">
+                                    <label for="password" class="form-label">Old Password</label>
+                                    <input class="form-control @error('old_password') is-invalid @enderror" type="password"
+                                           name="old_password"/>
+                                    @error('old_password')
+                                    <div class="fv-plugins-message-container invalid-feedback">
+                                        <div data-field="password" data-validator="notEmpty">
+                                            {{ $message }}
+                                        </div>
+                                    </div>
+                                    @enderror
+                                </div>
+                                <div class="mb-3">
+                                    <label for="password" class="form-label">New Password</label>
+                                    <input class="form-control @error('password') is-invalid @enderror" type="password"
+                                           name="password"/>
+                                    @error('password')
+                                    <div class="fv-plugins-message-container invalid-feedback">
+                                        <div data-field="password" data-validator="notEmpty">
+                                            {{ $message }}
+                                        </div>
+                                    </div>
+                                    @enderror
+                                </div>
+                                <div class="mb-3">
+                                    <label for="password" class="form-label">Confirm Password</label>
+                                    <input class="form-control @error('password_confirmation') is-invalid @enderror" type="password"
+                                           name="password_confirmation"/>
+                                    @error('password_confirmation')
+                                    <div class="fv-plugins-message-container invalid-feedback">
+                                        <div data-field="password" data-validator="notEmpty">
+                                            {{ $message }}
+                                        </div>
+                                    </div>
+                                    @enderror
+                                </div>
+                                <button type="submit" class="btn btn-primary">Update</button>
+                            </form>
                         </div>
                     </div>
-                    <form id="formAccountDeactivation" action="{{ route('deactivate') }}" method="post">
-                        @csrf
-                        <div class="mb-3 col-md-6">
-                            <label for="password" class="form-label">Password</label>
-                            <input class="form-control @error('password') is-invalid @enderror" type="password"
-                                   id="password"
-                                   name="password"/>
-                            @error('password')
-                            <div class="fv-plugins-message-container invalid-feedback">
-                                <div data-field="password" data-validator="notEmpty">
-                                    {{ $message }}
+                </div>
+
+                <div class="col-md-6">
+                    <div class="card mb-4">
+                        <h5 class="card-header">Deactivate Account</h5>
+                        <div class="card-body">
+                            <div class="mb-3 col-12 mb-0">
+                                <div class="alert alert-warning">
+                                    <h5 class="alert-heading mb-1">Are you sure you want to deactivate your account?</h5>
                                 </div>
                             </div>
-                            @endif
+                            <form id="formAccountDeactivation" action="{{ route('deactivate') }}" method="post">
+                                @csrf
+                                <div class="mb-3">
+                                    <label for="password" class="form-label">Password</label>
+                                    <input class="form-control @error('password') is-invalid @enderror" type="password"
+                                           id="password"
+                                           name="password"/>
+                                    @error('password')
+                                    <div class="fv-plugins-message-container invalid-feedback">
+                                        <div data-field="password" data-validator="notEmpty">
+                                            {{ $message }}
+                                        </div>
+                                    </div>
+                                    @endif
+                                </div>
+                                <div class="form-check mb-4 col-md-6">
+                                    <input class="form-check-input" type="checkbox" name="accountActivation"
+                                           id="accountActivation"/>
+                                    <label class="form-check-label" for="accountActivation">
+                                        I confirm my account deactivation</label>
+                                </div>
+                                <button type="submit" class="btn btn-danger deactivate-account">Deactivate Account</button>
+                            </form>
                         </div>
-                        <div class="form-check mb-4 col-md-6">
-                            <input class="form-check-input" type="checkbox" name="accountActivation"
-                                   id="accountActivation"/>
-                            <label class="form-check-label" for="accountActivation">
-                                I confirm my account deactivation</label>
-                        </div>
-                        <button type="submit" class="btn btn-danger deactivate-account">Deactivate Account</button>
-                    </form>
+                    </div>
                 </div>
             </div>
+
             <div class="content-backdrop fade"></div>
         </div>
     </div>
