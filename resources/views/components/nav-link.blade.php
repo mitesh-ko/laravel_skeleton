@@ -1,5 +1,6 @@
 @props(['active'])
 @props(['href'])
+@props(['icon'])
 
 @php
 $classes = ($active ?? false)
@@ -9,7 +10,7 @@ $classes = ($active ?? false)
 
 <li class="{{ $classes }}">
     <a class="menu-link" href="{{ $href }}">
-        <i class="menu-icon tf-icons ti ti-app-window"></i>
+        <i class="menu-icon tf-icons ti {{ $icon ?? '' }}"></i>
         <div data-i18n="Page 2">{{ $slot }}</div>
     </a>
 </li>
