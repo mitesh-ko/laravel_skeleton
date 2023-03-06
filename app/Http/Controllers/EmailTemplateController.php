@@ -14,18 +14,18 @@ class EmailTemplateController extends Controller
 {
     function __construct()
     {
-//        $this->middleware('permission:email-template-list|email-template-edit|email-template-delete', ['only' => ['index', 'store']]);
-//        $this->middleware('permission:email-template-create', ['only' => ['create', 'store']]);
-//        $this->middleware('permission:email-template-edit', ['only' => ['edit', 'update']]);
-//        $this->middleware('permission:email-template-delete', ['only' => ['destroy']]);
+        $this->middleware('permission:' . config('constants.permissions.Email Template Management.List.name'), ['only' => ['index']]);
+        $this->middleware('permission:' . config('constants.permissions.Email Template Management.Update.name'), ['only' => ['edit', 'update']]);
     }
     public function index(Request $request)
     {
+        $accessToModify = auth()->user()->hasPermissionTo(config('constants.permissions.Email Template Management.Update.name'));
         if ($request->ajax()) {
             $emailTemplate = EmailTemplate::query()->select(['name', 'subject', 'id']);
             return DataTables::eloquent($emailTemplate)
-                ->addColumn('action', function ($row) {
-                    return '<a href="' . route('emailTemplate.edit', $row->id ?? 0) . '" class="btn btn-primary btn-sm mx-1 my-1">View/Update</a>';
+                ->addColumn('action', function ($row) use($accessToModify) {
+                    return $accessToModify ? '<a href="' . route('emailTemplate.edit', $row->id ?? 0) . '" class="btn btn-primary btn-sm mx-1 my-1">View/Update</a>' :
+                        '<span class="badge bg-label-gray">No Access</span>';
                 })
                 ->rawColumns(['action'])
                 ->make();
@@ -46,7 +46,7 @@ class EmailTemplateController extends Controller
             'body'    => ['required'],
         ]);
         if ($emailTemplate->update($validData)) {
-            return Redirect::route('emailTemplate.index')->with('success', 'Email template updated successfully.');
+            return Redirect::route('emailTemplate.index')->with(['toastStatus' => 'success', 'message' => 'Email template updated successfully.']);
         }
     }
 }

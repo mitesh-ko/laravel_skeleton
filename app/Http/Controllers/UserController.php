@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\ProfileUpdateRequest;
 use App\Models\User;
-use App\Providers\RouteServiceProvider;
 use DB;
 use Exception;
 use Illuminate\Contracts\Foundation\Application;
@@ -22,6 +21,14 @@ use Yajra\DataTables\Facades\DataTables;
 
 class UserController extends Controller
 {
+    function __construct()
+    {
+        $this->middleware('permission:' . config('constants.permissions.User management.List.name'), ['only' => ['index']]);
+        $this->middleware('permission:' . config('constants.permissions.User management.Create.name'), ['only' => ['create', 'store']]);
+        $this->middleware('permission:' . config('constants.permissions.User management.Update.name'), ['only' => ['edit', 'update']]);
+        $this->middleware('permission:' . config('constants.permissions.User management.Delete.name'), ['only' => ['destroy']]);
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -31,6 +38,8 @@ class UserController extends Controller
     public function index(Request $request)
     {
         if ($request->ajax()) {
+            $accessToModify = auth()->user()->hasPermissionTo(config('constants.permissions.User management.Update.name'));
+            $accessToDelete = auth()->user()->hasPermissionTo(config('constants.permissions.User management.Delete.name'));
             $user = User::query()->select(['id', 'name', 'email', DB::raw("DATE_FORMAT(created_at, '%d/%b/%Y') as joined_on")]);
             return DataTables::eloquent($user)
                 ->filter(function ($query) use ($request) {
@@ -42,15 +51,17 @@ class UserController extends Controller
                         $query->where('email', 'like', "%" . $request->email . "%");
                     }
                 })
-                ->addColumn('action', function ($row) {
-                    $btn = '<a href="' . route('users.edit', $row->id) . '" class="btn btn-primary btn-sm mx-1 my-1">View/Update</a>';
-                    $btn .= '<button data-url="' . route('users.destroy', $row->id) . '" class="btn btn-danger btn-sm mx-1 my-1 delete-user">Delete</button>';
+                ->addColumn('action', function ($row) use($accessToModify,$accessToDelete) {
+                    $btn = $accessToModify ?'<a href="' . route('users.edit', $row->id) . '" class="btn btn-primary btn-sm mx-1 my-1">View/Update</a>' :
+                        '<span class="badge bg-label-gray mx-1 my-1">No Access</span>';
+                    $btn .= $accessToDelete ? '<button data-url="' . route('users.destroy', $row->id) . '" class="btn btn-danger btn-sm mx-1 my-1 delete-user">Delete</button>' :
+                        '<span class="badge bg-label-gray mx-1 my-1">No Access</span>';
                     return $btn;
                 })
                 ->rawColumns(['action'])
                 ->make();
         }
-        return view('user.index-user',);
+        return view('user.index-user');
     }
 
     /**
@@ -82,7 +93,7 @@ class UserController extends Controller
             'password' => Hash::make(Str::random(5)),
         ]);
 
-        return Redirect::route('users.index')->with('success', 'User Created successfully.');
+        return Redirect::route('users.index')->with(['toastStatus' => 'success', 'message' => 'User Created successfully.']);
     }
 
     /**
@@ -127,7 +138,7 @@ class UserController extends Controller
 
         $user->update($validData);
 
-        return Redirect::route('users.index')->with('success', 'User updated successfully.');
+        return Redirect::route('users.index')->with(['toastStatus' => 'success', 'message' => 'User updated successfully.']);
     }
 
     /**
@@ -141,6 +152,6 @@ class UserController extends Controller
         $user = User::findOrFail($id);
         // delete user associated data from other tables.
         $user->delete();
-        return Redirect::route('users.index')->with('success', 'User deleted successfully.');
+        return Redirect::route('users.index')->with(['toastStatus' => 'success', 'message' => 'User deleted successfully.']);
     }
 }

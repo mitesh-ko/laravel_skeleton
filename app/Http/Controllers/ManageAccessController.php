@@ -20,6 +20,14 @@ use Yajra\DataTables\Facades\DataTables;
 
 class ManageAccessController extends Controller
 {
+    function __construct()
+    {
+        $this->middleware('permission:' . config('constants.permissions.Role Management.List.name'), ['only' => ['index']]);
+        $this->middleware('permission:' . config('constants.permissions.Role Management.Create.name'), ['only' => ['create', 'store']]);
+        $this->middleware('permission:' . config('constants.permissions.Role Management.Update.name'), ['only' => ['edit', 'update']]);
+        $this->middleware('permission:' . config('constants.permissions.Role Management.Delete.name'), ['only' => ['destroy']]);
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -29,11 +37,15 @@ class ManageAccessController extends Controller
     public function index(Request $request)
     {
         if ($request->ajax()) {
+            $accessToModify = auth()->user()->hasPermissionTo(config('constants.permissions.Role Management.Update.name'));
+            $accessToDelete = auth()->user()->hasPermissionTo(config('constants.permissions.Role Management.Delete.name'));
             $role = Role::query();
             return DataTables::eloquent($role)
-                ->addColumn('action', function ($row) {
-                    $btn = '<a href="' . route('roles.edit', $row->id ?? 0) . '" class="btn btn-primary btn-sm mx-1 my-1">View/Update</a>';
-                    $btn .= '<button data-url="' . route('roles.destroy', $row->id ?? 0) . '" class="btn btn-danger btn-sm mx-1 my-1 delete_role">Delete</button>';
+                ->addColumn('action', function ($row) use ($accessToModify, $accessToDelete) {
+                    $btn = $accessToModify ? '<a href="' . route('roles.edit', $row->id ?? 0) . '" class="btn btn-primary btn-sm mx-1 my-1">View/Update</a>' :
+                        '<span class="badge bg-label-gray mx-1 my-1">No Access</span>';
+                    $btn .= $accessToDelete ? '<button data-url="' . route('roles.destroy', $row->id ?? 0) . '" class="btn btn-danger btn-sm mx-1 my-1 delete_role">Delete</button>' :
+                        '<span class="badge bg-label-gray mx-1 my-1">No Access</span>';
                     return $btn;
                 })
                 ->rawColumns(['action'])
@@ -81,7 +93,7 @@ class ManageAccessController extends Controller
         $role->auditCustomNew = array_merge($role->toArray(),
             ['permission' => $permissionName]);
         Event::dispatch(AuditCustom::class, [$role]);
-        return Redirect::route('roles.index')->with('success', 'User Created successfully.');
+        return Redirect::route('roles.index')->with(['toastStatus' => 'success', 'message' => 'User Created successfully.']);
     }
 
     /**
@@ -141,7 +153,7 @@ class ManageAccessController extends Controller
             'permission' => $permissionsName
         ];
         Event::dispatch(AuditCustom::class, [$role]);
-        return Redirect::route('roles.index')->with('success', 'Role updated successfully.');
+        return Redirect::route('roles.index')->with(['toastStatus' => 'success', 'message' => 'Role updated successfully.']);
     }
 
     /**
@@ -157,10 +169,10 @@ class ManageAccessController extends Controller
             return Redirect::route('roles.index')->with('error', 'Remove all permissions to delete this role.');
         }
         $role->delete();
-        return Redirect::route('roles.index')->with('success', 'Role deleted successfully.');
+        return Redirect::route('roles.index')->with(['toastStatus' => 'success', 'message' => 'Role deleted successfully.']);
     }
 
-    public function permissions (Request $request)
+    public function permissions(Request $request)
     {
         if ($request->ajax()) {
             $role = Permission::query();

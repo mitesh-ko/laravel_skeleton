@@ -12,6 +12,12 @@ use OwenIt\Auditing\Events\AuditCustom;
 
 class SiteConfigController extends Controller
 {
+    function __construct()
+    {
+        $this->middleware('permission:' . config('constants.permissions.Site config.General Settings.name') . '|' . config('constants.permissions.Site config.Mail Settings.name'), ['only' => ['index']]);
+        $this->middleware('permission:' . config('constants.permissions.Site config.General Settings.name'), ['only' => ['siteSettingsUpdate']]);
+        $this->middleware('permission:' . config('constants.permissions.Site config.Mail Settings.name'), ['only' => ['mailSettingsUpdate']]);
+    }
 
     public function index()
     {
@@ -36,7 +42,7 @@ class SiteConfigController extends Controller
                 Event::dispatch(AuditCustom::class, [$siteConfig]);
             }
         }
-        return Redirect::back()->with('success', 'Site config updated successfully.');
+        return Redirect::back()->with(['toastStatus' => 'success', 'message' => 'Site config updated successfully.']);
     }
 
     /**
@@ -60,6 +66,6 @@ class SiteConfigController extends Controller
                 Event::dispatch(AuditCustom::class, [$siteConfig]);
             }
         }
-        return Redirect::back()->with('success', 'mail setting updated successfully.');
+        return Redirect::back()->with(['toastStatus' => 'success', 'message' => 'mail setting updated successfully.']);
     }
 }
