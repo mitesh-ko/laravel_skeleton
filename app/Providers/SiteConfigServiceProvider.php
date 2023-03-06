@@ -7,7 +7,6 @@ use Config;
 use Illuminate\Contracts\Encryption\DecryptException;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Crypt;
-use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\ServiceProvider;
 
 class SiteConfigServiceProvider extends ServiceProvider
@@ -29,23 +28,25 @@ class SiteConfigServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        $value = Cache::remember('siteConfig', 36000, function () {
-            $siteConfig = SiteConfig::pluck('value', 'key')->all();
-            if ($siteConfig) {
-                try {
-                    $siteConfig['mail_password'] = Crypt::decryptString($siteConfig['mail_password']);
-                } catch (DecryptException $e) {
-                    info($e);
+        if(\Schema::hasTable('site_config')) {
+            $value = Cache::remember('siteConfig', 36000, function () {
+                $siteConfig = SiteConfig::pluck('value', 'key')->all();
+                if ($siteConfig) {
+                    try {
+                        $siteConfig['mail_password'] = Crypt::decryptString($siteConfig['mail_password']);
+                    } catch (DecryptException $e) {
+                        info($e);
+                    }
                 }
-            }
-            return $siteConfig;
-        });
-        config('mail.mailers.smtp.port', $value['mail_port']);
-        config('mail.mailers.smtp.host', $value['mail_port']);
-        config('mail.mailers.smtp.username', $value['mail_username']);
-        config('mail.mailers.smtp.password', $value['mail_password']);
-        config('mail.from.address', $value['mail_from_address']);
-        config('mail.from.name', $value['mail_from_name']);
-        Config::set('site', $value);
+                return $siteConfig;
+            });
+            config('mail.mailers.smtp.port', $value['mail_port']);
+            config('mail.mailers.smtp.host', $value['mail_port']);
+            config('mail.mailers.smtp.username', $value['mail_username']);
+            config('mail.mailers.smtp.password', $value['mail_password']);
+            config('mail.from.address', $value['mail_from_address']);
+            config('mail.from.name', $value['mail_from_name']);
+            Config::set('site', $value);
+        }
     }
 }
