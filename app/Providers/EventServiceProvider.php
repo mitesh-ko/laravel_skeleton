@@ -23,6 +23,9 @@ class EventServiceProvider extends ServiceProvider
         ],
         'Illuminate\Auth\Events\Logout' => [
             'App\Listeners\LogoutAuditListener',
+        ],
+        'Illuminate\Auth\Events\Registered' => [
+            'App\Listeners\WelcomeMailListener',
         ]
     ];
 
