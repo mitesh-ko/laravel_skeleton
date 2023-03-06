@@ -1,5 +1,4 @@
 'use strict';
-
-(function () {
-    const toast = document.querySelector('.toast-ex');
-});
+const toastAnimationDisplay = document.querySelector('.toast-ex');
+let toastAnimation = new bootstrap.Toast(toastAnimationDisplay);
+toastAnimation.show();

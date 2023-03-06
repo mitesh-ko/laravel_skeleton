@@ -22,7 +22,7 @@ $(function () {
                 {
                     className: 'action',
                     orderable: false,
-                    targets: 4
+                    targets: 5
                 }
             ],
             orderCellsTop: true,
