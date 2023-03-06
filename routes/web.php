@@ -51,6 +51,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::get('profile', [UserSelfController::class, 'profile'])->name('profile');
         Route::get('account', [UserSelfController::class, 'account'])->name('account');
         Route::put('account', [UserSelfController::class, 'update'])->name('account.update');
+        Route::put('change-password', [UserSelfController::class, 'changePassword'])->name('changePassword');
         Route::post('deactivate', [UserSelfController::class, 'deactivate'])->name('deactivate');
     });
 });
