@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Casts\DecryptMailPasswordCast;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use OwenIt\Auditing\Contracts\Auditable;
@@ -22,5 +23,9 @@ class SiteConfig extends Model implements Auditable
         'key',
         'value',
         'description'
+    ];
+
+    protected $casts = [
+        'mail_password' => DecryptMailPasswordCast::class
     ];
 }
