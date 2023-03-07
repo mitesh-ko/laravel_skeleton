@@ -25,6 +25,6 @@ class WelcomeMailListener
      */
     public function handle($event)
     {
-        //
+        $event->user->notify(new \App\Notifications\WelcomeNotification( config('welcomeMailTemplate')));
     }
 }
