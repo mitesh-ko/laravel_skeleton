@@ -43,14 +43,22 @@ class User extends Authenticatable implements Auditable, MustVerifyEmail
         'updated_at'        => 'datetime:d-m-Y',
     ];
 
+    /**
+     * @param $token
+     * @return void
+     */
     public function sendPasswordResetNotification($token)
     {
         $this->notify(new \App\Notifications\ResetPasswordNotification($token, config('resetPasswordMailTemplate')));
     }
 
-public
-function getFullNameAttribute()
-{
-    return $this->name;
-}
+//    public function sendEmailVerificationNotification()
+//    {
+//
+//    }
+
+    public function getFullNameAttribute()
+    {
+        return $this->name;
+    }
 }

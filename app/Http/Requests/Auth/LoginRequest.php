@@ -47,6 +47,10 @@ class LoginRequest extends FormRequest
             throw ValidationException::withMessages([
                 'email' => trans('auth.failed'),
             ]);
+        } else {
+            if(config('site.concurrent_session') == 0) {
+                Auth::logoutOtherDevices($this->only('password')['password']);
+            }
         }
 
         RateLimiter::clear($this->throttleKey());
