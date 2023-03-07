@@ -15,11 +15,12 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        if(User::count() < 20) {
+        if(User::count() <= 20) {
             \App\Models\User::factory(20)->create();
         }
         $this->call(PermissionSeeder::class);
         $this->call(UserSeeder::class);
         $this->call(SiteConfigSeeder::class);
+        $this->call(EmailTemplateSeeder::class);
     }
 }
