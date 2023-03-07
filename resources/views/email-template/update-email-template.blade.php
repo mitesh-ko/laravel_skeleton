@@ -27,12 +27,47 @@
                                        value="{{ old('subject', $emailTemplate->subject ?? '') }}"/>
                             </div>
                         </div>
+                        <hr>
+                        <h5>Body</h5>
                         <div class="row">
-                            <div class="mb-3 col-md-6">
-                                <label for="email" class="form-label">Body</label>
-                                <textarea class="form-control" id="body" name="body" rows="20">
-                                    {{ old('body', $emailTemplate->body ?? '') }}
-                                </textarea>
+                            <div class="col-md-6 border-right border-light">
+                                @foreach($emailTemplate->body as $value)
+                                    @php($key = array_keys($value)[0])
+                                    <div class="mb-3">
+                                        <label for="email" class="form-label">{{ $key }}</label>
+                                        <input class="form-control" name="body[][{{ $key }}]"
+                                               value="{{ $value[$key] }}">
+                                    </div>
+                                @endforeach
+                            </div>
+                            <div class="col-md-6">
+                                <h2>Snippets</h2>
+                                <div class="mb-3">
+                                    <span class="badge bg-secondary bg-glow">
+                                        <span class="text-black mt-1 min-vh-100">{FULL_NAME}</span>
+                                    </span>
+                                </div>
+                                <div class="mb-3">
+                                    <span class="badge bg-secondary bg-glow">
+                                        <span class="text-black mt-1 min-vh-100">
+                                            <span class="text-black mt-1 min-vh-100">{SUBJECT}</span>
+                                        </span>
+                                    </span>
+                                </div>
+                                <div class="mb-3">
+                                    <span class="badge bg-secondary bg-glow">
+                                        <span class="text-black mt-1 min-vh-100">
+                                            <span class="text-black mt-1 min-vh-100">{DESCRIPTION}</span>
+                                        </span>
+                                    </span>
+                                </div>
+                                <div class="mb-3">
+                                    <span class="badge bg-secondary bg-glow">
+                                        <span class="text-black mt-1 min-vh-100">
+                                            <span class="text-black mt-1 min-vh-100">{PASSWORD_EXPIRED}</span>
+                                        </span>
+                                    </span>
+                                </div>
                             </div>
                         </div>
                         <div class="mt-2">
