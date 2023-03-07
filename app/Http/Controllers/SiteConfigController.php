@@ -54,9 +54,6 @@ class SiteConfigController extends Controller
     public function mailSettingsUpdate(Request $request)
     {
         foreach ($request->all() as $key => $value) {
-            if ($key == 'mail_password') {
-                $value = Crypt::encryptString($value);
-            }
             $siteConfig = SiteConfig::where('key', $key)->first();
             if ($siteConfig && $siteConfig->value != $value) {
                 SiteConfig::where('key', $key)->update(['value' => $value]);
