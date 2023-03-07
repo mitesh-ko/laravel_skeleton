@@ -3,7 +3,7 @@
     <link rel="stylesheet" href="/assets/vendor/libs/datatables-bs5/datatables.bootstrap5.css"/>
     <link rel="stylesheet" href="/assets/vendor/libs/flatpickr/flatpickr.css"/>
     <x-slot name="header">
-        {{ __('Role List') }}
+        {{ __('Permission List') }}
     </x-slot>
     <div class="content-wrapper">
         <div class="container-xxl flex-grow-1 container-p-y">
@@ -13,7 +13,7 @@
                     <table class="permission_table table" data-url="{{ route('permissions.list') }}">
                         <thead>
                         <tr>
-                            <th>Role name</th>
+                            <th>Permission name</th>
                             <th>Guard name</th>
                         </tr>
                         </thead>
