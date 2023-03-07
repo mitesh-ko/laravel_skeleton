@@ -18,58 +18,38 @@ class EmailTemplateSeeder extends Seeder
         $items = [
             [
                 'key'     => 'welcomeEmail',
-                'name'    => 'Welcome email',
-                'subject' => 'Account created on {SITE_NAME} ',
-                'body'    => '<table>
-                                <tbody>
-                                  <tr>
-                                    <td colspan="">{FULL_NAME},<br />Your account is created on {SITE_NAME}, you can set your password using below link.<br /> This link will be expired in 24 hours</td>
-                                  </tr>
-                                  <tr>
-                                    <td>&nbsp;</td>
-                                  </tr>
-                                  <tr>
-                                  <td>Please <a href="{SITE_LOGIN_URL}">click here</a> to set your password.</td>
-                                  </tr>
-                                </tbody>
-                              </table>'],
+                'name'    => 'Welcome mail',
+                'subject' => 'Welcome mail.',
+                'body'    => json_encode([
+                    ['Greeting' => 'Welcome! {FULL_NAME}'],
+                    ['Line' => 'We are happy to have you.'],
+                ])
+            ],
             [
                 'key'     => 'resetPassword',
-                'name'    => 'Reset password',
-                'subject' => 'Password reset on {SITE_NAME} ',
-                'body'    => '<table>
-                                <tbody>
-                                  <tr>
-                                    <td colspan="">{FULL_NAME},<br />You have requested to reset the password for your&nbsp;{SITE_NAME}&nbsp;account.<br /> This link will be expired in 24 hours</td>
-                                  </tr>
-                                  <tr>
-                                  <td>You can <a href="{SITE_LOGIN_URL}">click here</a> to reset your password.</td>
-                                  </tr>
-                                </tbody>
-                              </table> '],
+                'name'    => 'Reset password mail',
+                'subject' => 'Reset Password Request.',
+                'body'    => json_encode([
+                    ['Greeting' => 'Hello! {FULL_NAME}'],
+                    ['Line' => 'You are receiving this email because we received a password reset request for your account.'],
+                    ['Action' => 'Reset Password'],
+                    ['Line' => 'This password reset link will expire in {PASSWORD_EXPIRED} minutes.'],
+                    ['Line' => 'If you did not request a password reset, no further action is required.']
+                ])
+            ],
             [
                 'key'     => 'notificationMail',
                 'name'    => 'Notification mail',
-                'subject' => '{SUBJECT} on {SITE_NAME} ',
-                'body'    => '<table>
-                                <tbody>
-                                  <tr>
-                                    <td colspan="">{FIRST_NAME},<br />{DESCRIPTION} </td>
-                                    </tr>
-                                    <tr>
-                                      <td>
-                                        <table>
-                                          <tbody> {DETAILS} </tbody>
-                                        </table>
-                                      </td>
-                                    </tr>
-                                  </tbody>
-                                </table>'
+                'subject' => '{SUBJECT}',
+                'body'    => json_encode([
+                    ['greeting' => 'Hello! {FULL_NAME}'],
+                    ['Line' => '{DESCRIPTION}'],
+                ])
             ],
         ];
 
         foreach ($items as $item) {
-            EmailTemplate::create($item);
+            EmailTemplate::updateOrCreate(['key' => $item['key']], $item);
         }
     }
 }
