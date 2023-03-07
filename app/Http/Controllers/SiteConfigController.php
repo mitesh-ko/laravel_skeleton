@@ -7,6 +7,7 @@ use Crypt;
 use Event;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Redirect;
 use OwenIt\Auditing\Events\AuditCustom;
 
@@ -42,6 +43,7 @@ class SiteConfigController extends Controller
                 Event::dispatch(AuditCustom::class, [$siteConfig]);
             }
         }
+        Cache::delete('siteConfig');
         return Redirect::back()->with(['toastStatus' => 'success', 'message' => 'Site config updated successfully.']);
     }
 
@@ -66,6 +68,7 @@ class SiteConfigController extends Controller
                 Event::dispatch(AuditCustom::class, [$siteConfig]);
             }
         }
+        Cache::delete('siteConfig');
         return Redirect::back()->with(['toastStatus' => 'success', 'message' => 'mail setting updated successfully.']);
     }
 }
