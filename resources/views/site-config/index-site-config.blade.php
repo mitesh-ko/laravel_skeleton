@@ -31,16 +31,6 @@
                                                    value="{{ $data['short_name'] ?? '' }}"/>
                                         </div>
                                         <div class="mb-3 col-md-12">
-                                            <label for="timezone" class="form-label">Timezone</label>
-                                            <select class="form-control" id="timezone" name="timezone">
-                                                @foreach(config('timezones') as $value)
-                                                    <option
-                                                        value="{{ $value['name'] }}" @selected($data['timezone'] ?? '' == $value['name'])>
-                                                        {{ $value['name'] }}</option>
-                                                @endforeach
-                                            </select>
-                                        </div>
-                                        <div class="mb-3 col-md-12">
                                             <label for="concurrent_session" class="form-label">Concurrent
                                                 session</label>
                                             <div>
