@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\EmailTemplate;
 use App\Models\User;
+use Cache;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 use PharIo\Manifest\Email;
@@ -43,9 +44,11 @@ class EmailTemplateController extends Controller
         $validData = $request->validate([
             'name'    => ['required', 'max:255'],
             'subject' => ['required', 'max:255'],
-            'body'    => ['required'],
+            'body.*'    => ['required'],
         ]);
+        $validData['body'] = json_encode($request->body);
         if ($emailTemplate->update($validData)) {
+            Cache::delete('emailTemplate');
             return Redirect::route('emailTemplate.index')->with(['toastStatus' => 'success', 'message' => 'Email template updated successfully.']);
         }
     }
