@@ -29,8 +29,11 @@ Route::get('/', function () {
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::view('dashboard', 'dashboard')->name('dashboard');
 
-    Route::get('audits', [AuditLogController::class, 'index'])->name('audits.index');
-    Route::get('show-audit/{audit}', [AuditLogController::class, 'show'])->name('audits.show');
+    Route::prefix('logs')->group(function () {
+        Route::get('audits', [LoggingController::class, 'auditList'])->name('audits.index');
+        Route::get('show-audit/{audit}', [LoggingController::class, 'showAudit'])->name('audits.show');
+        Route::get('authentications', [LoggingController::class, 'authenticationList'])->name('authentication.index');
+    });
 
     Route::resource('users', UserController::class);
 

@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests\Auth;
 
+use App\Events\Login;
 use Illuminate\Auth\Events\Lockout;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Auth;
@@ -51,6 +52,7 @@ class LoginRequest extends FormRequest
             if(config('site.concurrent_session') == 0) {
                 Auth::logoutOtherDevices($this->only('password')['password']);
             }
+            event(new Login(Auth::user()));
         }
 
         RateLimiter::clear($this->throttleKey());

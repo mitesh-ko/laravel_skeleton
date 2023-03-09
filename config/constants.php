@@ -120,21 +120,35 @@ return [
             ]
         ],
 
-        'Audit Logs' => [
+        'Logs' => [
             'List audit logs'   => [
                 'displayName' => 'List audit logs',
-                'name'        => 'listLogs',
+                'name'        => 'listAuditLogs',
                 'guard_name'  => 'web',
                 'desc'        => 'Access check site logs',
                 'marginLeft'  => 0
             ],
-            'Check log details' => [
-                'displayName' => 'Check log details',
-                'name'        => 'LogDetail',
+            'Audit log details' => [
+                'displayName' => 'Check audit log details',
+                'name'        => 'auditLogDetail',
                 'guard_name'  => 'web',
                 'desc'        => 'Access to check details of a log',
-                'marginLeft'  => 49
-            ]
+                'marginLeft'  => 59
+            ],
+            'List authentication logs'   => [
+                'displayName' => 'List authentication logs',
+                'name'        => 'listAuthenticationLogs',
+                'guard_name'  => 'web',
+                'desc'        => 'Access check site logs',
+                'marginLeft'  => 0
+            ],
+            'Authentication log details' => [
+                'displayName' => 'Check authentication log details',
+                'name'        => 'authenticationLogDetail',
+                'guard_name'  => 'web',
+                'desc'        => 'Access to check details of a log',
+                'marginLeft'  => 0
+            ],
         ]
     ],
 ];

@@ -2,7 +2,7 @@
     <link rel="stylesheet" href="/assets/vendor/libs/datatables-bs5/datatables.bootstrap5.css"/>
     <link rel="stylesheet" href="/assets/vendor/libs/flatpickr/flatpickr.css"/>
     <x-slot name="header">
-        {{ __('Users List') }}
+        {{ __('Audits') }}
     </x-slot>
     <div class="content-wrapper">
         <div class="container-xxl flex-grow-1 container-p-y">

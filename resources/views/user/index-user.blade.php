@@ -25,7 +25,7 @@
                 <div class="card-body">
                     <div class="row">
                         <div class="col-12">
-                            <div class="row g-3">
+                            <div class="row g-3 mb-2">
                                 <div class="col-12 col-sm-6 col-lg-4">
                                     <label class="form-label">Name:</label>
                                     <input id="search-name" type="text" class="form-control" autocomplete="off"/>
@@ -34,7 +34,7 @@
                                     <label class="form-label">Email:</label>
                                     <input id="search-email" type="text" class="form-control" autocomplete="off"/>
                                 </div>
-                                <div class="col-12 col-sm-6 col-lg-4">
+                                <div class="col-12 col-sm-6 col-lg-4 d-none">
                                     <label class="form-label">Joining date:</label>
                                     <div class="mb-0">
                                         <input
@@ -61,6 +61,8 @@
                                         />
                                     </div>
                                 </div>
+                            </div>
+                            <div class="row g-3">
                                 <div class="col-12 col-sm-6 col-lg-4">
                                     <button id="search-request" class="btn btn-sm btn-primary"><i class="ti ti-search"></i></button>
                                     <button id="clear-search" class="btn btn-sm btn-primary"><i class="ti ti-clear-all"></i></button>
