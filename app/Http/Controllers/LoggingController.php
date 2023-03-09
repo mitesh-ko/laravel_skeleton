@@ -80,7 +80,7 @@ class LoggingController extends Controller
         });
         if ($request->ajax()) {
             if($user_id = Session::get('authUserId')) {
-                $audits = AuthenticationLog::where('authenticatable_id', $authenticatable_id)->select('*');
+                $audits = AuthenticationLog::where('authenticatable_id', $user_id)->select('*');
             } else {
                 $audits = AuthenticationLog::select('*');
             }
