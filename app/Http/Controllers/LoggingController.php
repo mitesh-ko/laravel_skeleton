@@ -7,6 +7,7 @@ use Cache;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Session;
 use OwenIt\Auditing\Models\Audit;
 use Rappasoft\LaravelAuthenticationLog\Models\AuthenticationLog;
 use Yajra\DataTables\Facades\DataTables;
@@ -40,11 +41,15 @@ class LoggingController extends Controller
         }
     }
 
-    public function auditList(Request $request)
+    public function auditList(Request $request, $user_id = false)
     {
         if ($request->ajax()) {
             $seeDetails = auth()->user()->hasPermissionTo(config('constants.permissions.Logs.Audit log details.name'));
-            $audits = Audit::with('user')->select(['created_at', 'user_id', 'event', 'ip_address', 'id', 'user_type', 'auditable_type'])->latest();
+            if($user_id = Session::get('auditUserId')) {
+                $audits = User::find($user_id)->audits()->with('user')->select(['created_at', 'user_id', 'event', 'ip_address', 'id', 'user_type', 'auditable_type']);
+            } else {
+                $audits = Audit::with('user')->select(['created_at', 'user_id', 'event', 'ip_address', 'id', 'user_type', 'auditable_type'])->latest();
+            }
             return DataTables::eloquent($audits)
                 ->addColumn('view', function ($row) use ($seeDetails) {
                     return $seeDetails ? '<a href="' . route('audits.show', $row->id) . '" class="btn btn-primary btn-sm mx-1 my-1">View</a>' :
@@ -59,6 +64,7 @@ class LoggingController extends Controller
                 ->rawColumns(['view', 'user'])
                 ->make();
         }
+        Session::put('auditUserId', $user_id);
         return view('logs.index-audit-log');
     }
 
@@ -67,19 +73,28 @@ class LoggingController extends Controller
         return view('logs.show-audit-log', ['audit' => $audit]);
     }
 
-    public function authenticationList(Request $request)
+    public function authenticationList(Request $request, $authenticatable_id = false)
     {
         $users = Cache::remember('users', 36000, function () {
             return User::pluck('name', 'id');
         });
         if ($request->ajax()) {
-            $audits = AuthenticationLog::select('*');
+            if($user_id = Session::get('authUserId')) {
+                $audits = AuthenticationLog::where('authenticatable_id', $authenticatable_id)->select('*');
+            } else {
+                $audits = AuthenticationLog::select('*');
+            }
             return DataTables::eloquent($audits)
+                ->filter(function ($query) use ($request) {
+                    if ($request->user_id) {
+                        $query->where('authenticatable_id', $request->user_id);
+                    }
+                })
                 ->addColumn('login_at', function ($row) {
-                    return $row->login_at ? Carbon::parse($row->login_at)->format('d/M/Y') : 'N/A';
+                    return $row->login_at ? Carbon::parse($row->login_at)->format('d/M/Y H:i') : 'N/A';
                 })
                 ->addColumn('logout_at', function ($row) {
-                    return $row->logout_at ? Carbon::parse($row->logout_at)->format('d/M/Y') : 'N/A';
+                    return $row->logout_at ? Carbon::parse($row->logout_at)->format('d/M/Y H:i') : 'N/A';
                 })
                 ->addColumn('authenticatable_id', function ($row) use($users){
                     return $users[$row->authenticatable_id];
@@ -87,6 +102,7 @@ class LoggingController extends Controller
                 ->rawColumns(['login_at', 'logout_at'])
                 ->make();
         }
-        return view('logs.index-authentication-log', ['users' => $users]);
+        Session::put('authUserId', $authenticatable_id);
+        return view('logs.index-authentication-log');
     }
 }

@@ -31,8 +31,10 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
     Route::prefix('logs')->group(function () {
         Route::get('audits', [LoggingController::class, 'auditList'])->name('audits.index');
+        Route::get('show-user-audit/{user_id}', [LoggingController::class, 'auditList'])->name('audits.show.user');
         Route::get('show-audit/{audit}', [LoggingController::class, 'showAudit'])->name('audits.show');
-        Route::get('authentications', [LoggingController::class, 'authenticationList'])->name('authentication.index');
+        Route::get('authentications-logs', [LoggingController::class, 'authenticationList'])->name('authenticationLogs.index');
+        Route::get('show-user-authentication-logs/{authenticatable_id}', [LoggingController::class, 'authenticationList'])->name('authenticationLogs.show.user');
     });
 
     Route::resource('users', UserController::class);

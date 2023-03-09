@@ -29,9 +29,9 @@ $(function () {
         });
 
         function searchAudit() {
-            auditTable.column(2).search($("#search-model").val()).draw();
-            auditTable.column(3).search($("#search-action").val()).draw();
-            auditTable.column(4).search($("#search-ip").val()).draw();
+            auditTable.column(2).search($("#search-model").val()).
+            column(3).search($("#search-action").val()).
+            column(4).search($("#search-ip").val()).draw();
         }
         $("#search-request").click(function () {
             searchAudit()

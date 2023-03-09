@@ -34,7 +34,7 @@
         config('constants.permissions.Logs.List authentication logs.name'),
         config('constants.permissions.Logs.Authentication log details.name'),
     ])
-        <li class="menu-item active {{ request()->routeIs(['audits.index', 'audits.show', 'authentication.index']) ? 'open' : '' }}">
+        <li class="menu-item active {{ request()->routeIs(['audits.index', 'audits.show', 'authenticationLogs.index']) ? 'open' : '' }}">
             <a href="javascript:void(0);" class="menu-link menu-toggle">
                 <i class="menu-icon tf-icons ti ti-article"></i>
                 <div data-i18n="Pages">Logs</div>
@@ -47,7 +47,7 @@
                     </x-nav-link>
                 @endcan
                 @can(config('constants.permissions.Logs.List authentication logs.name'))
-                    <x-nav-link :href="route('authentication.index')" :active="request()->routeIs('authentication.index')"
+                    <x-nav-link :href="route('authenticationLogs.index')" :active="request()->routeIs('authenticationLogs.index')"
                                 icon="ti-article">
                         {{ __('Authentication Logs') }}
                     </x-nav-link>
@@ -62,7 +62,7 @@
         config('constants.permissions.Role Management.Update.name'),
         config('constants.permissions.Role Management.Delete.name'),
     ])
-        <li class="menu-item active {{ request()->routeIs(['roles.index', 'roles.edit', 'permissions.list']) ? 'open' : '' }}">
+        <li class="menu-item active {{ request()->routeIs(['roles.index', 'roles.create', 'roles.edit', 'permissions.list']) ? 'open' : '' }}">
             <a href="javascript:void(0);" class="menu-link menu-toggle">
                 <i class="menu-icon tf-icons ti ti-shield-lock"></i>
                 <div data-i18n="Pages">Manage access</div>
@@ -75,7 +75,7 @@
                     config('constants.permissions.Role Management.Delete.name'),
                 ])
                     <x-nav-link :href="route('roles.index')"
-                                :active="request()->routeIs(['roles.index', 'roles.edit'])">
+                                :active="request()->routeIs(['roles.index', 'roles.create', 'roles.edit'])">
                         {{ __('Role') }}
                     </x-nav-link>
                 @endcanany

@@ -40,13 +40,36 @@ class UserController extends Controller
         if ($request->ajax()) {
             $accessToModify = auth()->user()->hasPermissionTo(config('constants.permissions.User management.Update.name'));
             $accessToDelete = auth()->user()->hasPermissionTo(config('constants.permissions.User management.Delete.name'));
+            $accessToSeeAudit = auth()->user()->hasPermissionTo(config('constants.permissions.Logs.List audit logs.name'));
+            $accessToSeeAuthLog = auth()->user()->hasPermissionTo(config('constants.permissions.Logs.List authentication logs.name'));
+
             $user = User::query()->select(['id', 'name', 'email', DB::raw("DATE_FORMAT(created_at, '%d/%b/%Y') as joined_on")]);
             return DataTables::eloquent($user)
-                ->addColumn('action', function ($row) use($accessToModify,$accessToDelete) {
-                    $btn = $accessToModify ?'<a href="' . route('users.edit', $row->id) . '" class="btn btn-primary btn-sm mx-1 my-1">View/Update</a>' :
-                        '<span class="badge bg-label-gray mx-1 my-1">No Access</span>';
+                ->addColumn('action', function ($row) use ($accessToModify, $accessToDelete, $accessToSeeAudit, $accessToSeeAuthLog) {
+
+                    $btn = '<div class="d-flex">';
+                    $btn .= $accessToModify ? '<a href="' . route('users.edit', $row->id) . '" class="btn btn-primary btn-sm mx-1 my-1">View/Update</a>' :
+                        '<div class="d-flex"></div><span class="badge bg-label-gray mx-1 my-1">No Access</span>';
+
                     $btn .= $accessToDelete ? '<button data-url="' . route('users.destroy', $row->id) . '" class="btn btn-danger btn-sm mx-1 my-1 delete-user">Delete</button>' :
                         '<span class="badge bg-label-gray mx-1 my-1">No Access</span>';
+
+                    if ($accessToSeeAudit || $accessToSeeAuthLog) {
+                        $audit = $accessToSeeAudit ? '<a class="dropdown-item" target="_blank" href="' . route('audits.show.user', ['user_id' => $row->id]) . '">Audit Logs</a>' : '';
+                        $authentication = $accessToSeeAuthLog ? '<a class="dropdown-item" target="_blank" href="' . route('authenticationLogs.show.user', $row->id) . '">Authentication Logs</a>' : '';
+                        $btn .= "<div class='align-items-center mb-0 mb-md-2'>
+                                    <div class='dropdown'>
+                                      <i class='ti ti-dots-vertical cursor-pointer'
+                                        data-bs-toggle='dropdown' aria-haspopup='true' aria-expanded='false'>
+                                      </i>
+                                      <div class='dropdown-menu dropdown-menu-end' aria-labelledby='emailsActions'>
+                                            $audit
+                                            $authentication
+                                      </div>
+                                    </div>
+                                </div>";
+                    }
+                    $btn .= '</div>';
                     return $btn;
                 })
                 ->rawColumns(['action'])

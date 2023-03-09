@@ -23,8 +23,8 @@ $(function () {
         }).then((result) => {
         })
     })
+
     // ====================================================================================
-    let userListTable = $('.user-list-table');
 
     var rangePickr = $('.flatpickr-range'),
         dateFormat = 'MM/DD/YYYY';
@@ -81,10 +81,8 @@ $(function () {
             date.getFullYear() + '' + ('0' + (date.getMonth() + 1)).slice(-2) + '' + ('0' + date.getDate()).slice(-2);
         return normalized;
     };
-    // Advanced Search Functions Ends
-
     // --------------------------------------------------------------------
-
+    let userListTable = $('.user-list-table');
     if (userListTable.length) {
         let userTable = userListTable.DataTable({
             dom: "<'row'<'col-sm-12'tr>><'row'<'col-sm-12 col-md-6'i><'col-sm-12 col-md-6 dataTables_pager'p>>",
@@ -109,8 +107,8 @@ $(function () {
         });
 
         function searchUser() {
-            userTable.column(0).search($("#search-name").val()).draw();
-            userTable.column(1).search($("#search-email").val()).draw();
+            userTable.column(0).search($("#search-name").val())
+                .column(1).search($("#search-email").val()).draw();
         }
         $("#search-request").click(function () {
             searchUser()
