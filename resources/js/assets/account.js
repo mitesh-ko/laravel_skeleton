@@ -8,7 +8,8 @@ document.addEventListener('DOMContentLoaded', function (e) {
     (function () {
         const formAccSettings = document.querySelector('#formAccountSettings'),
             deactivateAcc = document.querySelector('#formAccountDeactivation'),
-            deactivateButton = deactivateAcc.querySelector('.deactivate-account');
+            deactivateButton = deactivateAcc.querySelector('.deactivate-account'),
+            changePassword = document.querySelector('#formChangePassword');
 
         // Form validation for Add new record
         if (formAccSettings) {
@@ -39,6 +40,50 @@ document.addEventListener('DOMContentLoaded', function (e) {
                             e.element.parentElement.insertAdjacentElement('afterend', e.messageElement);
                         }
                     });
+                }
+            });
+        }
+
+        if(changePassword) {
+            const fv = FormValidation.formValidation(changePassword, {
+                fields: {
+                    old_password: {
+                        validators: {
+                            notEmpty: {
+                                message: 'Please enter your current password.'
+                            }
+                        }
+                    },
+                    password: {
+                        validators: {
+                            notEmpty: {
+                                message: 'Enter a new password.'
+                            }
+                        }
+                    },
+                    password_confirmation: {
+                        validators: {
+                            notEmpty: {
+                                message: 'Repeat new password same here.'
+                            },
+                            identical: {
+                                compare: function () {
+                                    return changePassword.querySelector('[name="password_confirmation"]').value;
+                                },
+                                message: 'The password and its confirm are not the same'
+                            }
+                        }
+                    }
+                },
+                plugins: {
+                    trigger: new FormValidation.plugins.Trigger(),
+                    submitButton: new FormValidation.plugins.SubmitButton(),
+                    defaultSubmit: new FormValidation.plugins.DefaultSubmit(),
+                    autoFocus: new FormValidation.plugins.AutoFocus(),
+                    bootstrap5: new FormValidation.plugins.Bootstrap5({
+                        eleValidClass: '',
+                        rowSelector: '.mb-3'
+                    })
                 }
             });
         }

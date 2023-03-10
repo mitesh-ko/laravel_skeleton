@@ -119,11 +119,11 @@
                     <div class="card mb-4">
                         <h5 class="card-header">Change Password</h5>
                         <div class="card-body">
-                            <form action="{{ route('changePassword') }}" method="post">
+                            <form id="formChangePassword" action="{{ route('changePassword') }}" method="post">
                                 @csrf
                                 @method('PUT')
                                 <div class="mb-3">
-                                    <label for="password" class="form-label">Old Password</label>
+                                    <label for="password" class="form-label">Current Password</label>
                                     <input class="form-control @error('old_password') is-invalid @enderror" type="password"
                                            name="old_password"/>
                                     @error('old_password')
