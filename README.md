@@ -13,7 +13,7 @@
   DB_USERNAME=<DATABASE USERNAME>
   DB_PASSWORD=<DATABASE PASSWORD>
 ```
-- Run command on terminal `composer install` This installs all needed dependencies.
-- Run command on terminal `npm install` This installs all needed dependencies.
+- Run command on terminal `composer install` This installs all PHP dependencies.
+- Run command on terminal `npm install` This installs all node dependencies.
 - Migrate the databases. run command `php artisan migrate`
 - To access storage files run command `php artisan storage:link`

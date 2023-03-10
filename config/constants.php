@@ -73,28 +73,28 @@ return [
         ],
 
         'User management' => [
-            'List'                     => [
+            'List'   => [
                 'displayName' => 'List',
                 'name'        => 'userList',
                 'guard_name'  => 'web',
                 'desc'        => 'Access to see users list.',
                 'marginLeft'  => 0
             ],
-            'Create'                   => [
+            'Create' => [
                 'displayName' => 'Create',
                 'name'        => 'userCreate',
                 'guard_name'  => 'web',
                 'desc'        => 'Create a new user.',
                 'marginLeft'  => 0
             ],
-            'Update'                   => [
+            'Update' => [
                 'displayName' => 'Update',
                 'name'        => 'userUpdate',
                 'guard_name'  => 'web',
                 'desc'        => 'Update a existing user.',
                 'marginLeft'  => 0
             ],
-            'Delete'                   => [
+            'Delete' => [
                 'displayName' => 'Delete',
                 'name'        => 'userDelete',
                 'guard_name'  => 'web',
@@ -103,32 +103,46 @@ return [
             ]
         ],
 
-        'Site config' => [
-            'General Settings' => [
-                'displayName' => 'General Settings',
+        'Setting' => [
+            'Site Config'         => [
+                'displayName' => 'Site Config',
                 'name'        => 'siteConfigUpdate',
                 'guard_name'  => 'web',
                 'desc'        => 'User can update site configuration.',
                 'marginLeft'  => 0
             ],
-            'Mail Settings'    => [
-                'displayName' => 'Mail Settings',
+            'Mail Settings'       => [
+                'displayName' => 'Mail settings',
                 'name'        => 'mailConfigUpdate',
                 'guard_name'  => 'web',
                 'desc'        => 'User can update mail configuration.',
                 'marginLeft'  => 29
-            ]
+            ],
+            'Email template list'   => [
+                'displayName' => 'Email template list',
+                'name'        => 'emailTemplateList',
+                'guard_name'  => 'web',
+                'desc'        => '',
+                'marginLeft'  => 0
+            ],
+            'Email template update' => [
+                'displayName' => 'Email template update',
+                'name'        => 'emailTemplateUpdate',
+                'guard_name'  => 'web',
+                'desc'        => '',
+                'marginLeft'  => 0
+            ],
         ],
 
         'Logs' => [
-            'List audit logs'   => [
+            'List audit logs'            => [
                 'displayName' => 'List audit logs',
                 'name'        => 'listAuditLogs',
                 'guard_name'  => 'web',
                 'desc'        => 'Access check site logs',
                 'marginLeft'  => 0
             ],
-            'Audit log details' => [
+            'Audit log details'          => [
                 'displayName' => 'Check audit log details',
                 'name'        => 'auditLogDetail',
                 'guard_name'  => 'web',

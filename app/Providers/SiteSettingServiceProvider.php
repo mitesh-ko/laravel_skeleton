@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\ServiceProvider;
 use Schema;
 
-class SiteConfigServiceProvider extends ServiceProvider
+class SiteSettingServiceProvider extends ServiceProvider
 {
     /**
      * Register services.
