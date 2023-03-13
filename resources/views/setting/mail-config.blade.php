@@ -1,7 +1,7 @@
 <x-app-layout>
     @vite(['resources/css/assets/profile.css'])
     <x-slot name="header">
-        {{ __('Site Configs') }}
+        {{ __('Mail Configs') }}
     </x-slot>
     <div class="content-wrapper">
         <div class="container-xxl flex-grow-1 container-p-y">
@@ -27,7 +27,7 @@
                                         <div class="mb-3 col-md-6">
                                             <label for="mail_password" class="form-label">Password</label>
                                             <input class="form-control" type="password" id="mail_password"
-                                                   name="mail_password"/>
+                                                   name="mail_password" value="{{ isset($data['mail_password']) ? '...' : '' }}"/>
                                         </div>
                                         <div class="mb-3 col-md-6">
                                             <label for="mail_port" class="form-label">Port</label>

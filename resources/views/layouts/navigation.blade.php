@@ -1,27 +1,21 @@
 <ul class="menu-inner py-1">
     @can(config('permission-name.dashboard-first_dashboard'))
-        <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')" icon="ti-smart-home">
+        <x-nav-link :href="route('firstDashboard')" :active="request()->routeIs('firstDashboard')" icon="ti-smart-home">
             {{ __('Dashboard') }}
         </x-nav-link>
     @endcan
-    @canany([
-        config('permission-name.user_management-list'),
-        config('permission-name.user_management-create'),
-        config('permission-name.user_management-update'),
-        config('permission-name.user_management-delete'),
-        ])
+
+    @can(config('permission-name.user_management-list'))
         <x-nav-link :href="route('users.index')"
-                    :active="request()->routeIs(['users.index', 'users.edit', 'users.create'])"
-                    icon="ti-users">
+                    :active="request()->routeIs(['users.index', 'users.edit', 'users.create'])" icon="ti-users">
             {{ __('User') }}
         </x-nav-link>
-    @endcanany
+    @endcan
 
     @canany([
-        config('constants.permissions.User management.List.name'),
-        config('constants.permissions.User management.Create.name'),
-        config('constants.permissions.User management.Delete.name'),
-        config('constants.permissions.User management.Update.name'),
+        config('permission-name.setting-site_config'),
+        config('permission-name.setting-mail_settings'),
+        config('permission-name.setting-email_template_list'),
         ])
         <li class="menu-item active {{ request()->routeIs(['siteConfig', 'mailConfig', 'emailTemplate.index', 'emailTemplate.edit']) ? 'open' : '' }}">
             <a href="javascript:void(0);" class="menu-link menu-toggle">
@@ -29,19 +23,19 @@
                 <div data-i18n="Pages">Settings</div>
             </a>
             <ul class="menu-sub">
-                @can(config('constants.permissions.Setting.Site Config.name'))
+                @can(config('permission-name.setting-site_config'))
                     <x-nav-link :href="route('siteConfig')" :active="request()->routeIs('siteConfig')"
                                 icon="ti-settings">
-                        {{ __('General Setting') }}
+                        {{ __('Site Config') }}
                     </x-nav-link>
                 @endcan
-                @can(config('constants.permissions.Setting.Site Config.name'))
+                @can(config('permission-name.setting-mail_settings'))
                     <x-nav-link :href="route('mailConfig')" :active="request()->routeIs('mailConfig')"
                                 icon="ti-settings">
                         {{ __('Mail Setting') }}
                     </x-nav-link>
                 @endcan
-                @can(config('constants.permissions.Setting.Email template list.name'))
+                @can(config('permission-name.setting-email_template_list'))
                     <x-nav-link :href="route('emailTemplate.index')"
                                 :active="request()->routeIs(['emailTemplate.index', 'emailTemplate.edit'])"
                                 icon="ti-template">
@@ -53,10 +47,8 @@
     @endcanany
 
     @canany([
-        config('constants.permissions.Logs.List audit logs.name'),
-        config('constants.permissions.Logs.Audit log details.name'),
-        config('constants.permissions.Logs.List authentication logs.name'),
-        config('constants.permissions.Logs.Authentication log details.name'),
+        config('permission-name.logs-list_audit_logs'),
+        config('permission-name.logs-list_authentication_logs'),
         ])
         <li class="menu-item active {{ request()->routeIs(['audits.index', 'audits.show', 'authenticationLogs.index']) ? 'open' : '' }}">
             <a href="javascript:void(0);" class="menu-link menu-toggle">
@@ -64,14 +56,14 @@
                 <div data-i18n="Pages">Logs</div>
             </a>
             <ul class="menu-sub">
-                @can(config('constants.permissions.Logs.List audit logs.name'))
+                @can(config('permission-name.logs-list_audit_logs'))
                     <x-nav-link :href="route('audits.index')"
                                 :active="request()->routeIs(['audits.index', 'audits.show'])"
                                 icon="ti-article">
                         {{ __('Audit Logs') }}
                     </x-nav-link>
                 @endcan
-                @can(config('constants.permissions.Logs.List authentication logs.name'))
+                @can(config('permission-name.logs-list_authentication_logs'))
                     <x-nav-link :href="route('authenticationLogs.index')"
                                 :active="request()->routeIs('authenticationLogs.index')"
                                 icon="ti-article">
@@ -83,11 +75,8 @@
     @endcanany
 
     @canany([
-        config('constants.permissions.Permission Management.List.name'),
-        config('constants.permissions.Role Management.List.name'),
-        config('constants.permissions.Role Management.Create.name'),
-        config('constants.permissions.Role Management.Update.name'),
-        config('constants.permissions.Role Management.Delete.name'),
+        config('permission-name.role_management-list'),
+        config('permission-name.permission_management-list'),
         ])
         <li class="menu-item active {{ request()->routeIs(['roles.index', 'roles.create', 'roles.edit', 'permissions.list']) ? 'open' : '' }}">
             <a href="javascript:void(0);" class="menu-link menu-toggle">
@@ -95,18 +84,13 @@
                 <div data-i18n="Pages">Manage access</div>
             </a>
             <ul class="menu-sub">
-                @canany([
-                    config('constants.permissions.Role Management.List.name'),
-                    config('constants.permissions.Role Management.Create.name'),
-                    config('constants.permissions.Role Management.Update.name'),
-                    config('constants.permissions.Role Management.Delete.name'),
-                ])
+                @can(config('permission-name.role_management-list'))
                     <x-nav-link :href="route('roles.index')"
                                 :active="request()->routeIs(['roles.index', 'roles.create', 'roles.edit'])">
                         {{ __('Role') }}
                     </x-nav-link>
-                @endcanany
-                @can(config('constants.permissions.Permission Management.List.name'))
+                @endcan
+                @can(config('permission-name.permission_management-list'))
                     <x-nav-link :href="route('permissions.list')" :active="request()->routeIs('permissions.list')">
                         {{ __('Permission') }}
                     </x-nav-link>

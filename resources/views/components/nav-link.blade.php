@@ -4,7 +4,7 @@
 
 @php
 $classes = ($active ?? false)
-            ? 'menu-item active'
+            ? 'menu-item active pe-none'
             : 'menu-item';
 @endphp
 

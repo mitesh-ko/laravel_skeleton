@@ -7,8 +7,6 @@ return [
 "role_management-delete"=>"roleDelete",
 "dashboard-first_dashboard"=>"firstDashboard",
 "permission_management-list"=>"permissionList",
-"email_template_management-list"=>"emailTemplateList",
-"email_template_management-update"=>"emailTemplateUpdate",
 "user_management-list"=>"userList",
 "user_management-create"=>"userCreate",
 "user_management-update"=>"userUpdate",

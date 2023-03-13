@@ -1,6 +1,6 @@
 <x-app-layout>
     <x-slot name="header">
-        Audit Detail of module <span class="badge">{{ $audit->auditable_type }}</span>
+        Audit Detail of module
     </x-slot>
     <div class="content-wrapper">
         <div class="container-xxl flex-grow-1 container-p-y">
