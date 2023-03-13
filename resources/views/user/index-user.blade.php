@@ -11,7 +11,7 @@
             <div class="card">
                 <div class="card-header">
                     <div class="text-end pt-3 pt-md-0">
-                        @can(config('constants.permissions.User management.Create.name'))
+                        @can(config('permission-name.user_management-create'))
                             <a class="btn btn-success" href="{{ route('users.create') }}">
                             <span>
                                 <i class="ti ti-plus me-sm-1"></i>

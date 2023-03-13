@@ -78,7 +78,7 @@ class SiteSettingsController extends Controller
 
     public function emailTemplate(Request $request)
     {
-        $accessToModify = auth()->user()->hasPermissionTo(config('constants.permissions.Setting.Email template update.name'));
+        $accessToModify = auth()->user()->hasPermissionTo(config('permission-name.setting-email_template_update'));
         if ($request->ajax()) {
             $emailTemplate = EmailTemplate::query()->select(['name', 'subject', 'id']);
             return DataTables::eloquent($emailTemplate)

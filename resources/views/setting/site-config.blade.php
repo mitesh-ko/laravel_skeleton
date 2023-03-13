@@ -8,8 +8,7 @@
 
             <!-- Header -->
             <div class="row">
-                @can(config('constants.permissions.Setting.Site Config.name'))
-                    <div class="col-12">
+                <div class="col-12">
                         <div class="card mb-4">
                             <div class="card-header">
                                 <h4 class="card-title">General Settings</h4>
@@ -55,7 +54,6 @@
                             </div>
                         </div>
                     </div>
-                @endcan
             </div>
         </div>
     </div>

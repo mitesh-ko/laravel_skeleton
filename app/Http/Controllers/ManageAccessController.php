@@ -37,8 +37,8 @@ class ManageAccessController extends Controller
     public function index(Request $request)
     {
         if ($request->ajax()) {
-            $accessToModify = auth()->user()->hasPermissionTo(config('constants.permissions.Role Management.Update.name'));
-            $accessToDelete = auth()->user()->hasPermissionTo(config('constants.permissions.Role Management.Delete.name'));
+            $accessToModify = auth()->user()->hasPermissionTo(config('permission-name.role_management-update'));
+            $accessToDelete = auth()->user()->hasPermissionTo(config('permission-name.role_management-delete'));
             $role = Role::query();
             return DataTables::eloquent($role)
                 ->addColumn('action', function ($row) use ($accessToModify, $accessToDelete) {

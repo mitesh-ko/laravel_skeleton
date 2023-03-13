@@ -8,8 +8,7 @@
 
             <!-- Header -->
             <div class="row">
-                @can(config('constants.permissions.Setting.Mail Settings.name'))
-                    <div class="col-12">
+                <div class="col-12">
                         <div class="card mb-4">
                             <div class="card-header">
                                 <h4 class="card-title">Mail Settings</h4>
@@ -58,8 +57,7 @@
                                 </form>
                             </div>
                         </div>
-                    </div>
-                @endcan
+                </div>
             </div>
         </div>
     </div>
