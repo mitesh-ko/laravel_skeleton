@@ -54,8 +54,9 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::get('email-template', [SiteSettingsController::class, 'emailTemplate'])->name('emailTemplate.index');
 
         Route::get('email-template/{emailTemplate}/edit', [SiteSettingsController::class, 'emailTemplateEdit'])->name('emailTemplate.edit');
+        Route::get('email-template/{emailTemplate}/preview', [SiteSettingsController::class, 'emailPreview'])->name('emailTemplate.preview');
         Route::put('email-template/{emailTemplate}', [SiteSettingsController::class, 'emailTemplateUpdate'])->name('emailTemplate.update');
-        Route::post('site-settings', [SiteSettingsController::class, 'siteSettingsUpdate'])->name('siteConfig.siteSettings');
+        Route::post('site-config', [SiteSettingsController::class, 'siteSettingsUpdate'])->name('siteConfig.siteSettings');
         Route::post('mail-settings', [SiteSettingsController::class, 'mailSettingsUpdate'])->name('siteConfig.mailSettings');
     });
 

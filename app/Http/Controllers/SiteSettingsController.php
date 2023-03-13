@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\EmailTemplate;
 use App\Models\SiteConfig;
+use Auth;
 use Event;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -107,10 +108,17 @@ class SiteSettingsController extends Controller
         $validData['body'] = json_encode($request->body);
         if ($emailTemplate->update($validData)) {
             Cache::delete('emailTemplate');
-            return Redirect::route('emailTemplate.index')->with(['toastStatus' => 'success', 'message' => 'Email template updated successfully.']);
+            return Redirect::back()->with(['toastStatus' => 'success', 'message' => 'Email template updated successfully. Check mail preview.']);
         }
         Cache::delete('resetPasswordMailTemplate');
         Cache::delete('welcomeMailTemplate');
+    }
+
+    public function emailPreview(EmailTemplate $emailTemplate)
+    {
+        $message = (new \App\Notifications\ResetPasswordNotification(url('/preview'), $emailTemplate))->toMail(Auth::user());
+        $markdown = new \Illuminate\Mail\Markdown(view(), config('mail.markdown'));
+        return $markdown->render('vendor.notifications.email', $message->data());
     }
 
 }

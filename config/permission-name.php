@@ -18,5 +18,4 @@ return [
 "logs-list_audit_logs"=>"listAuditLogs",
 "logs-audit_log_details"=>"auditLogDetail",
 "logs-list_authentication_logs"=>"listAuthenticationLogs",
-"logs-authentication_log_details"=>"authenticationLogDetail",
 ];
