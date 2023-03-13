@@ -23,7 +23,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('logs', [LoggingController::class, 'index']);
 Route::get('/', function () {
-    return redirect()->route('firstDashboard');
+    return redirect()->route('profile');
 });
 
 Route::middleware(['auth', 'verified'])->group(function () {

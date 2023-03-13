@@ -18,7 +18,8 @@ export default defineConfig({
                 'resources/js/assets/index-role.js',
                 'resources/js/assets/create-update-role.js',
                 'resources/js/assets/login.js',
-                'resources/js/assets/toaster.js'
+                'resources/js/assets/toaster.js',
+                'resources/js/assets/update-email-template.js'
             ],
         }),
     ],
