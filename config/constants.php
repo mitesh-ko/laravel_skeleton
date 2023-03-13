@@ -55,23 +55,6 @@ return [
             ],
         ],
 
-        'Email Template Management' => [
-            'List'   => [
-                'displayName' => 'List',
-                'name'        => 'emailTemplateList',
-                'guard_name'  => 'web',
-                'desc'        => '',
-                'marginLeft'  => 0
-            ],
-            'Update' => [
-                'displayName' => 'Update',
-                'name'        => 'emailTemplateUpdate',
-                'guard_name'  => 'web',
-                'desc'        => '',
-                'marginLeft'  => 0
-            ],
-        ],
-
         'User management' => [
             'List'   => [
                 'displayName' => 'List',
