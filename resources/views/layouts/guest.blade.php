@@ -16,7 +16,7 @@
     />
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>{{ config('app.name', 'Laravel') }}</title>
+    <title>{{ config('site.name', 'Laravel') }}</title>
 
     <meta name="description" content=""/>
 
