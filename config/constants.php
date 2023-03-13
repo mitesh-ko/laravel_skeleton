@@ -138,14 +138,7 @@ return [
                 'guard_name'  => 'web',
                 'desc'        => 'Access check site logs',
                 'marginLeft'  => 0
-            ],
-            'Authentication log details' => [
-                'displayName' => 'Check authentication log details',
-                'name'        => 'authenticationLogDetail',
-                'guard_name'  => 'web',
-                'desc'        => 'Access to check details of a log',
-                'marginLeft'  => 0
-            ],
+            ]
         ]
     ],
 ];
