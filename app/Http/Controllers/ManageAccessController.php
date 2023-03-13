@@ -22,10 +22,10 @@ class ManageAccessController extends Controller
 {
     function __construct()
     {
-        $this->middleware('permission:' . config('constants.permissions.Role Management.List.name'), ['only' => ['index']]);
-        $this->middleware('permission:' . config('constants.permissions.Role Management.Create.name'), ['only' => ['create', 'store']]);
-        $this->middleware('permission:' . config('constants.permissions.Role Management.Update.name'), ['only' => ['edit', 'update']]);
-        $this->middleware('permission:' . config('constants.permissions.Role Management.Delete.name'), ['only' => ['destroy']]);
+        $this->middleware('permission:' . config('permission-name.role_management-list'), ['only' => ['index']]);
+        $this->middleware('permission:' . config('permission-name.role_management-create'), ['only' => ['create', 'store']]);
+        $this->middleware('permission:' . config('permission-name.role_management-update'), ['only' => ['edit', 'update']]);
+        $this->middleware('permission:' . config('permission-name.role_management-delete'), ['only' => ['destroy']]);
     }
 
     /**
@@ -153,7 +153,7 @@ class ManageAccessController extends Controller
             'permission' => $permissionsName
         ];
         Event::dispatch(AuditCustom::class, [$role]);
-        return Redirect::route('roles.index')->with(['toastStatus' => 'success', 'message' => 'Role updated successfully.']);
+        return Redirect::back()->with(['toastStatus' => 'success', 'message' => 'Role updated successfully.']);
     }
 
     /**

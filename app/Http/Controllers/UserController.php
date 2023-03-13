@@ -23,10 +23,10 @@ class UserController extends Controller
 {
     function __construct()
     {
-        $this->middleware('permission:' . config('constants.permissions.User management.List.name'), ['only' => ['index']]);
-        $this->middleware('permission:' . config('constants.permissions.User management.Create.name'), ['only' => ['create', 'store']]);
-        $this->middleware('permission:' . config('constants.permissions.User management.Update.name'), ['only' => ['edit', 'update']]);
-        $this->middleware('permission:' . config('constants.permissions.User management.Delete.name'), ['only' => ['destroy']]);
+        $this->middleware('permission:' . config('permission-name.user_management-list'), ['only' => ['index']]);
+        $this->middleware('permission:' . config('permission-name.user_management-create'), ['only' => ['create', 'store']]);
+        $this->middleware('permission:' . config('permission-name.user_management-update'), ['only' => ['edit', 'update']]);
+        $this->middleware('permission:' . config('permission-name.user_management-delete'), ['only' => ['destroy']]);
     }
 
     /**
@@ -38,10 +38,10 @@ class UserController extends Controller
     public function index(Request $request)
     {
         if ($request->ajax()) {
-            $accessToModify = auth()->user()->hasPermissionTo(config('constants.permissions.User management.Update.name'));
-            $accessToDelete = auth()->user()->hasPermissionTo(config('constants.permissions.User management.Delete.name'));
-            $accessToSeeAudit = auth()->user()->hasPermissionTo(config('constants.permissions.Logs.List audit logs.name'));
-            $accessToSeeAuthLog = auth()->user()->hasPermissionTo(config('constants.permissions.Logs.List authentication logs.name'));
+            $accessToModify = auth()->user()->hasPermissionTo(config('permission-name.user_management-update'));
+            $accessToDelete = auth()->user()->hasPermissionTo(config('permission-name.user_management-delete'));
+            $accessToSeeAudit = auth()->user()->hasPermissionTo(config('permission-name.logs-list_audit_logs'));
+            $accessToSeeAuthLog = auth()->user()->hasPermissionTo(config('permission-name.logs-list_authentication_logs'));
 
             $user = User::query()->select(['id', 'name', 'email', DB::raw("DATE_FORMAT(created_at, '%d/%b/%Y') as joined_on")]);
             return DataTables::eloquent($user)

@@ -5,7 +5,10 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use Cache;
 use Carbon\Carbon;
+use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Contracts\Routing\ResponseFactory;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Session;
 use OwenIt\Auditing\Models\Audit;
@@ -16,12 +19,17 @@ class LoggingController extends Controller
 {
     function __construct()
     {
-        $this->middleware('permission:' . config('constants.permissions.Logs.List audit logs.name'), ['only' => ['auditList']]);
-        $this->middleware('permission:' . config('constants.permissions.Logs.Audit log details.name'), ['only' => ['showAudit']]);
-        $this->middleware('permission:' . config('constants.permissions.Logs.List authentication logs.name'), ['only' => ['authenticationList']]);
-        $this->middleware('permission:' . config('constants.permissions.Logs.Authentication log details.name'), ['only' => ['showAuthentication']]);
+        $this->middleware('permission:' . config('permission-name.logs-list_audit_logs'), ['only' => ['auditList']]);
+        $this->middleware('permission:' . config('permission-name.logs-audit_log_details'), ['only' => ['showAudit']]);
+        $this->middleware('permission:' . config('permission-name.logs-list_authentication_logs'), ['only' => ['authenticationList']]);
     }
 
+    /**
+     * This logs for developers only developer with specific ip can access this method
+     *
+     * @param Request $request
+     * @return Application|ResponseFactory|Response|void
+     */
     public function index(Request $request)
     {
         if ($request->getClientIp() != config('constants.debug_ip')) {
@@ -44,7 +52,7 @@ class LoggingController extends Controller
     public function auditList(Request $request, $user_id = false)
     {
         if ($request->ajax()) {
-            $seeDetails = auth()->user()->hasPermissionTo(config('constants.permissions.Logs.Audit log details.name'));
+            $seeDetails = auth()->user()->hasPermissionTo(config('permission-name.logs-audit_log_details'));
             if($user_id = Session::get('auditUserId')) {
                 $audits = User::find($user_id)->audits()->with('user')->select(['created_at', 'user_id', 'event', 'ip_address', 'id', 'user_type', 'auditable_type']);
             } else {
