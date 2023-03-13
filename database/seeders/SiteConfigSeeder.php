@@ -63,8 +63,8 @@ class SiteConfigSeeder extends Seeder
             ],
         ];
         foreach ($insertData as $i => $value) {
-            if(!SiteConfig::where('key', $value)->first()) {
-                SiteConfig::create($insertData);
+            if(!SiteConfig::where('key', $value['key'])->first()) {
+                SiteConfig::create($value);
             }
         }
     }
