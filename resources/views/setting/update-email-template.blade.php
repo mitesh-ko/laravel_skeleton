@@ -1,4 +1,5 @@
 <x-app-layout>
+    <link rel="stylesheet" href="/assets/vendor/libs/quill/quill.snow.css"/>
     <x-slot name="header">
         {{  isset($emailTemplate) ? __('Update email template') : __('Create new email template') }}
     </x-slot>
@@ -28,9 +29,25 @@
                             </div>
                         </div>
                         <hr>
-                        <h5>Body</h5>
+                        <h6>Snippets</h6>
+                        <span class="badge bg-secondary bg-glow">
+                            <span class="text-black mt-1 min-vh-100">{FULL_NAME}</span>
+                        </span>
+                        <span class="badge bg-secondary bg-glow">
+                            <span class="text-black mt-1 min-vh-100">{SUBJECT}</span>
+                        </span>
+                        <span class="badge bg-secondary bg-glow">
+                                <span class="text-black mt-1 min-vh-100">{DESCRIPTION}</span>
+                        </span>
+                        <span class="badge bg-secondary bg-glow">
+                                <span class="text-black mt-1 min-vh-100">{PASSWORD_EXPIRED}</span>
+                        </span>
+
                         <div class="row">
-                            <div class="col-md-6 border-right border-light">
+                            <div class="col-md-6">
+                                <div class="mt-2">
+                                    <h5>Body</h5>
+                                </div>
                                 @foreach($emailTemplate->body as $value)
                                     @php($key = array_keys($value)[0])
                                     <div class="mb-3">
@@ -41,38 +58,17 @@
                                 @endforeach
                             </div>
                             <div class="col-md-6">
-                                <h2>Snippets</h2>
-                                <div class="mb-3">
-                                    <span class="badge bg-secondary bg-glow">
-                                        <span class="text-black mt-1 min-vh-100">{FULL_NAME}</span>
-                                    </span>
+                                <div class="mt-2">
+                                    <h5>Preview</h5>
                                 </div>
-                                <div class="mb-3">
-                                    <span class="badge bg-secondary bg-glow">
-                                        <span class="text-black mt-1 min-vh-100">
-                                            <span class="text-black mt-1 min-vh-100">{SUBJECT}</span>
-                                        </span>
-                                    </span>
-                                </div>
-                                <div class="mb-3">
-                                    <span class="badge bg-secondary bg-glow">
-                                        <span class="text-black mt-1 min-vh-100">
-                                            <span class="text-black mt-1 min-vh-100">{DESCRIPTION}</span>
-                                        </span>
-                                    </span>
-                                </div>
-                                <div class="mb-3">
-                                    <span class="badge bg-secondary bg-glow">
-                                        <span class="text-black mt-1 min-vh-100">
-                                            <span class="text-black mt-1 min-vh-100">{PASSWORD_EXPIRED}</span>
-                                        </span>
-                                    </span>
-                                </div>
+                                <iframe id="mail-preview" src="{{ route('emailTemplate.preview', $emailTemplate->id) }}"
+                                        onload='javascript:(function(o){o.style.height=o.contentWindow.document.body.scrollHeight+"px";}(this));' style="height:200px;width:100%;overflow:hidden;">
+                                </iframe>
                             </div>
                         </div>
                         <div class="mt-2">
                             <button type="submit" class="btn btn-primary me-2">Save</button>
-                            <a class="btn btn-label-secondary" href="{{ route('emailTemplate.index') }}">Cancel</a>
+                            <a class="btn btn-label-secondary" href="{{ route('emailTemplate.index') }}">Back</a>
                         </div>
                     </form>
                 </div>
@@ -84,5 +80,6 @@
     <script src="/assets/vendor/libs/form-validation/dist/js/FormValidation.min.js"></script>
     <script src="/assets/vendor/libs/form-validation/dist/js/plugins/Bootstrap5.min.js"></script>
     <script src="/assets/vendor/libs/form-validation/dist/js/plugins/AutoFocus.min.js"></script>
-    {{--    @vite(['resources/js/assets/account.js'])--}}
+    <script type="text/javascript" src="/assets/vendor/libs/quill/quill.min.js"></script>
+    @vite(['resources/js/assets/update-email-template.js'])
 </x-app-layout>
