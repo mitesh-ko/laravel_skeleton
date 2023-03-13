@@ -16,7 +16,7 @@
     />
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>{{ config('app.name', 'Laravel') }}</title>
+    <title>{{ $header ?? '' }} | {{ config('site.name', 'Laravel') }}</title>
 
     <meta name="description" content=""/>
 
@@ -96,7 +96,7 @@
                       />
                     </svg>
                     </span>
-                    <span class="app-brand-text demo menu-text fw-bold">SMS</span>
+                    <span class="app-brand-text demo menu-text fw-bold">{{ config('site.name') }}</span>
                 </a>
 
                 <a href="javascript:void(0);" class="layout-menu-toggle menu-link text-large ms-auto">
