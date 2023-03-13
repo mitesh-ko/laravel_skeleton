@@ -1,13 +1,13 @@
 <?php
 
 use App\Http\Controllers\{AuditLogController,
+    DashboardController,
     EmailTemplateController,
     LoggingController,
     ManageAccessController,
     SiteSettingsController,
     UserController,
-    UserSelfController
-};
+    UserSelfController};
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -23,11 +23,14 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('logs', [LoggingController::class, 'index']);
 Route::get('/', function () {
-    return redirect('/dashboard');
+    return redirect()->route('firstDashboard');
 });
 
 Route::middleware(['auth', 'verified'])->group(function () {
-    Route::view('dashboard', 'dashboard')->name('dashboard');
+
+    Route::prefix('dashboards')->group(function () {
+        Route::get('first-dashboard', [DashboardController::class, 'firstDashboard'])->name('firstDashboard');
+    });
 
     Route::resource('users', UserController::class);
 
@@ -50,8 +53,8 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::get('mail-config', [SiteSettingsController::class, 'mailConfig'])->name('mailConfig');
         Route::get('email-template', [SiteSettingsController::class, 'emailTemplate'])->name('emailTemplate.index');
 
-        Route::post('email-template/{id}/edit', [SiteSettingsController::class, 'emailTemplateUpdate'])->name('emailTemplate.edit');
-        Route::put('email-template/{id}', [SiteSettingsController::class, 'emailTemplateEdit'])->name('emailTemplate.update');
+        Route::get('email-template/{emailTemplate}/edit', [SiteSettingsController::class, 'emailTemplateEdit'])->name('emailTemplate.edit');
+        Route::put('email-template/{emailTemplate}', [SiteSettingsController::class, 'emailTemplateUpdate'])->name('emailTemplate.update');
         Route::post('site-settings', [SiteSettingsController::class, 'siteSettingsUpdate'])->name('siteConfig.siteSettings');
         Route::post('mail-settings', [SiteSettingsController::class, 'mailSettingsUpdate'])->name('siteConfig.mailSettings');
     });
