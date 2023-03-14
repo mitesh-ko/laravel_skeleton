@@ -53,7 +53,8 @@ class LoggingController extends Controller
     {
         if ($request->ajax()) {
             $seeDetails = auth()->user()->hasPermissionTo(config('permission-name.logs-audit_log_details'));
-            if($user_id = Session::get('auditUserId')) {
+            $timezone = $request->cookie('timezone');
+            if ($user_id = Session::get('auditUserId')) {
                 $audits = User::find($user_id)->audits()->with('user')->select(['created_at', 'user_id', 'event', 'ip_address', 'id', 'user_type', 'auditable_type']);
             } else {
                 $audits = Audit::with('user')->select(['created_at', 'user_id', 'event', 'ip_address', 'id', 'user_type', 'auditable_type'])->latest();
@@ -63,8 +64,8 @@ class LoggingController extends Controller
                     return $seeDetails ? '<a href="' . route('audits.show', $row->id) . '" class="btn btn-primary btn-sm mx-1 my-1">View</a>' :
                         '<span class="badge bg-label-gray">No Access</span>';
                 })
-                ->addColumn('created_at', function ($row) {
-                    return Carbon::parse($row->created_at)->timezone(config('site.timezone'));
+                ->addColumn('created_at', function ($row) use ($timezone) {
+                    return Carbon::parse($row->created_at)->timezone($timezone);
                 })
                 ->addColumn('user', function ($row) {
                     return $row->user->name ?? 'N/A';
@@ -87,24 +88,25 @@ class LoggingController extends Controller
             return User::pluck('name', 'id');
         });
         if ($request->ajax()) {
-            if($user_id = Session::get('authUserId')) {
+            if ($user_id = Session::get('authUserId')) {
                 $audits = AuthenticationLog::where('authenticatable_id', $user_id)->select('*');
             } else {
                 $audits = AuthenticationLog::select('*');
             }
+            $timezone = $request->cookie('timezone');
             return DataTables::eloquent($audits)
                 ->filter(function ($query) use ($request) {
                     if ($request->user_id) {
                         $query->where('authenticatable_id', $request->user_id);
                     }
                 })
-                ->addColumn('login_at', function ($row) {
-                    return $row->login_at ? Carbon::parse($row->login_at)->format('d/M/Y H:i') : 'N/A';
+                ->addColumn('login_at', function ($row) use ($timezone) {
+                    return $row->login_at ? Carbon::parse($row->login_at)->timezone($timezone)->format('d/M/Y H:i') : 'N/A';
                 })
-                ->addColumn('logout_at', function ($row) {
-                    return $row->logout_at ? Carbon::parse($row->logout_at)->format('d/M/Y H:i') : 'N/A';
+                ->addColumn('logout_at', function ($row) use ($timezone) {
+                    return $row->logout_at ? Carbon::parse($row->logout_at)->timezone($timezone)->format('d/M/Y H:i') : 'N/A';
                 })
-                ->addColumn('authenticatable_id', function ($row) use($users){
+                ->addColumn('authenticatable_id', function ($row) use ($users) {
                     return $users[$row->authenticatable_id];
                 })
                 ->rawColumns(['login_at', 'logout_at'])

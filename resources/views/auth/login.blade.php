@@ -9,24 +9,19 @@
                         <!-- Logo -->
                         <div class="app-brand justify-content-center mb-4 mt-2">
                             <a href="index.html" class="app-brand-link gap-2">
-                                <span class="app-brand-text demo text-body fw-bold ms-1">Vuexy</span>
+                                <span
+                                    class="app-brand-text demo text-body fw-bold ms-1">{{ config('site.name') }}</span>
                             </a>
                         </div>
-                        <h4 class="mb-1 pt-2">Welcome to {{ config('site.name') }} 👋</h4>
-                        <p class="mb-4">Please sign-in to your account and start the adventure</p>
+                        <h4 class="mb-1 pt-2">Welcome 👋</h4>
+                        <p class="mb-4">Sign-in to your account and start the adventure</p>
                         <x-auth-session-status class="mb-4" :status="session('status')"/>
                         <form method="POST" action="{{ route('login') }}">
                             @csrf
                             <div class="mb-3">
                                 <label for="email" class="form-label">Email or Username</label>
-                                <input
-                                    type="text"
-                                    class="form-control"
-                                    id="email"
-                                    name="email"
-                                    placeholder="Enter your email or username"
-                                    autofocus
-                                />
+                                <input type="text" class="form-control"
+                                       id="email" name="email" placeholder="Enter your email or username" autofocus/>
                             </div>
                             <div class="mb-3 form-password-toggle">
                                 <div class="d-flex justify-content-between">
@@ -38,14 +33,9 @@
                                     @endif
                                 </div>
                                 <div class="input-group input-group-merge">
-                                    <input
-                                        type="password"
-                                        id="password"
-                                        class="form-control"
-                                        name="password"
-                                        placeholder="&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;"
-                                        aria-describedby="password"
-                                    />
+                                    <input type="password" id="password" class="form-control" name="password"
+                                           placeholder="&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;"
+                                           aria-describedby="password"/>
                                     <span class="input-group-text cursor-pointer"><i class="ti ti-eye-off"></i></span>
                                 </div>
                             </div>

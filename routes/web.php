@@ -22,11 +22,15 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('logs', [LoggingController::class, 'index']);
-Route::get('/', function () {
-    return redirect()->route('profile');
+Route::any('/', function (Illuminate\Http\Request $request) {
+    if($request->method() == 'GET') {
+        return view('welcome');
+    }
+    return redirect()->route('profile')->withCookie(cookie('timezone', $request->timezone, 6000));
+
 });
 
-Route::middleware(['auth', 'verified'])->group(function () {
+Route::middleware(['auth', 'verified', 'timezone'])->group(function () {
 
     Route::prefix('dashboards')->group(function () {
         Route::get('first-dashboard', [DashboardController::class, 'firstDashboard'])->name('firstDashboard');
