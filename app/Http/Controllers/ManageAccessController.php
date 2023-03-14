@@ -177,6 +177,10 @@ class ManageAccessController extends Controller
         if ($request->ajax()) {
             $role = Permission::query();
             return DataTables::eloquent($role)
+                ->addColumn('name', function ($row) {
+                    return ucwords(implode(' ',preg_split('/(?=[A-Z])/', $row->name)));
+                })
+                ->rawColumns(['name'])
                 ->make();
         }
         return view('manage-access.list-permission');
