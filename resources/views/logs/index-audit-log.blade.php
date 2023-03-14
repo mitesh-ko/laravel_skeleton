@@ -15,7 +15,7 @@
                                 <div class="col-12 col-sm-6 col-lg-4">
                                     <label class="form-label">Model:</label>
                                     <select id="search-model" class="form-control">
-                                        <option value=""></option>
+                                        <option value="">Select a model</option>
                                         <option value="App\Models\User">User</option>
                                         <option value="App\Models\Role">Role</option>
                                         <option value="App\Models\EmailTemplate">Email Template</option>
@@ -25,7 +25,7 @@
                                 <div class="col-12 col-sm-6 col-lg-4">
                                     <label class="form-label">Action:</label>
                                     <select id="search-action" class="form-control">
-                                        <option value=""></option>
+                                        <option value="">Select a action</option>
                                         <option value="created">Created</option>
                                         <option value="updated">Updated</option>
                                         <option value="deleted">Deleted</option>
@@ -33,7 +33,7 @@
                                 </div>
                                 <div class="col-12 col-sm-6 col-lg-4">
                                     <label class="form-label">IP:</label>
-                                    <input id="search-ip" type="text" class="form-control"/>
+                                    <input id="search-ip" type="ip" class="form-control"/>
                                 </div>
                             </div>
                             <div class="mt-2">
