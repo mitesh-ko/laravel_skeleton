@@ -42,23 +42,27 @@ class MailPreviewNotification extends Notification
      */
     public function toMail($notifiable)
     {
+        return $this->buildMailMessage($notifiable);
+    }
+
+    public function buildMailMessage($notifiable)
+    {
         $message = new MailMessage();
         $message->subject($this->data['template']->subject);
         $replacement = [
             '{FULL_NAME}'        => $notifiable->full_name,
             '{PASSWORD_EXPIRED}' => config('auth.passwords.users.expire'),
-            '{DESCRIPTION}'          => ''
+            '{DESCRIPTION}'      => $this->data['desc'] ?? ''
         ];
-        foreach ($this->data['template']->body as $value) {
+        $replaced = str_replace(array_keys($replacement), array_values($replacement), $this->data['template']->body ?? '');
+        foreach (json_decode($replaced, true) as $value) {
             $key = array_keys($value)[0];
-            $replaced = str_replace('{PASSWORD_EXPIRED}', config('auth.passwords.users.expire'), $value[$key] ?? '');
-            $replaced = str_replace('{FULL_NAME}', $notifiable->full_name, $replaced);
             if ($key == 'Line')
-                $message->line($replaced);
+                $message->line($value[$key]);
             elseif ($key == 'Action')
-                $message->action($replaced, route("password.reset", $this->data['token']));
+                $message->action($value[$key], $this->data['actionUrl'] ?? '');
             elseif ($key == 'Greeting')
-                $message->greeting($replaced);
+                $message->greeting($value[$key]);
         }
         return $message;
     }

@@ -11,18 +11,16 @@ class ResetPasswordNotification extends Notification
 {
     use Queueable;
 
-    private $token;
-    private $template;
+    private $data;
 
     /**
      * Create a new notification instance.
      *
      * @return void
      */
-    public function __construct($token, $template)
+    public function __construct($data)
     {
-        $this->token = $token;
-        $this->template = $template;
+        $this->data = $data;
     }
 
     /**
@@ -44,26 +42,8 @@ class ResetPasswordNotification extends Notification
      */
     public function toMail($notifiable)
     {
-        return $this->buildMailMessage($notifiable, "$this->token?email={$notifiable->getEmailForPasswordReset()}");
+        return (new MailPreviewNotification($this->data))->buildMailMessage($notifiable);
 
-    }
-
-    protected function buildMailMessage($notifiable, $url)
-    {
-        $message = new MailMessage();
-        $message->subject($this->template->subject);
-        foreach ($this->template->body as $value) {
-            $key = array_keys($value)[0];
-            $replaced = str_replace('{PASSWORD_EXPIRED}', config('auth.passwords.users.expire'), $value[$key] ?? '');
-            $replaced = str_replace('{FULL_NAME}', $notifiable->full_name, $replaced);
-            if ($key == 'Line')
-                $message->line($replaced);
-            elseif ($key == 'Action')
-                $message->action($replaced, route("password.reset", $url));
-            elseif ($key == 'Greeting')
-                $message->greeting($replaced);
-        }
-        return $message;
     }
 
     /**

@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-use App\Casts\DecodeBodyCast;
+use App\Casts\EmailTemplateBodyCast;
 use Illuminate\Database\Eloquent\Model;
 use OwenIt\Auditing\Contracts\Auditable;
 
@@ -17,6 +17,6 @@ class EmailTemplate extends Model implements Auditable
     ];
 
     protected $casts = [
-      'body' => DecodeBodyCast::class
+      'body' => EmailTemplateBodyCast::class
     ];
 }

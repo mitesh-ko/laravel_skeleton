@@ -11,15 +11,15 @@ class WelcomeNotification extends Notification
 {
     use Queueable;
 
-    private $template;
+    private $data;
     /**
      * Create a new notification instance.
      *
      * @return void
      */
-    public function __construct($template)
+    public function __construct($data)
     {
-        $this->template = $template;
+        $this->data = $data;
     }
 
     /**
@@ -41,24 +41,7 @@ class WelcomeNotification extends Notification
      */
     public function toMail($notifiable)
     {
-        return $this->buildMailMessage($notifiable);
-    }
-
-    protected function buildMailMessage($notifiable)
-    {
-        $message = new MailMessage();
-        $message->subject($this->template->subject);
-        foreach ($this->template->body as $value) {
-            $key = array_keys($value)[0];
-            $replaced = str_replace('{FULL_NAME}', $notifiable->full_name, $value[$key] ?? '');
-            if ($key == 'Line')
-                $message->line($replaced);
-            elseif ($key == 'Action')
-                $message->action($replaced, url('/'));
-            elseif ($key == 'Greeting')
-                $message->greeting($replaced);
-        }
-        return $message;
+        return (new MailPreviewNotification($this->data))->buildMailMessage($notifiable);
     }
 
     /**

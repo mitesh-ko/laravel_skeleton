@@ -6,8 +6,8 @@ use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
-use Illuminate\Http\Request;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Facades\Cache;
 use Laravel\Sanctum\HasApiTokens;
 use OwenIt\Auditing\Contracts\Auditable;
 use Rappasoft\LaravelAuthenticationLog\Traits\AuthenticationLoggable;
@@ -50,7 +50,9 @@ class User extends Authenticatable implements Auditable, MustVerifyEmail
      */
     public function sendPasswordResetNotification($token)
     {
-        $this->notify(new \App\Notifications\ResetPasswordNotification($token, config('resetPasswordMailTemplate')));
+
+        $token = route("password.reset", $token) . "?email={$this->getEmailForPasswordReset()}";
+        $this->notify(new \App\Notifications\ResetPasswordNotification(['actionUrl' => $token, 'template' => config('site.emailTemplate.resetPassword')]));
     }
 
 //    public function sendEmailVerificationNotification()

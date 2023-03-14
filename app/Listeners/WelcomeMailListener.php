@@ -20,11 +20,11 @@ class WelcomeMailListener
     /**
      * Handle the event.
      *
-     * @param  object  $event
+     * @param object $event
      * @return void
      */
     public function handle($event)
     {
-        $event->user->notify(new \App\Notifications\WelcomeNotification( config('welcomeMailTemplate')));
+        $event->user->notify(new \App\Notifications\WelcomeNotification(['template' => config('site.emailTemplate.welcomeEmail')]));
     }
 }

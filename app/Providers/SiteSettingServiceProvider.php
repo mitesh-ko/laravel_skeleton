@@ -42,22 +42,21 @@ class SiteSettingServiceProvider extends ServiceProvider
         config('mail.mailers.smtp.password', $value['mail_password'] ?? '');
         config('mail.from.address', $value['mail_from_address'] ?? '');
         config('mail.from.name', $value['mail_from_name'] ?? '');
-        Config::set('site', $value);
         // ================================= email template
-        $resetPasswordMailTemplate = Cache::remember('resetPasswordBody', 36000, function () {
-            if (Schema::hasTable('email_templates'))
-                return EmailTemplate::where('key', 'resetPassword')->first();
-            else
-                return [];
+        $emailTemplates = Cache::remember('emailTemplates', 36000, function () {
+            if (Schema::hasTable('email_templates')) {
+                $emailTemplates = [];
+                foreach (EmailTemplate::get() as $value) {
+                    $emailTemplates['emailTemplate'][$value->key] = $value;
+                }
+                return $emailTemplates;
+            }
+            return [];
         });
-        Config::set('resetPasswordMailTemplate', $resetPasswordMailTemplate);
 
-        $welcomeMailTemplate = Cache::remember('welcomeMailTemplate', 36000, function () {
-            if (Schema::hasTable('email_templates'))
-                return EmailTemplate::where('key', 'welcomeEmail')->first();
-            else
-                return [];
-        });
-        Config::set('welcomeMailTemplate', $welcomeMailTemplate);
+        $newArray = array_merge($value, $emailTemplates);
+
+        Config::set('site', $newArray);
+
     }
 }

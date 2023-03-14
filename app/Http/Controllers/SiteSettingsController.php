@@ -81,7 +81,7 @@ class SiteSettingsController extends Controller
     {
         $accessToModify = auth()->user()->hasPermissionTo(config('permission-name.setting-email_template_update'));
         if ($request->ajax()) {
-            $emailTemplate = EmailTemplate::query()->select(['name', 'subject', 'id']);
+            $emailTemplate = EmailTemplate::where('key', '!=', 'notificationMail')->select(['name', 'subject', 'id']);
             return DataTables::eloquent($emailTemplate)
                 ->addColumn('action', function ($row) use ($accessToModify) {
                     return $accessToModify ? '<a href="' . route('emailTemplate.edit', $row->id ?? 0) . '" class="btn btn-primary btn-sm mx-1 my-1">View/Update</a>' :
@@ -105,7 +105,6 @@ class SiteSettingsController extends Controller
             'subject' => ['required', 'max:255'],
             'body.*'  => ['required'],
         ]);
-        $validData['body'] = json_encode($request->body);
         if ($emailTemplate->update($validData)) {
             Cache::delete('emailTemplate');
             return Redirect::back()->with(['toastStatus' => 'success', 'message' => 'Email template updated successfully. Check mail preview.']);
@@ -116,7 +115,7 @@ class SiteSettingsController extends Controller
 
     public function emailPreview(EmailTemplate $emailTemplate)
     {
-        $message = (new \App\Notifications\MailPreviewNotification(['token' => 'preview', 'template' => $emailTemplate]))->toMail(Auth::user());
+        $message = (new \App\Notifications\MailPreviewNotification(['token' => 'preview', 'template' => $emailTemplate, 'desc' => 'This is notification description.']))->toMail(Auth::user());
         $markdown = new \Illuminate\Mail\Markdown(view(), config('mail.markdown'));
         return $markdown->render('vendor.notifications.email', $message->data());
     }

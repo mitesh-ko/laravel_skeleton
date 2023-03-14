@@ -4,7 +4,7 @@ namespace App\Casts;
 
 use Illuminate\Contracts\Database\Eloquent\CastsAttributes;
 
-class DecodeBodyCast implements CastsAttributes
+class EmailTemplateBodyCast implements CastsAttributes
 {
     /**
      * Cast the given value.
@@ -17,7 +17,7 @@ class DecodeBodyCast implements CastsAttributes
      */
     public function get($model, string $key, $value, array $attributes)
     {
-        return json_decode($value, true);
+        return $value;
     }
 
     /**
@@ -31,6 +31,6 @@ class DecodeBodyCast implements CastsAttributes
      */
     public function set($model, string $key, $value, array $attributes)
     {
-        return $value;
+        return json_encode($value);
     }
 }

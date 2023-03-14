@@ -48,7 +48,7 @@
                                 <div class="mt-2">
                                     <h5>Body</h5>
                                 </div>
-                                @foreach($emailTemplate->body as $value)
+                                @foreach(json_decode($emailTemplate->body, true) as $value)
                                     @php($key = array_keys($value)[0])
                                     <div class="mb-3">
                                         <label for="email" class="form-label">{{ $key }}</label>
