@@ -3,9 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\ProfileUpdateRequest;
+use App\Models\Role;
 use App\Models\User;
 use DB;
 use Exception;
+use Illuminate\Auth\Events\Registered;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
@@ -43,7 +45,7 @@ class UserController extends Controller
             $accessToSeeAudit = auth()->user()->hasPermissionTo(config('permission-name.logs-list_audit_logs'));
             $accessToSeeAuthLog = auth()->user()->hasPermissionTo(config('permission-name.logs-list_authentication_logs'));
 
-            $user = User::query()->select(['id', 'name', 'email', DB::raw("DATE_FORMAT(created_at, '%d/%b/%Y') as joined_on")]);
+            $user = User::orderByDesc('id')->select(['id', 'name', 'email', DB::raw("DATE_FORMAT(created_at, '%d/%b/%Y') as joined_on")]);
             return DataTables::eloquent($user)
                 ->addColumn('action', function ($row) use ($accessToModify, $accessToDelete, $accessToSeeAudit, $accessToSeeAuthLog) {
 
@@ -91,22 +93,24 @@ class UserController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param ProfileUpdateRequest $request
+     * @param Request $request
      * @return RedirectResponse
      */
-    public function store(ProfileUpdateRequest $request)
+    public function store(Request $request)
     {
         $request->validate([
             'name'  => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:' . User::class],
+            'role'  => ['required']
         ]);
-
         $user = User::create([
             'name'     => $request->name,
             'email'    => $request->email,
             'password' => Hash::make(Str::random(5)),
         ]);
-
+        $role = Role::where('name', $request->role)->first();
+        $user->syncRoles($role);
+        event(new Registered($user));
         return Redirect::route('users.index')->with(['toastStatus' => 'success', 'message' => 'User Created successfully.']);
     }
 
@@ -136,7 +140,7 @@ class UserController extends Controller
      * Update the specified resource in storage.
      *
      * @param Request $request
-     * @param int $id
+     * @param User $user
      * @return RedirectResponse
      */
     public function update(Request $request, User $user)
@@ -144,12 +148,14 @@ class UserController extends Controller
         $validData = $request->validate([
             'name'  => ['required', 'max:255'],
             'email' => ['required', 'email', 'max:255', Rule::unique(User::class)->ignore($user->id)],
+            'role'  => ['required']
         ]);
-
         if ($user->isDirty('email')) {
             $validData['email_verified_at'] = null;
         }
 
+        $role = Role::where('name', $request->role)->first();
+        $user->syncRoles($role);
         $user->update($validData);
 
         return Redirect::route('users.index')->with(['toastStatus' => 'success', 'message' => 'User updated successfully.']);
