@@ -8,7 +8,7 @@ document.addEventListener('DOMContentLoaded', function (e) {
     (function () {
         const formAccSettings = document.querySelector('#formAccountSettings'),
             deactivateAcc = document.querySelector('#formAccountDeactivation'),
-            deactivateButton = deactivateAcc.querySelector('.deactivate-account'),
+            deactivateButton = deactivateAcc?.querySelector('.deactivate-account'),
             changePassword = document.querySelector('#formChangePassword');
 
         // Form validation for Add new record
@@ -138,12 +138,12 @@ document.addEventListener('DOMContentLoaded', function (e) {
         }
 
         // Deactivate account alert
-        const accountActivation = document.querySelector('#accountActivation');
+        const accountDeactivation = document.querySelector('#accountActivation');
 
         // Alert With Functional Confirm Button
         if (deactivateButton) {
             deactivateButton.onclick = function () {
-                if (accountActivation.checked == true) {
+                if (accountDeactivation.checked === true) {
                     Swal.fire({
                         text: 'Are you sure you would like to deactivate your account?',
                         icon: 'warning',

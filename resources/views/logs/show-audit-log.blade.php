@@ -94,5 +94,4 @@
     <script src="/assets/vendor/libs/form-validation/dist/js/FormValidation.min.js"></script>
     <script src="/assets/vendor/libs/form-validation/dist/js/plugins/Bootstrap5.min.js"></script>
     <script src="/assets/vendor/libs/form-validation/dist/js/plugins/AutoFocus.min.js"></script>
-    @vite(['resources/js/assets/account.js'])
 </x-app-layout>

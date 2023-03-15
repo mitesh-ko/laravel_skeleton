@@ -47,6 +47,9 @@
                             </div>
                             <div class="mb-3 col-md-6">
                                 <label for="email" class="form-label">E-mail</label>
+                                @isset($user)
+                                    {!! $user->email_verified_at ? '<span class="badge text-success">email verified</span>' : '<span class="badge text-danger">email not verified!</span>'!!}
+                                @endisset
                                 <input class="form-control" type="text" id="email" name="email"
                                        value="{{ old('user', $user->email ?? '') }}" placeholder="user@example.com"/>
                             </div>
@@ -56,6 +59,17 @@
                                     <span class="input-group-text">IN (+91)</span>
                                     <input type="text" id="phoneNumber" name="phone" class="form-control"
                                            placeholder="{{ old('user', $user->phone ?? '') }}"/>
+                                </div>
+                            </div>
+                            <div class="mb-3 col-md-6">
+                                <label class="form-label" for="role">Role</label>
+                                <div class="input-group">
+                                    <select id="role" name="role" class="form-control" required>
+                                        <option value="">Select a role</option>
+                                        @foreach(\App\Models\Role::get() as $role)
+                                            <option value="{{ $role->name }}" @selected(old('role', $user->roles[0]->name ?? '') == $role->name)>{{ $role->name }}</option>
+                                        @endforeach
+                                    </select>
                                 </div>
                             </div>
                         </div>

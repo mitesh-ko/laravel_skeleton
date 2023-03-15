@@ -15,11 +15,8 @@
                         </div>
                         <div class="user-profile-header d-flex flex-column flex-sm-row text-sm-start text-center mb-4">
                             <div class="flex-shrink-0 mt-n2 mx-sm-0 mx-auto">
-                                <img
-                                    src="/assets/img/profile_placeholder.jpg"
-                                    alt="user image"
-                                    class="d-block h-auto ms-0 ms-sm-4 rounded user-profile-img"
-                                />
+                                <img src="/assets/img/profile_placeholder.jpg" alt="user image" style="box-shadow: 0 -0.75rem 1.25rem rgba(2, 0, 0, 0.4);"
+                                     class="d-block h-auto ms-0 ms-sm-4 border-0 border rounded user-profile-img"/>
                             </div>
                             <div class="flex-grow-1 mt-3 mt-sm-5">
                                 <div
