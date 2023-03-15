@@ -15,8 +15,8 @@
                         </div>
                         <div class="user-profile-header d-flex flex-column flex-sm-row text-sm-start text-center mb-4">
                             <div class="flex-shrink-0 mt-n2 mx-sm-0 mx-auto">
-                                <img src="/assets/img/profile_placeholder.jpg" alt="user image" style="box-shadow: 0 -0.75rem 1.25rem rgba(2, 0, 0, 0.4);"
-                                     class="d-block h-auto ms-0 ms-sm-4 border-0 border rounded user-profile-img"/>
+                                <img src="{{ auth()->user()->profile ?? '/assets/img/profile_placeholder.jpg' }}" alt="user image" style="box-shadow: 0 -0.75rem 1.25rem rgba(2, 0, 0, 0.4); object-fit: cover"
+                                     class="d-block w-px-100 h-px-100 ms-0 ms-sm-4 border-0 border rounded user-profile-img"/>
                             </div>
                             <div class="flex-grow-1 mt-3 mt-sm-5">
                                 <div
@@ -72,6 +72,10 @@
                         <div class="card-body">
                             <small class="card-text text-uppercase">About</small>
                             <ul class="list-unstyled mb-4 mt-3">
+                                <li class="d-flex align-items-center mb-3">
+                                    <i class="ti ti-circle-check"></i><span class="fw-bold mx-2">Username:</span>
+                                    <span>{{ auth()->user()->username }}</span>
+                                </li>
                                 <li class="d-flex align-items-center mb-3">
                                     <i class="ti ti-user"></i><span class="fw-bold mx-2">Full Name:</span>
                                     <span>{{ auth()->user()->name }}</span>

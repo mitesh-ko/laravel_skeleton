@@ -8,6 +8,7 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
+use Illuminate\Support\Facades\Storage;
 
 class UserSelfController extends Controller
 {
@@ -28,7 +29,15 @@ class UserSelfController extends Controller
 	 */
 	public function update(ProfileUpdateRequest $request): RedirectResponse
 	{
-		$request->user()->fill($request->validated());
+        $validData = $request->validated();
+        if ($request->profile) {
+            if (Auth::user()->profile)
+                $request->profile->storeAs('public', Auth::user()->getRawOriginal('profile'));
+            else
+                $validData['profile'] = Storage::disk('public')->put('user_profile', $request->profile);
+        }
+
+		$request->user()->fill($validData);
 
 		if ($request->user()->isDirty('email')) {
 			$request->user()->email_verified_at = null;
