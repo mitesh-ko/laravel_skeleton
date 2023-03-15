@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\ProfileUpdateRequest;
 use App\Models\Role;
 use App\Models\User;
 use DB;
@@ -15,8 +14,10 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Redirect;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Validation\Rule;
 use Str;
 use Yajra\DataTables\Facades\DataTables;
@@ -45,7 +46,7 @@ class UserController extends Controller
             $accessToSeeAudit = auth()->user()->hasPermissionTo(config('permission-name.logs-list_audit_logs'));
             $accessToSeeAuthLog = auth()->user()->hasPermissionTo(config('permission-name.logs-list_authentication_logs'));
 
-            $user = User::orderByDesc('id')->select(['id', 'name', 'email', DB::raw("DATE_FORMAT(created_at, '%d/%b/%Y') as joined_on")]);
+            $user = User::orderByDesc('id')->whereNotIn('id', [1, Auth::user()->id])->select(['id', 'name', 'email', DB::raw("DATE_FORMAT(created_at, '%d/%b/%Y') as joined_on")]);
             return DataTables::eloquent($user)
                 ->addColumn('action', function ($row) use ($accessToModify, $accessToDelete, $accessToSeeAudit, $accessToSeeAuthLog) {
 
@@ -98,16 +99,18 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-        $request->validate([
+        $validData = $request->validate([
             'name'  => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:' . User::class],
-            'role'  => ['required']
+            'role'  => ['required'],
+            'phone' => 'nullable'
         ]);
-        $user = User::create([
-            'name'     => $request->name,
-            'email'    => $request->email,
-            'password' => Hash::make(Str::random(5)),
-        ]);
+        $validData['username'] = \Faker\Factory::create()->userName();
+        $validData['password'] = Hash::make(Str::random(5));
+        if ($request->profile) {
+            $validData['profile'] = Storage::disk('public')->put('user_profile', $request->profile);
+        }
+        $user = User::create($validData);
         $role = Role::where('name', $request->role)->first();
         $user->syncRoles($role);
         event(new Registered($user));
@@ -129,10 +132,13 @@ class UserController extends Controller
      * Show the form for editing the specified resource.
      *
      * @param User $user
-     * @return Application|Factory|View
+     * @return Application|Factory|View|RedirectResponse
      */
     public function edit(User $user)
     {
+        if ($user->id == 1) {
+            return Redirect::route('users.index');
+        }
         return view('user.create-update-user', ['user' => $user]);
     }
 
@@ -148,10 +154,18 @@ class UserController extends Controller
         $validData = $request->validate([
             'name'  => ['required', 'max:255'],
             'email' => ['required', 'email', 'max:255', Rule::unique(User::class)->ignore($user->id)],
-            'role'  => ['required']
+            'role'  => ['required'],
+            'phone' => ['nullable']
         ]);
         if ($user->isDirty('email')) {
             $validData['email_verified_at'] = null;
+        }
+
+        if ($request->profile) {
+            if ($user->profile)
+                $request->profile->storeAs('public', $user->getRawOriginal('profile'));
+            else
+                $validData['profile'] = Storage::disk('public')->put('user_profile', $request->profile);
         }
 
         $role = Role::where('name', $request->role)->first();

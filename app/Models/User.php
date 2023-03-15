@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Casts\UserProfileCast;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -18,8 +19,11 @@ class User extends Authenticatable implements Auditable, MustVerifyEmail
     use HasApiTokens, HasFactory, Notifiable, HasRoles, \OwenIt\Auditing\Auditable, SoftDeletes, AuthenticationLoggable;
 
     protected $fillable = [
+        'username',
         'name',
         'email',
+        'phone',
+        'profile',
         'password',
     ];
 
@@ -42,6 +46,7 @@ class User extends Authenticatable implements Auditable, MustVerifyEmail
         'email_verified_at' => 'datetime',
         'created_at'        => 'datetime:d-m-Y',
         'updated_at'        => 'datetime:d-m-Y',
+        'profile'           => UserProfileCast::class
     ];
 
     /**
