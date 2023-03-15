@@ -3,6 +3,7 @@
 namespace App\Http\Requests\Auth;
 
 use App\Events\Login;
+use App\Models\User;
 use Illuminate\Auth\Events\Lockout;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Auth;
@@ -28,7 +29,7 @@ class LoginRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'email' => ['required', 'string', 'email'],
+            'email'    => ['required', 'string'],
             'password' => ['required', 'string'],
         ];
     }
@@ -42,14 +43,16 @@ class LoginRequest extends FormRequest
     {
         $this->ensureIsNotRateLimited();
 
-        if (! Auth::attempt($this->only('email', 'password'), $this->boolean('remember'))) {
+        $email = User::where('email', $this->email)->orWhere('username', $this->email)
+            ->orWhere('phone', $this->email)->first()?->email;
+        if (!Auth::attempt(['email' => $email, 'password' => $this->password], $this->boolean('remember'))) {
             RateLimiter::hit($this->throttleKey());
 
             throw ValidationException::withMessages([
                 'email' => trans('auth.failed'),
             ]);
         } else {
-            if(config('site.concurrent_session') == 0) {
+            if (config('site.concurrent_session') == 0) {
                 Auth::logoutOtherDevices($this->only('password')['password']);
             }
             event(new Login(Auth::user()));
@@ -65,7 +68,7 @@ class LoginRequest extends FormRequest
      */
     public function ensureIsNotRateLimited(): void
     {
-        if (! RateLimiter::tooManyAttempts($this->throttleKey(), 5)) {
+        if (!RateLimiter::tooManyAttempts($this->throttleKey(), 5)) {
             return;
         }
 
@@ -86,6 +89,6 @@ class LoginRequest extends FormRequest
      */
     public function throttleKey(): string
     {
-        return Str::transliterate(Str::lower($this->input('email')).'|'.$this->ip());
+        return Str::transliterate(Str::lower($this->input('email')) . '|' . $this->ip());
     }
 }
