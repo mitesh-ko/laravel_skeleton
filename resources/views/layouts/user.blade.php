@@ -2,7 +2,8 @@
     <a class="nav-link dropdown-toggle hide-arrow" href="javascript:void(0)"
        data-bs-toggle="dropdown">
         <div class="avatar avatar-online">
-            <img src="/assets/img/profile_placeholder.jpg" alt class="h-auto rounded-circle"/>
+            <img src="{{ auth()->user()->profile ?? '/assets/img/profile_placeholder.jpg' }}" alt="profile"
+                 class="rounded-circle h-px-40 w-px-40" style="object-fit: cover"/>
         </div>
     </a>
     <ul class="dropdown-menu dropdown-menu-end">
@@ -11,8 +12,9 @@
                 <div class="d-flex">
                     <div class="flex-shrink-0 me-3">
                         <div class="avatar avatar-online">
-                            <img src="/assets/img/profile_placeholder.jpg" alt
-                                 class="h-auto rounded-circle"/>
+                            <img src="{{ auth()->user()->profile ?? '/assets/img/profile_placeholder.jpg' }}"
+                                 alt="profile"
+                                 class="rounded-circle h-px-40 w-px-40" style="object-fit: cover"/>
                         </div>
                     </div>
                     <div class="flex-grow-1">

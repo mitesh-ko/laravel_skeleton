@@ -19744,7 +19744,7 @@ html:not([dir=rtl]) .switches-stacked .switch {
 .avatar.avatar-online:after, .avatar.avatar-offline:after, .avatar.avatar-away:after, .avatar.avatar-busy:after {
   content: "";
   position: absolute;
-  bottom: 0;
+  bottom: 1px;
   right: 3px;
   width: 8px;
   height: 8px;
