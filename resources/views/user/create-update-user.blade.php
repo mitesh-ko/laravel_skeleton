@@ -17,7 +17,7 @@
                         <div class="row">
                             <div class="d-flex align-items-start align-items-sm-center gap-4 mb-3">
                                 <img src="{{ $user->profile ?? '/assets/img/profile_placeholder.jpg'}}" alt="user-avatar"
-                                     class="d-block w-px-100 h-px-100 rounded" id="uploadedAvatar"/>
+                                     class="d-block w-px-100 h-px-100 rounded" id="uploadedAvatar" style="object-fit: cover;"/>
                                 <div class="button-wrapper">
                                     <label for="upload" class="btn btn-primary me-2 mb-3" tabindex="0">
                                         <span class="d-none d-sm-block">Upload new photo</span>
