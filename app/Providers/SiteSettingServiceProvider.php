@@ -36,13 +36,13 @@ class SiteSettingServiceProvider extends ServiceProvider
             else
                 return [];
         });
-        config('mail.mailers.smtp.port', $value['mail_port'] ?? '');
-        config('mail.mailers.smtp.host', $value['mail_port'] ?? '');
-        config('mail.mailers.smtp.username', $value['mail_username'] ?? '');
-        config('mail.mailers.smtp.password', $value['mail_password'] ?? '');
-        config('mail.from.address', $value['mail_from_address'] ?? '');
-        config('mail.from.name', $value['mail_from_name'] ?? '');
-        config('app.name', $value['name'] ?? '');
+        Config::set('mail.mailers.smtp.port', $value['mail_port'] ?? '');
+        Config::set('mail.mailers.smtp.host', $value['mail_port'] ?? '');
+        Config::set('mail.mailers.smtp.username', $value['mail_username'] ?? '');
+        Config::set('mail.mailers.smtp.password', $value['mail_password'] ?? '');
+        Config::set('mail.from.address', $value['mail_from_address'] ?? '');
+        Config::set('mail.from.name', $value['mail_from_name'] ?? '');
+        Config::set('app.name', $value['name'] ?? '');
         // ================================= email template
         $emailTemplates = Cache::remember('emailTemplates', 36000, function () {
             if (Schema::hasTable('email_templates')) {
