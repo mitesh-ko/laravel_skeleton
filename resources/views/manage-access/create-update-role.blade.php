@@ -7,22 +7,16 @@
 
             <div class="card mb-4">
                 <div class="card-body">
-                    <form id="formAccountSettings" method="POST"
+                    <form id="roleCreateUpdate" method="POST"
                           action="{{ isset($role) ? route('roles.update', $role->id) :  route('roles.store') }}">
                         @csrf
                         @isset($role)
                             @method('PUT')
                         @endif
-                        <div class="col-6 mb-4">
+                        <div class="col-6 mb-4 form-input">
                             <label class="form-label" for="modalRoleName">Role Name</label>
-                            <input
-                                type="text"
-                                name="role_name"
-                                class="form-control"
-                                placeholder="Enter a role name"
-                                autofocus
-                                value="{{ old('role_name', $role->name ?? '') }}"
-                            />
+                            <input type="text" name="role_name" class="form-control" placeholder="Enter a role name"
+                                   autofocus value="{{ old('role_name', $role->name ?? '') }}"/>
                         </div>
                         <div class="col-12">
                             <h5>Role Permissions</h5>
@@ -33,12 +27,9 @@
                                     <tr>
                                         <td class="text-nowrap fw-semibold">
                                             Administrator Access
-                                            <i
-                                                class="ti ti-info-circle"
-                                                data-bs-toggle="tooltip"
-                                                data-bs-placement="top"
-                                                title="Allows a full access to the system"
-                                            ></i>
+                                            <i class="ti ti-info-circle" data-bs-toggle="tooltip"
+                                               data-bs-placement="top" title="Allows a full access to the system">
+                                            </i>
                                         </td>
                                         <td>
                                             <div class="form-check">
@@ -50,20 +41,23 @@
                                     @foreach(config('constants.permissions') as $key => $value)
                                         <tr>
                                             <td class="text-nowrap fw-semibold">{{ $key }}</td>
-                                            <td>
+                                            <td class="row-permission-checkbox">
                                                 <div class="d-flex">
-{{--                                                    <div class="form-check me-3 me-lg-5">--}}
-{{--                                                        <input class="form-check-input" type="checkbox">--}}
-{{--                                                        <label class="form-check-label select-row">All <img src="/assets/img/Icon ionic-ios-arrow-dropleft.svg" width="14px" class="mb-1"></label>--}}
-{{--                                                    </div>--}}
+                                                    <div class="form-check me-3 me-lg-3">
+                                                        <input class="form-check-input select-row" type="checkbox">
+                                                        <label class="form-check-label">All
+                                                            <img src="/assets/img/Icon ionic-ios-arrow-dropleft.svg"
+                                                                 width="14px" class="mb-1">
+                                                        </label>
+                                                    </div>
                                                     @foreach(config('constants.permissions.' . $key) as $value2)
-                                                        <div class="form-check me-3 me-lg-5"
+                                                        <div class="form-check me-3 me-lg-5 form-input"
                                                              style="margin-left: {{ $value2['marginLeft'] }}px">
-                                                            <input class="form-check-input" type="checkbox"
+                                                            <input class="form-check-input permission-checkbox" type="checkbox"
                                                                    id="{{ $value2['name'] }}"
                                                                    name="permissions[{{ $value2['name'] }}]"
                                                                    value="{{ $value2['name'] }}"
-                                                            @checked(isset($role) && $role->hasPermissionTo($value2['name'])) />
+                                                                @checked(isset($role) && $role->hasPermissionTo($value2['name'])) />
                                                             <label class="form-check-label"
                                                                    for="{{ $value2['name'] }}">{{ $value2['displayName'] }}</label>
                                                         </div>
