@@ -8,21 +8,21 @@
 
             <div class="card mb-4">
                 <div class="card-body">
-                    <form id="formAccountSettings" method="POST" onsubmit="return false;"
+                    <form id="updateEmailTemplate" method="POST" onsubmit="return false;"
                           action="{{ isset($emailTemplate) ? route('emailTemplate.update', $emailTemplate->id) :  '' }}">
                         @csrf
                         @isset($emailTemplate)
                             @method('PUT')
                         @endif
                         <div class="row">
-                            <div class="mb-3 col-md-4">
+                            <div class="mb-3 col-md-4 form-input">
                                 <label for="firstName" class="form-label">Name</label>
                                 <input class="form-control" type="text" id="name" name="name"
                                        value="{{ old('user', $emailTemplate->name ?? '') }}" autofocus/>
                             </div>
                         </div>
                         <div class="row">
-                            <div class="mb-3 col-md-4">
+                            <div class="mb-3 col-md-4 form-input">
                                 <label for="email" class="form-label">Subject</label>
                                 <input class="form-control" type="text" id="subject" name="subject"
                                        value="{{ old('subject', $emailTemplate->subject ?? '') }}"/>
@@ -50,7 +50,7 @@
                                 </div>
                                 @foreach(json_decode($emailTemplate->body, true) as $value)
                                     @php($key = array_keys($value)[0])
-                                    <div class="mb-3">
+                                    <div class="mb-3 form-input">
                                         <label for="email" class="form-label">{{ $key }}</label>
                                         <input class="form-control" name="body[][{{ $key }}]"
                                                value="{{ $value[$key] }}">

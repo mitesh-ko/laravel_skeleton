@@ -29,7 +29,7 @@
                                                    name="mail_password"
                                                 {{ isset($data['mail_password']) ? 'disabled' : '' }} />
                                             <button id="edit-password" type="button"
-                                                    class="input-group-text bg-info text-black">Edit/Disable
+                                                    class="input-group-text bg-info text-black">New/Keep Old
                                             </button>
                                         </div>
                                     </div>
