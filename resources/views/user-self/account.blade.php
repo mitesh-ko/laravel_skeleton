@@ -42,11 +42,13 @@
                             </div>
                             <div class="mb-3 col-md-6">
                                 <label for="email" class="form-label">E-mail</label>
+                                {!! auth()->user()->email_verified_at ? '<span class="badge text-success">email verified.</span>' : '<span class="badge text-danger">email not verified!</span>'!!}
                                 <input class="form-control" type="text" id="email" name="email"
                                        value="{{ auth()->user()->email }}" placeholder="user@example.com"/>
                             </div>
                             <div class="mb-3 col-md-6">
                                 <label class="form-label" for="phoneNumber">Phone Number</label>
+                                {!! auth()->user()->phone ? (auth()->user()->phone_verified_at ? '<span class="badge text-success">phone verified.</span>' : '<span class="badge text-danger">phone not verified!</span>') : '' !!}
                                 <div class="input-group input-group-merge">
                                     <span class="input-group-text">IN (+91)</span>
                                     <input type="text" id="phoneNumber" name="phone" class="form-control"

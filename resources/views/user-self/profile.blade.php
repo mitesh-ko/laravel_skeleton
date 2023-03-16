@@ -15,7 +15,9 @@
                         </div>
                         <div class="user-profile-header d-flex flex-column flex-sm-row text-sm-start text-center mb-4">
                             <div class="flex-shrink-0 mt-n2 mx-sm-0 mx-auto">
-                                <img src="{{ auth()->user()->profile ?? '/assets/img/profile_placeholder.jpg' }}" alt="user image" style="box-shadow: 0 -0.75rem 1.25rem rgba(2, 0, 0, 0.4); object-fit: cover"
+                                <img src="{{ auth()->user()->profile ?? '/assets/img/profile_placeholder.jpg' }}"
+                                     alt="user image"
+                                     style="box-shadow: 0 -0.75rem 1.25rem rgba(2, 0, 0, 0.4); object-fit: cover"
                                      class="d-block w-px-100 h-px-100 ms-0 ms-sm-4 border-0 border rounded user-profile-img"/>
                             </div>
                             <div class="flex-grow-1 mt-3 mt-sm-5">
@@ -97,7 +99,20 @@
                             <ul class="list-unstyled mb-4 mt-3">
                                 <li class="d-flex align-items-center mb-3">
                                     <i class="ti ti-phone-call"></i><span class="fw-bold mx-2">Contact:</span>
-                                    <span>(123) 456-7890</span>
+                                    <span>{{ auth()->user()->phone }}</span>
+                                    @if(auth()->user()->phone_verified_at)
+                                        <span class="badge text-success" data-bs-toggle="tooltip"
+                                              data-bs-placement="top" data-bs-custom-class="tooltip-success"
+                                              data-bs-original-title="phone verified.">
+                                            <i class="ti ti-circle-check"></i>
+                                        </span>
+                                    @else
+                                        <span class="badge text-danger" data-bs-toggle="tooltip" data-bs-placement="top"
+                                              data-bs-custom-class="tooltip-danger"
+                                              data-bs-original-title="phone not verified!">
+                                            <i class="ti ti-circle-x"></i>
+                                        </span>
+                                    @endif
                                 </li>
                                 <li class="d-flex align-items-center mb-3">
                                     <i class="ti ti-brand-skype"></i><span class="fw-bold mx-2">Skype:</span>
@@ -106,6 +121,19 @@
                                 <li class="d-flex align-items-center mb-3">
                                     <i class="ti ti-mail"></i><span class="fw-bold mx-2">Email:</span>
                                     <span>{{ auth()->user()->email }}</span>
+                                    @if(auth()->user()->email_verified_at)
+                                        <span class="badge text-success" data-bs-toggle="tooltip"
+                                              data-bs-placement="top" data-bs-custom-class="tooltip-success"
+                                              data-bs-original-title="email verified.">
+                                            <i class="ti ti-circle-check"></i>
+                                        </span>
+                                    @else
+                                        <span class="badge text-danger" data-bs-toggle="tooltip" data-bs-placement="top"
+                                              data-bs-custom-class="tooltip-success"
+                                              data-bs-original-title="email not verified!">
+                                            <i class="ti ti-circle-x"></i>
+                                        </span>
+                                    @endif
                                 </li>
                             </ul>
                         </div>
