@@ -20,31 +20,31 @@ class EmailTemplateSeeder extends Seeder
                 'key'     => 'welcomeEmail',
                 'name'    => 'Welcome mail',
                 'subject' => 'Welcome mail.',
-                'body'    => json_encode([
+                'body'    => [
                     ['Greeting' => 'Welcome! {FULL_NAME}'],
                     ['Line' => 'We are happy to have you.'],
-                ])
+                ]
             ],
             [
                 'key'     => 'resetPassword',
                 'name'    => 'Reset password mail',
                 'subject' => 'Reset Password Request.',
-                'body'    => json_encode([
+                'body'    => [
                     ['Greeting' => 'Hello! {FULL_NAME}'],
                     ['Line' => 'You are receiving this email because we received a password reset request for your account.'],
                     ['Action' => 'Reset Password'],
                     ['Line' => 'This password reset link will expire in {PASSWORD_EXPIRED} minutes.'],
                     ['Line' => 'If you did not request a password reset, no further action is required.']
-                ])
+                ]
             ],
             [
                 'key'     => 'notificationMail',
                 'name'    => 'Notification mail',
                 'subject' => '{SUBJECT}',
-                'body'    => json_encode([
+                'body'    => [
                     ['greeting' => 'Hello! {FULL_NAME}'],
                     ['Line' => '{DESCRIPTION}'],
-                ])
+                ]
             ],
         ];
 
