@@ -99,19 +99,22 @@
                             <ul class="list-unstyled mb-4 mt-3">
                                 <li class="d-flex align-items-center mb-3">
                                     <i class="ti ti-phone-call"></i><span class="fw-bold mx-2">Contact:</span>
-                                    <span>{{ auth()->user()->phone }}</span>
-                                    @if(auth()->user()->phone_verified_at)
-                                        <span class="badge text-success" data-bs-toggle="tooltip"
-                                              data-bs-placement="top" data-bs-custom-class="tooltip-success"
-                                              data-bs-original-title="phone verified.">
+                                    <span>{{ auth()->user()->phone ?? 'N/A' }}</span>
+                                    @if(auth()->user()->phone)
+                                        @if(auth()->user()->phone_verified_at)
+                                            <span class="badge text-success" data-bs-toggle="tooltip"
+                                                  data-bs-placement="top" data-bs-custom-class="tooltip-success"
+                                                  data-bs-original-title="phone verified.">
                                             <i class="ti ti-circle-check"></i>
                                         </span>
-                                    @else
-                                        <span class="badge text-danger" data-bs-toggle="tooltip" data-bs-placement="top"
-                                              data-bs-custom-class="tooltip-danger"
-                                              data-bs-original-title="phone not verified!">
+                                        @else
+                                            <span class="badge text-danger" data-bs-toggle="tooltip"
+                                                  data-bs-placement="top"
+                                                  data-bs-custom-class="tooltip-danger"
+                                                  data-bs-original-title="phone not verified!">
                                             <i class="ti ti-circle-x"></i>
                                         </span>
+                                        @endif
                                     @endif
                                 </li>
                                 <li class="d-flex align-items-center mb-3">

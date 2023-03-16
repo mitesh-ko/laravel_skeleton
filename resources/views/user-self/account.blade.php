@@ -52,7 +52,7 @@
                                 <div class="input-group input-group-merge">
                                     <span class="input-group-text">IN (+91)</span>
                                     <input type="text" id="phoneNumber" name="phone" class="form-control"
-                                           placeholder="{{ auth()->user()->phone }}"/>
+                                           value="{{ auth()->user()->phone }}"/>
                                 </div>
                             </div>
                             <div class="mb-3 col-md-6">
