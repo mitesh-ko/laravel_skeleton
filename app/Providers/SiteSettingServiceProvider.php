@@ -31,9 +31,17 @@ class SiteSettingServiceProvider extends ServiceProvider
     public function boot()
     {
         $value = Cache::remember('siteConfig', 36000, function () {
-            if (Schema::hasTable('site_configs'))
-                return SiteConfig::pluck('value', 'key')->all();
-            else
+            if (Schema::hasTable('site_configs')) {
+                $value = SiteConfig::pluck('value', 'key')->all();
+                if(isset($value['mail_password'])) {
+                    try {
+                        $value['mail_password'] = Crypt::decryptString($value['mail_password']);
+                    } catch (DecryptException $e) {
+                        info($e);
+                    }
+                }
+                return $value;
+            } else
                 return [];
         });
         Config::set('mail.mailers.smtp.port', $value['mail_port'] ?? '');

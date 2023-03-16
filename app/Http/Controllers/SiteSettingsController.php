@@ -9,6 +9,7 @@ use Event;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\Redirect;
 use OwenIt\Auditing\Events\AuditCustom;
 use Yajra\DataTables\Facades\DataTables;
@@ -64,6 +65,8 @@ class SiteSettingsController extends Controller
         foreach ($request->all() as $key => $value) {
             $siteConfig = SiteConfig::where('key', $key)->first();
             if ($siteConfig && $siteConfig->value != $value) {
+                if($key == 'mail_password')
+                    $value = Crypt::encryptString($value);
                 SiteConfig::where('key', $key)->update(['value' => $value]);
 
                 $siteConfig->auditEvent = 'updated';

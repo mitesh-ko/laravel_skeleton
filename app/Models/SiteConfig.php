@@ -24,8 +24,4 @@ class SiteConfig extends Model implements Auditable
         'value',
         'description'
     ];
-
-    protected $casts = [
-        'mail_password' => DecryptMailPasswordCast::class
-    ];
 }
