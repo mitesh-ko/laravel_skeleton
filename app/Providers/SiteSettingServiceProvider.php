@@ -37,7 +37,7 @@ class SiteSettingServiceProvider extends ServiceProvider
                 return [];
         });
         Config::set('mail.mailers.smtp.port', $value['mail_port'] ?? '');
-        Config::set('mail.mailers.smtp.host', $value['mail_port'] ?? '');
+        Config::set('mail.mailers.smtp.host', $value['mail_host'] ?? '');
         Config::set('mail.mailers.smtp.username', $value['mail_username'] ?? '');
         Config::set('mail.mailers.smtp.password', $value['mail_password'] ?? '');
         Config::set('mail.from.address', $value['mail_from_address'] ?? '');

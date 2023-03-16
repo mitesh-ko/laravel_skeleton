@@ -19,9 +19,10 @@
                         <form method="POST" action="{{ route('login') }}">
                             @csrf
                             <div class="mb-3">
-                                <label for="email" class="form-label">Email or Username</label>
-                                <input type="text" class="form-control"
+                                <label for="email" class="form-label">Email, Phone or Username</label>
+                                <input type="text" class="form-control @error('email') is-invalid @enderror"
                                        id="email" name="email" placeholder="Enter your email, phone or username" autofocus/>
+                                <x-input-error :messages="$errors->get('email')" class="mt-1" />
                             </div>
                             <div class="mb-3 form-password-toggle">
                                 <div class="d-flex justify-content-between">
@@ -38,6 +39,7 @@
                                            aria-describedby="password"/>
                                     <span class="input-group-text cursor-pointer"><i class="ti ti-eye-off"></i></span>
                                 </div>
+                                <x-input-error :messages="$errors->get('password')" class="mt-1" />
                             </div>
                             <div class="mb-3">
                                 <div class="form-check">

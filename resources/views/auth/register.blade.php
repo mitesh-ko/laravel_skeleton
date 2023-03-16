@@ -18,33 +18,39 @@
                             @csrf
                             <div class="mb-3">
                                 <label for="name" class="form-label">Name</label>
-                                <input type="text" class="form-control" id="name" name="name"
+                                <input type="text" class="form-control @error('name') is-invalid @enderror" id="name"
+                                       name="name"
                                        placeholder="Enter your name" autofocus/>
-                                <x-input-error :messages="$errors->get('name')" class="mt-2"/>
+                                <x-input-error :messages="$errors->get('name')" class="mt-1"/>
                             </div>
                             <div class="mb-3">
                                 <label for="email" class="form-label">Email</label>
-                                <input type="text" class="form-control" id="email" name="email"
+                                <input type="text" class="form-control @error('email') is-invalid @enderror" id="email"
+                                       name="email"
                                        placeholder="Enter your email"/>
-                                <x-input-error :messages="$errors->get('email')" class="mt-2"/>
+                                <x-input-error :messages="$errors->get('email')" class="mt-1"/>
                             </div>
                             <div class="mb-3 form-password-toggle">
                                 <label for="email" class="form-label">Password</label>
                                 <div class="input-group input-group-merge">
-                                    <input type="password" id="password" class="form-control" name="password"
+                                    <input type="password" id="password"
+                                           class="form-control @error('password') is-invalid @enderror" name="password"
                                            placeholder="&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;"
                                            aria-describedby="password"/>
-                                    <span class="input-group-text cursor-pointer"><i class="ti ti-eye-off"></i></span>
+                                    <span class="input-group-text cursor-pointer"
+                                          style="@error('password') border-radius: 0 5px 5px 0 @enderror"><i
+                                            class="ti ti-eye-off"></i></span>
+                                    <x-input-error :messages="$errors->get('password')" class="mt-1"/>
                                 </div>
-                                <x-input-error :messages="$errors->get('password')" class="mt-2"/>
                             </div>
                             <div class="mb-3 ">
                                 <label for="password_confirmation" class="form-label">Confirm Password</label>
-                                <input type="password" id="password_confirmation" class="form-control"
+                                <input type="password" id="password_confirmation"
+                                       class="form-control @error('password_confirmation') is-invalid @enderror"
                                        name="password_confirmation"
                                        placeholder="&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;"
                                        aria-describedby="password"/>
-                                <x-input-error :messages="$errors->get('password_confirmation')" class="mt-2"/>
+                                <x-input-error :messages="$errors->get('password_confirmation')" class="mt-1"/>
                             </div>
                             <div class="mb-3">
                                 <button class="btn btn-primary d-grid w-100" type="submit">Register</button>
