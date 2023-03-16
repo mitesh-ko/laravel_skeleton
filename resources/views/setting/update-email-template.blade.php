@@ -8,7 +8,7 @@
 
             <div class="card mb-4">
                 <div class="card-body">
-                    <form id="formAccountSettings" method="POST"
+                    <form id="formAccountSettings" method="POST" onsubmit="return false;"
                           action="{{ isset($emailTemplate) ? route('emailTemplate.update', $emailTemplate->id) :  '' }}">
                         @csrf
                         @isset($emailTemplate)
@@ -62,12 +62,18 @@
                                     <h5>Preview</h5>
                                 </div>
                                 <iframe id="mail-preview" src="{{ route('emailTemplate.preview', $emailTemplate->id) }}"
-                                        onload='javascript:(function(o){o.style.height=o.contentWindow.document.body.scrollHeight+"px";}(this));' style="height:200px;width:100%;overflow:hidden;">
+                                        onload='javascript:(function(o){o.style.height=o.contentWindow.document.body.scrollHeight+"px";}(this));'
+                                        style="height:200px;width:100%;overflow:hidden;">
                                 </iframe>
+                                <div class="progress" style="height: 5px; opacity: 0">
+                                    <div class="progress-bar progress-bar-striped progress-bar-animated"
+                                         role="progressbar" style="width: 100%;" aria-valuenow="25" aria-valuemin="0"
+                                         aria-valuemax="100"></div>
+                                </div>
                             </div>
                         </div>
                         <div class="mt-2">
-                            <button type="submit" class="btn btn-primary me-2">Save</button>
+                            <button type="submit" class="btn btn-primary me-2">Save & Preview</button>
                             <a class="btn btn-label-secondary" href="{{ route('emailTemplate.index') }}">Back</a>
                         </div>
                     </form>
