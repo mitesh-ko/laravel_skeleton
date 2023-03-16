@@ -2586,7 +2586,7 @@ textarea.form-control-lg {
 .btn {
   --bs-btn-padding-x: 1.25rem;
   --bs-btn-padding-y: 0.6rem;
-  --bs-btn-font-family: ;
+  /*--bs-btn-font-family: ;*/
   --bs-btn-font-size: 0.9375rem;
   --bs-btn-font-weight: 500;
   --bs-btn-line-height: 1.125;
@@ -3043,7 +3043,7 @@ textarea.form-control-lg {
   --bs-dropdown-color: rgba(255, 255, 255, 0.4);
   --bs-dropdown-bg: rgba(0, 0, 0, 0.45);
   --bs-dropdown-border-color: #434968;
-  --bs-dropdown-box-shadow: ;
+  /*--bs-dropdown-box-shadow: ;*/
   --bs-dropdown-link-color: rgba(255, 255, 255, 0.4);
   --bs-dropdown-link-hover-color: #fff;
   --bs-dropdown-divider-bg: #434968;
@@ -3157,7 +3157,7 @@ textarea.form-control-lg {
 .nav {
   --bs-nav-link-padding-x: 1.25rem;
   --bs-nav-link-padding-y: 0.543rem;
-  --bs-nav-link-font-weight: ;
+  /*--bs-nav-link-font-weight: ;*/
   --bs-nav-link-color: #cfd3ec;
   --bs-nav-link-hover-color: var(--bs-link-hover-color);
   --bs-nav-link-disabled-color: #7983bb;
@@ -3329,7 +3329,7 @@ textarea.form-control-lg {
 .navbar-nav {
   --bs-nav-link-padding-x: 0;
   --bs-nav-link-padding-y: 0.543rem;
-  --bs-nav-link-font-weight: ;
+  /*--bs-nav-link-font-weight: ;*/
   --bs-nav-link-color: var(--bs-navbar-color);
   --bs-nav-link-hover-color: var(--bs-navbar-hover-color);
   --bs-nav-link-disabled-color: var(--bs-navbar-disabled-color);
@@ -3708,9 +3708,9 @@ textarea.form-control-lg {
   --bs-card-cap-padding-y: 1.5rem;
   --bs-card-cap-padding-x: 1.5rem;
   --bs-card-cap-bg: transparent;
-  --bs-card-cap-color: ;
-  --bs-card-height: ;
-  --bs-card-color: ;
+  /*--bs-card-cap-color: ;*/
+  /*--bs-card-height: ;*/
+  /*--bs-card-color: ;*/
   --bs-card-bg: #2f3349;
   --bs-card-img-overlay-padding: 1.5rem;
   --bs-card-group-margin: 0.75rem;
@@ -4018,7 +4018,7 @@ textarea.form-control-lg {
   --bs-breadcrumb-padding-y: 0;
   --bs-breadcrumb-margin-bottom: 1rem;
   --bs-breadcrumb-bg: transparent;
-  --bs-breadcrumb-border-radius: ;
+  /*--bs-breadcrumb-border-radius: ;*/
   --bs-breadcrumb-divider-color: #8692d0;
   --bs-breadcrumb-item-padding-x: 0.875rem;
   --bs-breadcrumb-item-active-color: #8692d0;
@@ -4594,7 +4594,7 @@ textarea.form-control-lg {
   --bs-modal-width: 35rem;
   --bs-modal-padding: 1.5rem;
   --bs-modal-margin: 1.5rem;
-  --bs-modal-color: ;
+  /*--bs-modal-color: ;*/
   --bs-modal-bg: #2f3349;
   --bs-modal-border-color: var(--bs-border-color-translucent);
   --bs-modal-border-width: 0px;
@@ -4608,7 +4608,7 @@ textarea.form-control-lg {
   --bs-modal-header-border-width: 0px;
   --bs-modal-title-line-height: 1.47;
   --bs-modal-footer-gap: 1rem;
-  --bs-modal-footer-bg: ;
+  /*--bs-modal-footer-bg: ;*/
   --bs-modal-footer-border-color: var(--bs-border-color);
   --bs-modal-footer-border-width: 0px;
   position: fixed;
@@ -4886,7 +4886,7 @@ textarea.form-control-lg {
   --bs-tooltip-max-width: 200px;
   --bs-tooltip-padding-x: 0.75rem;
   --bs-tooltip-padding-y: 0.3125rem;
-  --bs-tooltip-margin: ;
+  /*--bs-tooltip-margin: ;*/
   --bs-tooltip-font-size: 0.9375rem;
   --bs-tooltip-color: #fff;
   --bs-tooltip-bg: #4a5072;
@@ -5413,7 +5413,7 @@ textarea.form-control-lg {
   --bs-offcanvas-height: 30vh;
   --bs-offcanvas-padding-x: 1.5rem;
   --bs-offcanvas-padding-y: 1.5rem;
-  --bs-offcanvas-color: ;
+  /*--bs-offcanvas-color: ;*/
   --bs-offcanvas-bg: #2f3349;
   --bs-offcanvas-border-width: 0px;
   --bs-offcanvas-border-color: var(--bs-border-color-translucent);
