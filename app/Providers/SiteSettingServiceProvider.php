@@ -42,6 +42,7 @@ class SiteSettingServiceProvider extends ServiceProvider
         config('mail.mailers.smtp.password', $value['mail_password'] ?? '');
         config('mail.from.address', $value['mail_from_address'] ?? '');
         config('mail.from.name', $value['mail_from_name'] ?? '');
+        config('app.name', $value['name'] ?? '');
         // ================================= email template
         $emailTemplates = Cache::remember('emailTemplates', 36000, function () {
             if (Schema::hasTable('email_templates')) {

@@ -10,7 +10,7 @@
                         <div class="app-brand justify-content-center mb-4 mt-2">
                             <a class="app-brand-link gap-2">
                                 <span
-                                    class="app-brand-text demo text-body fw-bold ms-1">{{ config('site.name') }}</span>
+                                    class="app-brand-text demo text-body fw-bold ms-1">{{ config('app.name') }}</span>
                             </a>
                         </div>
                         <h4 class="mb-1 pt-2">Welcome 👋</h4>

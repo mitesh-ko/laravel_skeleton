@@ -10,7 +10,7 @@
                         <!-- Logo -->
                         <div class="app-brand justify-content-center mb-4 mt-2">
                             <a href="{{ route('login') }}" class="app-brand-link gap-2">
-                                <span class="app-brand-text demo text-body fw-bold ms-1">{{ config('site.name') }}</span>
+                                <span class="app-brand-text demo text-body fw-bold ms-1">{{ config('app.name') }}</span>
                             </a>
                         </div>
                         <x-auth-session-status class="mb-4" :status="session('status')"/>
