@@ -33,7 +33,7 @@
                                 </div>
                             </div>
                             <hr class="mb-0">
-                            <div style="padding-left: 0"><span class="badge bg-success mb-2">username : {{ $user->username }}</span></div>
+                            <div style="padding-left: 0"><span class="badge bg-success mb-2">username : {{ $user->username ?? 'N/A' }}</span></div>
                             <div class="mb-3 col-md-6">
                                 <label for="firstName" class="form-label">Full Name</label>
                                 <input class="form-control" type="text" id="name" name="name"

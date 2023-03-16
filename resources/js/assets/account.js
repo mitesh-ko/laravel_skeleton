@@ -21,6 +21,23 @@ document.addEventListener('DOMContentLoaded', function (e) {
                                 message: 'Please enter first name'
                             }
                         }
+                    },
+                    email: {
+                        validators: {
+                            notEmpty: {
+                                message: 'Please enter email.'
+                            },
+                            emailAddress: {
+                                message: 'Please enter a valid email.'
+                            }
+                        }
+                    },
+                    role: {
+                        validators: {
+                            notEmpty: {
+                                message: 'Please select a role.'
+                            }
+                        }
                     }
                 },
                 plugins: {
@@ -36,7 +53,7 @@ document.addEventListener('DOMContentLoaded', function (e) {
             });
         }
 
-        if(changePassword) {
+        if (changePassword) {
             const fv = FormValidation.formValidation(changePassword, {
                 fields: {
                     old_password: {
