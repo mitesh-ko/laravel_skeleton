@@ -41,7 +41,7 @@ class RegisteredUserController extends Controller
             'name' => $request->name,
             'email' => $request->email,
             'password' => Hash::make($request->password),
-            'username' => Str::random(10),
+            'username' => \Faker\Factory::create()->userName(),
         ]);
 
         event(new Registered($user));

@@ -16,15 +16,15 @@
                         <h4 class="mb-1 pt-2">Welcome 👋</h4>
                         <p class="mb-4">Sign-in to your account and start the adventure</p>
                         <x-auth-session-status class="mb-4" :status="session('status')"/>
-                        <form method="POST" action="{{ route('login') }}">
+                        <form id="formAuthentication" method="POST" action="{{ route('login') }}">
                             @csrf
-                            <div class="mb-3">
+                            <div class="mb-3 form-input">
                                 <label for="email" class="form-label">Email, Phone or Username</label>
                                 <input type="text" class="form-control @error('email') is-invalid @enderror"
                                        id="email" name="email" placeholder="Enter your email, phone or username" autofocus/>
                                 <x-input-error :messages="$errors->get('email')" class="mt-1" />
                             </div>
-                            <div class="mb-3 form-password-toggle">
+                            <div class="mb-3 form-password-toggle form-input">
                                 <div class="d-flex justify-content-between">
                                     <label class="form-label" for="password">Password</label>
                                     @if (Route::has('password.request'))
@@ -33,7 +33,7 @@
                                         </a>
                                     @endif
                                 </div>
-                                <div class="input-group input-group-merge">
+                                <div class="input-group input-group-merge form-input">
                                     <input type="password" id="password" class="form-control" name="password"
                                            placeholder="&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;"
                                            aria-describedby="password"/>
@@ -41,7 +41,7 @@
                                 </div>
                                 <x-input-error :messages="$errors->get('password')" class="mt-1" />
                             </div>
-                            <div class="mb-3">
+                            <div class="mb-3 form-input">
                                 <div class="form-check">
                                     <input class="form-check-input" type="checkbox" id="remember-me" name="remember"/>
                                     <label class="form-check-label" for="remember-me"> Remember Me </label>
@@ -81,5 +81,8 @@
             </div>
         </div>
     </div>
+    <script src="/assets/vendor/libs/form-validation/dist/js/FormValidation.min.js"></script>
+    <script src="/assets/vendor/libs/form-validation/dist/js/plugins/Bootstrap5.min.js"></script>
+    <script src="/assets/vendor/libs/form-validation/dist/js/plugins/AutoFocus.min.js"></script>
     @vite(['resources/js/assets/login.js'])
 </x-guest-layout>

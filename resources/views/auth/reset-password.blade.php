@@ -15,7 +15,7 @@
                         <!-- /Logo -->
                         <h4 class="mb-1 pt-2">Reset Password 🔒</h4>
                         <p class="mb-4">for <span class="fw-bold">{{ $request->email }}</span></p>
-                        <form method="POST" action="{{ route('password.store') }}">
+                        <form id="formAuthentication" method="POST" action="{{ route('password.store') }}">
                             @csrf
                             <input type="hidden" name="token" value="{{ $request->route('token') }}">
                             <x-text-input id="email" class="block mt-1 w-full" type="hidden" name="email" :value="old('email', $request->email)" required autofocus autocomplete="username" />
@@ -61,5 +61,8 @@
             </div>
         </div>
     </div>
+    <script src="/assets/vendor/libs/form-validation/dist/js/FormValidation.min.js"></script>
+    <script src="/assets/vendor/libs/form-validation/dist/js/plugins/Bootstrap5.min.js"></script>
+    <script src="/assets/vendor/libs/form-validation/dist/js/plugins/AutoFocus.min.js"></script>
     @vite(['resources/js/assets/login.js'])
 </x-guest-layout>

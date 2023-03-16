@@ -14,7 +14,7 @@
                             </a>
                         </div>
                         <x-auth-session-status class="mb-4" :status="session('status')"/>
-                        <form method="POST" action="{{ route('register') }}">
+                        <form id="formAuthentication" method="POST" action="{{ route('register') }}">
                             @csrf
                             <div class="mb-3">
                                 <label for="name" class="form-label">Name</label>
@@ -85,5 +85,8 @@
             </div>
         </div>
     </div>
+    <script src="/assets/vendor/libs/form-validation/dist/js/FormValidation.min.js"></script>
+    <script src="/assets/vendor/libs/form-validation/dist/js/plugins/Bootstrap5.min.js"></script>
+    <script src="/assets/vendor/libs/form-validation/dist/js/plugins/AutoFocus.min.js"></script>
     @vite(['resources/js/assets/login.js'])
 </x-guest-layout>
