@@ -115,7 +115,7 @@ class SiteSettingsController extends Controller
 
     public function emailPreview(EmailTemplate $emailTemplate)
     {
-        $message = (new \App\Notifications\MailPreviewNotification(['token' => 'preview', 'template' => $emailTemplate, 'desc' => 'This is notification description.']))->toMail(Auth::user());
+        $message = (new \App\Notifications\MailPreviewNotification(['actionUrl' => url('/reset-password-url'), 'template' => $emailTemplate, 'desc' => 'This is notification description.']))->toMail(Auth::user());
         $markdown = new \Illuminate\Mail\Markdown(view(), config('mail.markdown'));
         return $markdown->render('vendor.notifications.email', $message->data());
     }
