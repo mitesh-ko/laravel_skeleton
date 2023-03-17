@@ -27,7 +27,7 @@ Route::any('/', function (Illuminate\Http\Request $request) {
     if ($request->method() == 'GET') {
         return view('welcome');
     }
-    if (Auth::user()->hasPermissionTo(config('permission-name.dashboard-first_dashboard')))
+    if (Auth::user() && Auth::user()->hasPermissionTo(config('permission-name.dashboard-first_dashboard')))
         return redirect()->route('firstDashboard')->withCookie(cookie('timezone', $request->timezone));
     else
         return redirect()->route('profile')->withCookie(cookie('timezone', $request->timezone));
