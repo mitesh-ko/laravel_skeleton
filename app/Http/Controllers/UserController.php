@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Role;
 use App\Models\User;
+use Carbon\Carbon;
 use DB;
 use Exception;
 use Illuminate\Auth\Events\Registered;
@@ -46,7 +47,7 @@ class UserController extends Controller
             $accessToSeeAudit = auth()->user()->hasPermissionTo(config('permission-name.logs-list_audit_logs'));
             $accessToSeeAuthLog = auth()->user()->hasPermissionTo(config('permission-name.logs-list_authentication_logs'));
 
-            $user = User::orderByDesc('id')->whereNotIn('id', [1, Auth::user()->id])->select(['id', 'name', 'email', DB::raw("DATE_FORMAT(created_at, '%d/%b/%Y') as joined_on")]);
+            $user = User::orderByDesc('id')->whereNotIn('id', [1, Auth::user()->id])->select(['id', 'name', 'email', 'created_at']);
             return DataTables::eloquent($user)
                 ->addColumn('action', function ($row) use ($accessToModify, $accessToDelete, $accessToSeeAudit, $accessToSeeAuthLog) {
 
@@ -75,6 +76,10 @@ class UserController extends Controller
                     $btn .= '</div>';
                     return $btn;
                 })
+                ->addColumn('joined_on', function ($row) use($request){
+                    return Carbon::parse($row->created_at)->timezone($request->cookie('timezone'))->format('d/M/Y');
+                })
+                ->removeColumn('created_at')
                 ->rawColumns(['action'])
                 ->make();
         }
