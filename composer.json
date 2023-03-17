@@ -9,7 +9,6 @@
         "guzzlehttp/guzzle": "^7.2",
         "laravel/framework": "^9.19",
         "laravel/sanctum": "^3.0",
-        "laravel/telescope": "^4.13",
         "laravel/tinker": "^2.7",
         "owen-it/laravel-auditing": "^13.1",
         "rappasoft/laravel-authentication-log": "^2.0",
@@ -17,10 +16,12 @@
         "yajra/laravel-datatables": "9.0"
     },
     "require-dev": {
+        "barryvdh/laravel-debugbar": "^3.8",
         "fakerphp/faker": "^1.9.1",
         "laravel/breeze": "^1.19",
         "laravel/pint": "^1.0",
         "laravel/sail": "^1.0.1",
+        "laravel/telescope": "^4.14",
         "mockery/mockery": "^1.4.4",
         "nunomaduro/collision": "^6.1",
         "phpunit/phpunit": "^9.5.10",
