@@ -7,7 +7,8 @@ use App\Http\Controllers\{AuditLogController,
     ManageAccessController,
     SiteSettingsController,
     UserController,
-    UserSelfController};
+    UserSelfController
+};
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -23,10 +24,13 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('logs', [LoggingController::class, 'index']);
 Route::any('/', function (Illuminate\Http\Request $request) {
-    if($request->method() == 'GET') {
+    if ($request->method() == 'GET') {
         return view('welcome');
     }
-    return redirect()->route('profile')->withCookie(cookie('timezone', $request->timezone, 6000));
+    if (Auth::user()->hasPermissionTo(config('permission-name.dashboard-first_dashboard')))
+        return redirect()->route('firstDashboard')->withCookie(cookie('timezone', $request->timezone));
+    else
+        return redirect()->route('profile')->withCookie(cookie('timezone', $request->timezone));
 
 });
 
