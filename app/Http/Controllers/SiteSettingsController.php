@@ -112,8 +112,7 @@ class SiteSettingsController extends Controller
             Cache::delete('emailTemplate');
             return Redirect::back()->with(['toastStatus' => 'success', 'message' => 'Email template updated successfully. Check mail preview.']);
         }
-        Cache::delete('resetPasswordMailTemplate');
-        Cache::delete('welcomeMailTemplate');
+        Cache::delete('emailTemplates');
     }
 
     public function emailPreview(EmailTemplate $emailTemplate)
