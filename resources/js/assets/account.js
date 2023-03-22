@@ -9,7 +9,8 @@ document.addEventListener('DOMContentLoaded', function (e) {
         const formAccSettings = document.querySelector('#formAccountSettings'),
             deactivateAcc = document.querySelector('#formAccountDeactivation'),
             deactivateButton = deactivateAcc?.querySelector('.deactivate-account'),
-            changePassword = document.querySelector('#formChangePassword');
+            changePassword = document.querySelector('#formChangePassword'),
+            formEnable2fa = document.querySelector('#formEnable2fa');
 
         // Form validation for Add new record
         if (formAccSettings) {
@@ -94,6 +95,61 @@ document.addEventListener('DOMContentLoaded', function (e) {
                         rowSelector: '.mb-3'
                     })
                 }
+            });
+        }
+
+        if (formEnable2fa) {
+            const fv = FormValidation.formValidation(formEnable2fa, {
+                fields: {
+                    '2fa_password': {
+                        validators: {
+                            notEmpty: {
+                                message: 'The password field is required.'
+                            }
+                        }
+                    },
+                    code: {
+                        validators: {
+                            notEmpty: {
+                                message: 'The code field is required.'
+                            },
+                            number: {
+                                message: 'Please enter digits only.'
+                            }
+                        }
+                    }
+                },
+                plugins: {
+                    trigger: new FormValidation.plugins.Trigger(),
+                    submitButton: new FormValidation.plugins.SubmitButton(),
+                    autoFocus: new FormValidation.plugins.AutoFocus(),
+                    bootstrap5: new FormValidation.plugins.Bootstrap5({
+                        eleValidClass: '',
+                        rowSelector: '.form-input'
+                    })
+                }
+            }).on('core.form.valid', function () {
+                let formEnable2fa = $('#formEnable2fa')
+                $.ajax({
+                    url: formEnable2fa.attr('action'),
+                    type: 'POST',
+                    data: formEnable2fa.serialize(),
+                    success: function (response) {
+                        if(response.verified)
+                            document.location.href = response.data.url
+                        else {
+                            $('.form-input').html(`<div style="background-color: #fff; padding: 30px">${response}</div>`)
+                            $('#2fa_setup_instruction').removeClass('d-none')
+                            $('.form-input').addClass('col-md-6').append(`<label for="code" class="form-label">Code</label>
+                                    <input class="form-control" type="number" id="code" name="code"/>`)
+                        }
+                    },
+                    error: function (response) {
+                        $("#2fa_password").addClass('is-invalid')
+                            .closest('.form-input').addClass('fv-plugins-icon-container fv-plugins-bootstrap5-row-invalid')
+                            .find('.invalid-feedback').append(`<div data-field="2fa_password" data-validator="notEmpty">Password you entered is incorrect.</div>`)
+                    }
+                })
             });
         }
 

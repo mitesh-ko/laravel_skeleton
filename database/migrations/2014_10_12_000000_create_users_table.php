@@ -23,6 +23,7 @@ return new class extends Migration
             $table->timestamp('phone_verified_at')->nullable();
             $table->string('profile')->nullable();
             $table->string('password');
+            $table->text('twofa_key')->nullable();
             $table->rememberToken();
             $table->timestamps();
             $table->softDeletes();

@@ -18,32 +18,25 @@
                         <form id="formAuthentication" method="POST" action="{{ route('password.store') }}">
                             @csrf
                             <input type="hidden" name="token" value="{{ $request->route('token') }}">
-                            <x-text-input id="email" class="block mt-1 w-full" type="hidden" name="email" :value="old('email', $request->email)" required autofocus autocomplete="username" />
+                            <x-text-input id="email" class="block mt-1 w-full" type="hidden" name="email"
+                                          :value="old('email', $request->email)" required autofocus
+                                          autocomplete="username"/>
                             <div class="mb-3 form-password-toggle">
                                 <label class="form-label" for="password">New Password</label>
                                 <div class="input-group input-group-merge">
-                                    <input
-                                        type="password"
-                                        id="password"
-                                        class="form-control"
-                                        name="password"
-                                        placeholder="&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;"
-                                        aria-describedby="password"
-                                    />
+                                    <input type="password" id="password" class="form-control" name="password"
+                                           placeholder="&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;"
+                                           aria-describedby="password"/>
                                     <span class="input-group-text cursor-pointer"><i class="ti ti-eye-off"></i></span>
                                 </div>
                             </div>
                             <div class="mb-3 form-password-toggle">
                                 <label class="form-label" for="confirm-password">Confirm Password</label>
                                 <div class="input-group input-group-merge">
-                                    <input
-                                        type="password"
-                                        id="confirm-password"
-                                        class="form-control"
-                                        name="password_confirmation"
-                                        placeholder="&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;"
-                                        aria-describedby="password"
-                                    />
+                                    <input type="password" id="confirm-password" class="form-control"
+                                           name="password_confirmation"
+                                           placeholder="&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;"
+                                           aria-describedby="password"/>
                                     <span class="input-group-text cursor-pointer"><i class="ti ti-eye-off"></i></span>
                                 </div>
                             </div>

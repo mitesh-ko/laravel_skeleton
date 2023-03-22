@@ -42,7 +42,7 @@ class AuthenticatedSessionController extends Controller
         $request->session()->invalidate();
 
         $request->session()->regenerateToken();
-
+        \Illuminate\Support\Facades\Session::forget('2fa_checked');
         return redirect('/');
     }
 }

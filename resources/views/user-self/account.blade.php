@@ -8,13 +8,16 @@
 
             <div class="card mb-4">
                 <div class="card-body">
-                    <form id="formAccountSettings" method="POST" action="{{ route('account.update') }}" enctype="multipart/form-data">
+                    <form id="formAccountSettings" method="POST" action="{{ route('account.update') }}"
+                          enctype="multipart/form-data">
                         @csrf
                         @method('PUT')
                         <div class="row">
                             <div class="d-flex align-items-start align-items-sm-center gap-4 mb-3">
-                                <img src="{{ $user->profile ?? '/assets/img/profile_placeholder.jpg'}}" alt="user-avatar"
-                                     class="d-block w-px-100 h-px-100 rounded" id="uploadedAvatar" style="object-fit: cover;"/>
+                                <img src="{{ $user->profile ?? '/assets/img/profile_placeholder.jpg'}}"
+                                     alt="user-avatar"
+                                     class="d-block w-px-100 h-px-100 rounded" id="uploadedAvatar"
+                                     style="object-fit: cover;"/>
                                 <div class="button-wrapper">
                                     <label for="upload" class="btn btn-primary me-2 mb-3" tabindex="0">
                                         <span class="d-none d-sm-block">Upload new photo</span>
@@ -123,10 +126,10 @@
                                 @method('PUT')
                                 <div class="mb-3">
                                     <label for="password" class="form-label">Current Password</label>
-                                    <input class="form-control @error('old_password') is-invalid @enderror" type="password"
-                                           name="old_password"/>
+                                    <input class="form-control @error('old_password') is-invalid @enderror"
+                                           type="password" name="old_password"/>
                                     @error('old_password')
-                                    <div class="fv-plugins-message-container invalid-feedback">
+                                    <div class="invalid-feedback">
                                         <div data-field="password" data-validator="notEmpty">
                                             {{ $message }}
                                         </div>
@@ -138,7 +141,7 @@
                                     <input class="form-control @error('password') is-invalid @enderror" type="password"
                                            name="password"/>
                                     @error('password')
-                                    <div class="fv-plugins-message-container invalid-feedback">
+                                    <div class="invalid-feedback">
                                         <div data-field="password" data-validator="notEmpty">
                                             {{ $message }}
                                         </div>
@@ -147,10 +150,11 @@
                                 </div>
                                 <div class="mb-3">
                                     <label for="password" class="form-label">Confirm Password</label>
-                                    <input class="form-control @error('password_confirmation') is-invalid @enderror" type="password"
+                                    <input class="form-control @error('password_confirmation') is-invalid @enderror"
+                                           type="password"
                                            name="password_confirmation"/>
                                     @error('password_confirmation')
-                                    <div class="fv-plugins-message-container invalid-feedback">
+                                    <div class="invalid-feedback">
                                         <div data-field="password" data-validator="notEmpty">
                                             {{ $message }}
                                         </div>
@@ -169,7 +173,8 @@
                         <div class="card-body">
                             <div class="mb-3 col-12 mb-0">
                                 <div class="alert alert-warning">
-                                    <h5 class="alert-heading mb-1">Are you sure you want to deactivate your account?</h5>
+                                    <h5 class="alert-heading mb-1">Are you sure you want to deactivate your
+                                        account?</h5>
                                 </div>
                             </div>
                             <form id="formAccountDeactivation" action="{{ route('deactivate') }}" method="post">
@@ -180,7 +185,7 @@
                                            id="password"
                                            name="password"/>
                                     @error('password')
-                                    <div class="fv-plugins-message-container invalid-feedback">
+                                    <div class="invalid-feedback">
                                         <div data-field="password" data-validator="notEmpty">
                                             {{ $message }}
                                         </div>
@@ -193,8 +198,52 @@
                                     <label class="form-check-label" for="accountActivation">
                                         I confirm my account deactivation</label>
                                 </div>
-                                <button type="submit" class="btn btn-danger deactivate-account">Deactivate Account</button>
+                                <button type="submit" class="btn btn-danger deactivate-account">Deactivate Account
+                                </button>
                             </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="card mb-4">
+                        <h5 class="card-header">2FA</h5>
+                        <div class="card-body">
+                            <div class="mb-3 col-12 mb-0">
+                                <div>
+                                    <h5 class="alert-heading mb-1">You have {{ $user->twofa_key ? '' : 'not' }} enabled two
+                                        factor authentication.</h5>
+                                    When two factor authentication is enabled, you will be prompted for a secure, random
+                                    token during authentication. You may retrieve this token from your phone's
+                                    Authenticator application.
+                                    <div class="mt-2">
+                                        <strong id="2fa_setup_instruction" class="d-none">To finish enabling two factor
+                                            authentication, scan the following QR code using
+                                            your phone's authenticator application or enter the setup key and provide
+                                            the
+                                            generated OTP code.</strong>
+                                    </div>
+                                </div>
+                            </div>
+                            @if(!$user->twofa_key)
+                                <form id="formEnable2fa" action="{{ route('2fa') }}" method="post">
+                                    @csrf
+                                    <div class="mb-3 form-input">
+                                        <label for="2fa_password" class="form-label">Password</label>
+                                        <input class="form-control @error('2fa_password') is-invalid @enderror"
+                                               type="password" id="2fa_password" name="2fa_password"/>
+                                        @error('2fa_password')
+                                        <div class="invalid-feedback">
+                                            <div data-field="password" data-validator="notEmpty">
+                                                {{ $message }}
+                                            </div>
+                                        </div>
+                                        @endif
+                                    </div>
+                                    <button type="submit" class="btn btn-primary deactivate-account">Enable</button>
+                                </form>
+                            @endif
                         </div>
                     </div>
                 </div>

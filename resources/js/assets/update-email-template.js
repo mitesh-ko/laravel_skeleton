@@ -40,11 +40,11 @@ if (updateEmailTemplate) {
             },
         },
         plugins: {
-            trigger: new FormValidation.plugins.Trigger(),
             bootstrap5: new FormValidation.plugins.Bootstrap5({
                 eleValidClass: '',
                 rowSelector: '.form-input',
             }),
+            trigger: new FormValidation.plugins.Trigger(),
             submitButton: new FormValidation.plugins.SubmitButton(),
             autoFocus: new FormValidation.plugins.AutoFocus()
         }
