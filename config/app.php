@@ -198,8 +198,6 @@ return [
         Yajra\DataTables\DataTablesServiceProvider::class,
         OwenIt\Auditing\AuditingServiceProvider::class,
         App\Providers\SiteSettingServiceProvider::class,
-        \App\Providers\PermissionNameProvider::class
-
     ],
 
     /*

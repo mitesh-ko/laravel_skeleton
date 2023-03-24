@@ -1,5 +1,6 @@
 <?php
-//Do not change, this file is auto generated
+/* Do not change, this file is auto generated. 
+use this command: php artisan app:make-permission-name-config */
 return [
 "role_management-list"=>"roleList",
 "role_management-create"=>"roleCreate",
