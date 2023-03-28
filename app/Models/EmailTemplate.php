@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-use App\Casts\EmailTemplateBodyCast;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Model;
 use OwenIt\Auditing\Contracts\Auditable;
 
@@ -16,7 +16,12 @@ class EmailTemplate extends Model implements Auditable
         'body'
     ];
 
-    protected $casts = [
-      'body' => EmailTemplateBodyCast::class
-    ];
+    protected function body(): Attribute
+    {
+        return new Attribute(
+            get: fn ($value) =>  $value,
+            set: fn ($value) =>  json_encode($value),
+        );
+    }
+
 }
