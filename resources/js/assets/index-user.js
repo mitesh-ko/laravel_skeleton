@@ -1,7 +1,3 @@
-/**
- * DataTables Advanced (jquery)
- */
-
 'use strict';
 
 $(function () {
@@ -39,11 +35,11 @@ $(function () {
             onClose: function (selectedDates, dateStr, instance) {
                 var startDate = '',
                     endDate = new Date();
-                if (selectedDates[0] != undefined) {
+                if (selectedDates[0] !== undefined) {
                     startDate = moment(selectedDates[0]).format('MM/DD/YYYY');
                     startDateEle.val(startDate);
                 }
-                if (selectedDates[1] != undefined) {
+                if (selectedDates[1] !== undefined) {
                     endDate = moment(selectedDates[1]).format('MM/DD/YYYY');
                     endDateEle.val(endDate);
                 }
@@ -66,20 +62,14 @@ $(function () {
                 return true;
             } else if (rowDate >= start && end === '' && start !== '') {
                 return true;
-            } else if (rowDate <= end && start === '' && end !== '') {
-                return true;
-            } else {
-                return false;
-            }
+            } else return rowDate <= end && start === '' && end !== '';
         });
     };
 
     // converts date strings to a Date object, then normalized into a YYYYMMMDD format (ex: 20131220). Makes comparing dates easier. ex: 20131220 > 20121220
     var normalizeDate = function (dateString) {
         var date = new Date(dateString);
-        var normalized =
-            date.getFullYear() + '' + ('0' + (date.getMonth() + 1)).slice(-2) + '' + ('0' + date.getDate()).slice(-2);
-        return normalized;
+        return date.getFullYear() + '' + ('0' + (date.getMonth() + 1)).slice(-2) + '' + ('0' + date.getDate()).slice(-2);
     };
     // --------------------------------------------------------------------
     let userListTable = $('.user-list-table');

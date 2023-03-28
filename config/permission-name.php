@@ -19,4 +19,8 @@ return [
 "logs-list_audit_logs"=>"listAuditLogs",
 "logs-audit_log_details"=>"auditLogDetail",
 "logs-list_authentication_logs"=>"listAuthenticationLogs",
+"transaction-list"=>"transactionList",
+"transaction-create"=>"transactionList",
+"transaction-update"=>"transactionList",
+"transaction-delete"=>"transactionList",
 ];

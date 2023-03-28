@@ -87,14 +87,14 @@ return [
         ],
 
         'Setting' => [
-            'Site Config'         => [
+            'Site Config'           => [
                 'displayName' => 'Site Config',
                 'name'        => 'siteConfigUpdate',
                 'guard_name'  => 'web',
                 'desc'        => 'User can update site configuration.',
                 'marginLeft'  => 0
             ],
-            'Mail Settings'       => [
+            'Mail Settings'         => [
                 'displayName' => 'Mail settings',
                 'name'        => 'mailConfigUpdate',
                 'guard_name'  => 'web',
@@ -118,27 +118,58 @@ return [
         ],
 
         'Logs' => [
-            'List audit logs'            => [
+            'List audit logs'          => [
                 'displayName' => 'List audit logs',
                 'name'        => 'listAuditLogs',
                 'guard_name'  => 'web',
                 'desc'        => 'Access check site logs',
                 'marginLeft'  => 0
             ],
-            'Audit log details'          => [
+            'Audit log details'        => [
                 'displayName' => 'Check audit log details',
                 'name'        => 'auditLogDetail',
                 'guard_name'  => 'web',
                 'desc'        => 'Access to check details of a log',
                 'marginLeft'  => 59
             ],
-            'List authentication logs'   => [
+            'List authentication logs' => [
                 'displayName' => 'List authentication logs',
                 'name'        => 'listAuthenticationLogs',
                 'guard_name'  => 'web',
                 'desc'        => 'Access check site logs',
                 'marginLeft'  => 0
             ]
+        ],
+
+        'Transaction' => [
+            'List'   => [
+                'displayName' => 'List',
+                'name'        => 'transactionList',
+                'guard_name'  => 'web',
+                'desc'        => '',
+                'marginLeft'  => 0
+            ],
+            'Create' => [
+                'displayName' => 'Create',
+                'name'        => 'transactionList',
+                'guard_name'  => 'web',
+                'desc'        => '',
+                'marginLeft'  => 0
+            ],
+            'Update' => [
+                'displayName' => 'Update',
+                'name'        => 'transactionList',
+                'guard_name'  => 'web',
+                'desc'        => '',
+                'marginLeft'  => 0
+            ],
+            'Delete' => [
+                'displayName' => 'Delete',
+                'name'        => 'transactionList',
+                'guard_name'  => 'web',
+                'desc'        => '',
+                'marginLeft'  => 0
+            ],
         ]
     ],
 ];

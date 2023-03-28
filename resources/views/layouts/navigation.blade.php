@@ -12,6 +12,13 @@
         </x-nav-link>
     @endcan
 
+    @can(config('permission-name.transaction-list'))
+        <x-nav-link :href="route('transactions.index')"
+                    :active="request()->routeIs(['transactions.index', 'transactions.edit', 'transactions.create'])" icon="ti-users">
+            {{ __('Transaction') }}
+        </x-nav-link>
+    @endcan
+
     @canany([
         config('permission-name.setting-site_config'),
         config('permission-name.setting-mail_settings'),

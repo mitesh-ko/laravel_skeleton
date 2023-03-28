@@ -1,13 +1,12 @@
 <?php
 
-use App\Http\Controllers\{
-    DashboardController,
+use App\Http\Controllers\{DashboardController,
     LoggingController,
     ManageAccessController,
     SiteSettingsController,
+    TransactionController,
     UserController,
-    UserSelfController
-};
+    UserSelfController};
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -39,6 +38,7 @@ Route::middleware(['auth:web', 'verified', 'timezone', 'verify.2fa'])->group(fun
         Route::get('first-dashboard', [DashboardController::class, 'firstDashboard'])->name('firstDashboard');
     });
 
+    Route::resource('transactions', TransactionController::class);
     Route::resource('users', UserController::class);
 
     Route::prefix('logs')->group(function () {

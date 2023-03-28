@@ -3,7 +3,7 @@
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <title>Laravel</title>
+        <title>{{ 'loading... | ' . config('app.name') }}</title>
     </head>
     <body>
     <form id="timezone-form" method="post" action="/">
