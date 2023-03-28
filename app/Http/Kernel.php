@@ -38,7 +38,6 @@ class Kernel extends HttpKernel
             \App\Http\Middleware\VerifyCsrfToken::class,
             \Illuminate\Routing\Middleware\SubstituteBindings::class,
             \Illuminate\Session\Middleware\AuthenticateSession::class,
-            \App\Http\Middleware\Verify2FA::class
         ],
 
         'api' => [
@@ -68,5 +67,6 @@ class Kernel extends HttpKernel
         'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
         'permission' => \Spatie\Permission\Middlewares\PermissionMiddleware::class,
         'timezone' => \App\Http\Middleware\Timezone::class,
+        'verify.2fa' => \App\Http\Middleware\Verify2FA::class
     ];
 }
