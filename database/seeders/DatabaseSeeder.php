@@ -26,7 +26,7 @@ class DatabaseSeeder extends Seeder
         if (App::environment() == 'local') {
             if (User::count() <= 20)
                 \App\Models\User::factory(20)->create();
-            if (Transaction::class <= 20)
+            if (Transaction::count() <= 20)
                 Transaction::factory(20)->create();
         }
     }

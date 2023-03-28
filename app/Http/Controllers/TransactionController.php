@@ -15,9 +15,9 @@ class TransactionController extends Controller
     {
         $this->validationRule = [
             'type'         => 'required|in:expense,income',
-            'amount'       => 'required|numeric',
+            'amount'       => 'required|numeric|max:99999',
             'payment_date' => 'required|date',
-            'desc'         => 'nullable',
+            'desc'         => 'nullable|string|max:255',
             'status'       => 'required|in:paid,unpaid',
         ];
         $this->middleware('permission:' . config('permission-name.transaction-list'), ['only' => ['index']]);
