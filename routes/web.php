@@ -1,14 +1,13 @@
 <?php
 
-use App\Http\Controllers\{AuditLogController,
+use App\Http\Controllers\{
     DashboardController,
-    EmailTemplateController,
     LoggingController,
     ManageAccessController,
     SiteSettingsController,
-    TwoFactorAuthentication,
     UserController,
-    UserSelfController};
+    UserSelfController
+};
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -34,10 +33,8 @@ Route::any('/', function (Illuminate\Http\Request $request) {
         return redirect()->route('profile')->withCookie(cookie('timezone', $request->timezone));
 
 });
-Route::any('/2fa', [UserSelfController::class, 'verify2fa'])->name('verify.2fa')->middleware(['auth', 'verified']);
 
-Route::middleware(['auth', 'verified', 'timezone'])->group(function () {
-
+Route::middleware(['auth:web', 'verified', 'timezone', 'verify.2fa'])->group(function () {
     Route::prefix('dashboards')->group(function () {
         Route::get('first-dashboard', [DashboardController::class, 'firstDashboard'])->name('firstDashboard');
     });
@@ -78,6 +75,7 @@ Route::middleware(['auth', 'verified', 'timezone'])->group(function () {
         Route::post('deactivate', [UserSelfController::class, 'deactivate'])->name('deactivate');
         Route::post('2fa', [UserSelfController::class, '_2fa'])->name('2fa');
     });
+    Route::any('/2fa', [UserSelfController::class, 'verify2fa'])->name('verify.2fa')->withoutMiddleware(['verify.2fa']);
 });
 
 require __DIR__ . '/auth.php';
