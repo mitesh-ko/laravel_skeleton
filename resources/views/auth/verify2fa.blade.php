@@ -22,8 +22,20 @@
                             @csrf
                             <div class="mb-3 form-input">
                                 <label for="code" class="form-label">Code</label>
-                                <input type="text" id="code" name="code"
-                                       class="form-control @error('code') is-invalid @enderror">
+                                <div class="d-flex">
+                                    <input type="text" name="code[]"
+                                           class="twofa-code form-control m-2 @error('code') is-invalid @enderror" autofocus>
+                                    <input type="text" name="code[]"
+                                           class="twofa-code form-control m-2 @error('code') is-invalid @enderror">
+                                    <input type="text" name="code[]"
+                                           class="twofa-code form-control m-2 @error('code') is-invalid @enderror">
+                                    <input type="text" name="code[]"
+                                           class="twofa-code form-control m-2 @error('code') is-invalid @enderror">
+                                    <input type="text" name="code[]"
+                                           class="twofa-code form-control m-2 @error('code') is-invalid @enderror">
+                                    <input type="text" name="code[]"
+                                           class="twofa-code form-control m-2 @error('code') is-invalid @enderror">
+                                </div>
                                 <x-input-error :messages="$errors->get('code')" class="mt-1"/>
                             </div>
                             <button class="btn btn-primary d-grid w-100 mb-3 mt-3">{{ __('Submit') }}</button>

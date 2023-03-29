@@ -83,4 +83,17 @@ document.addEventListener('DOMContentLoaded', function (e) {
             });
         }
     })();
+
+    $(".twofa-code").keyup(function () {
+        let lastNumber = $(this).val();
+        if (isNaN(lastNumber)) {
+            $(this).val(lastNumber[0]);
+        } else {
+            $(this).val(lastNumber[lastNumber.length - 1])
+        }
+        if ($(this).val() === '' && $(this).next().val() === '')
+            $(this).prev().trigger('focus')
+        else if ($(this).next().val() === '')
+            $(this).next().trigger('focus')
+    })
 });

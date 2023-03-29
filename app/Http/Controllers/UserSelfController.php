@@ -146,10 +146,15 @@ class UserSelfController extends Controller
             return view('auth.verify2fa');
         }
         $request->validate([
-            'code' => ['required', 'numeric'],
+            'code.*' => ['required', 'numeric'],
         ]);
         $provider = app(TwoFactorAuthentication::class);
-        if ($provider->verify(decrypt(Auth::user()->twofa_key), $request->code)) {
+        $code = '';
+        foreach ($request->code as $aCode){
+            $code .= $aCode;
+
+        }
+        if ($provider->verify(decrypt(Auth::user()->twofa_key), $code)) {
             Session::put("2fa_checked", true);
             return redirect('/');
         }
