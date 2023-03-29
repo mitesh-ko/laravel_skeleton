@@ -28,6 +28,32 @@
             <div class="dropdown-divider"></div>
         </li>
         <li>
+            <span class="dropdown-item" href="javascript:void(0)">
+                <i class="ti me-2 ti-sm">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-password" width="24"
+                         height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none"
+                         stroke-linecap="round" stroke-linejoin="round">
+                       <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                       <path d="M12 10v4"></path>
+                       <path d="M10 13l4 -2"></path>
+                       <path d="M10 11l4 2"></path>
+                       <path d="M5 10v4"></path>
+                       <path d="M3 13l4 -2"></path>
+                       <path d="M3 11l4 2"></path>
+                       <path d="M19 10v4"></path>
+                       <path d="M17 13l4 -2"></path>
+                       <path d="M17 11l4 2"></path>
+                    </svg>
+                </i>
+                <span class="align-middle">Support pin: </span>
+                @if(auth()->user()->support_pin)
+                    <span class="align-middle text-info">{{ auth()->user()->support_pin }}</span>
+                @else
+                    <a class="align-middle text-success" href="{{ route('account') }}">Get</a>
+                @endif
+            </span>
+        </li>
+        <li>
             <a class="dropdown-item" href="{{ route('profile') }}">
                 <i class="ti ti-user-check me-2 ti-sm"></i>
                 <span class="align-middle">My Profile</span>

@@ -24,6 +24,7 @@ return new class extends Migration
             $table->string('profile')->nullable();
             $table->string('password');
             $table->text('twofa_key')->nullable();
+            $table->tinyText('support_pin')->nullable();
             $table->rememberToken();
             $table->timestamps();
             $table->softDeletes();

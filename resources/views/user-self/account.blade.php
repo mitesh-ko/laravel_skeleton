@@ -213,8 +213,7 @@
                             <div class="mb-3 col-12 mb-0">
                                 <div>
                                     <h5 class="alert-heading mb-1">You have {{ $user->twofa_key ? '' : 'not' }} enabled
-                                        two
-                                        factor authentication.</h5>
+                                        two factor authentication.</h5>
                                     When two factor authentication is enabled, you will be prompted for a secure, random
                                     token during authentication. You may retrieve this token from your phone's
                                     Authenticator application.
@@ -247,9 +246,30 @@
                             @else
                                 <form id="disable2faForm" action="{{ route('disable2fa') }}" method="POST">
                                     @csrf
-                                    <button id="disable2faButton" type="button" class="btn btn-warning">Disable 2FA</button>
+                                    <button id="disable2faButton" type="button" class="btn btn-warning">Disable 2FA
+                                    </button>
                                 </form>
                             @endif
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="card mb-4">
+                        <h5 class="card-header">Request Support Pin</h5>
+                        <div class="card-body">
+                            <div class="mb-3 col-12 mb-0">
+                                <div>
+                                    Get you 4 digit support pin and share with support executive to manage your
+                                    account.
+                                </div>
+                                <div>
+                                    <strong>You can find your support pin in profile section at top-left site.</strong>
+                                </div>
+                            </div>
+                            <form action="{{ route('requestSupportPin') }}" method="POST">
+                                @csrf
+                                <button class="btn btn-success">{{ $user->support_pin ? 'Re-generate' : 'Send Request' }}</button>
+                            </form>
                         </div>
                     </div>
                 </div>

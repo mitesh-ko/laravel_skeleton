@@ -166,4 +166,10 @@ class UserSelfController extends Controller
         Auth::user()->update(['twofa_key' => '']);
         return redirect()->back()->with('message', '2FA disabled.');
     }
+
+    public function requestSupportPin() {
+//        $pin = Crypt::encryptString();
+        Auth::user()->update(['support_pin' => rand(1000, 9999)]);
+        return redirect()->back()->with('message', 'Support pin generated successfully.');
+    }
 }

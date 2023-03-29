@@ -25,13 +25,15 @@ class User extends Authenticatable implements Auditable, MustVerifyEmail
         'phone',
         'profile',
         'password',
-        'twofa_key'
+        'twofa_key',
+        'support_pin'
     ];
 
     protected array $auditExclude = [
         'password',
         'remember_token',
-        'twofa_key'
+        'twofa_key',
+        'support_pin'
     ];
 
     /**
