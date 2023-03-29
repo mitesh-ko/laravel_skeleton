@@ -74,6 +74,7 @@ Route::middleware(['auth:web', 'verified', 'timezone', 'verify.2fa'])->group(fun
         Route::put('change-password', [UserSelfController::class, 'changePassword'])->name('changePassword');
         Route::post('deactivate', [UserSelfController::class, 'deactivate'])->name('deactivate');
         Route::post('2fa', [UserSelfController::class, '_2fa'])->name('2fa');
+        Route::post('disable-2fa', [UserSelfController::class, 'disable2fa'])->name('disable2fa');
     });
     Route::any('/2fa', [UserSelfController::class, 'verify2fa'])->name('verify.2fa')->withoutMiddleware(['verify.2fa']);
 });

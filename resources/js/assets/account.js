@@ -10,7 +10,8 @@ document.addEventListener('DOMContentLoaded', function (e) {
             deactivateAcc = document.querySelector('#formAccountDeactivation'),
             deactivateButton = deactivateAcc?.querySelector('.deactivate-account'),
             changePassword = document.querySelector('#formChangePassword'),
-            formEnable2fa = document.querySelector('#formEnable2fa');
+            formEnable2fa = document.querySelector('#formEnable2fa'),
+            disable2fa = document.querySelector('#disable2faButton');
 
         // Form validation for Add new record
         if (formAccSettings) {
@@ -218,6 +219,26 @@ document.addEventListener('DOMContentLoaded', function (e) {
                         }
                     });
                 }
+            };
+        }
+
+        if (disable2fa) {
+            disable2fa.onclick = function () {
+                Swal.fire({
+                    text: 'Are you sure!, you want to disable 2FA.',
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonText: 'Yes',
+                    customClass: {
+                        confirmButton: 'btn btn-primary me-2',
+                        cancelButton: 'btn btn-label-secondary'
+                    },
+                    buttonsStyling: false
+                }).then(function (result) {
+                    if (result.value) {
+                        $("#disable2faForm").submit()
+                    }
+                });
             };
         }
 

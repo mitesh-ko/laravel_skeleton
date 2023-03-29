@@ -212,7 +212,8 @@
                         <div class="card-body">
                             <div class="mb-3 col-12 mb-0">
                                 <div>
-                                    <h5 class="alert-heading mb-1">You have {{ $user->twofa_key ? '' : 'not' }} enabled two
+                                    <h5 class="alert-heading mb-1">You have {{ $user->twofa_key ? '' : 'not' }} enabled
+                                        two
                                         factor authentication.</h5>
                                     When two factor authentication is enabled, you will be prompted for a secure, random
                                     token during authentication. You may retrieve this token from your phone's
@@ -242,6 +243,11 @@
                                         @endif
                                     </div>
                                     <button type="submit" class="btn btn-primary deactivate-account">Enable</button>
+                                </form>
+                            @else
+                                <form id="disable2faForm" action="{{ route('disable2fa') }}" method="POST">
+                                    @csrf
+                                    <button id="disable2faButton" type="button" class="btn btn-warning">Disable 2FA</button>
                                 </form>
                             @endif
                         </div>

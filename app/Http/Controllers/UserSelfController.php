@@ -105,11 +105,11 @@ class UserSelfController extends Controller
         if (!$request->code) {
             $secret = $provider->generateSecretKey();
             Session::put('2fa_secret', $secret);
-//            $recovery_codes = $provider->generateRecoveryCodes();
-//            RecoveryCode::create([
-//                'user_id' => Auth::id(),
-//                'code'    => Crypt::encryptString(json_encode($recovery_codes))
-//            ]);
+            $recovery_codes = $provider->generateRecoveryCodes();
+            RecoveryCode::create([
+                'user_id' => Auth::id(),
+                'code'    => Crypt::encryptString(json_encode($recovery_codes))
+            ]);
             $strAuthUrl = $provider->qrCodeUrl(
                 config('app.name'),
                 Auth::user()->email,
@@ -159,5 +159,11 @@ class UserSelfController extends Controller
             return redirect('/');
         }
         return redirect()->back()->with('message', 'Entered code is not valid!');
+    }
+
+    public function disable2fa()
+    {
+        Auth::user()->update(['twofa_key' => '']);
+        return redirect()->back()->with('message', '2FA disabled.');
     }
 }
