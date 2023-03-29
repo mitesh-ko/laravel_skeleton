@@ -150,7 +150,7 @@ class UserSelfController extends Controller
         ]);
         $provider = app(TwoFactorAuthentication::class);
         $code = '';
-        foreach ($request->code as $aCode){
+        foreach ($request->code as $aCode) {
             $code .= $aCode;
 
         }
@@ -163,13 +163,27 @@ class UserSelfController extends Controller
 
     public function disable2fa()
     {
-        Auth::user()->update(['twofa_key' => '']);
+        Auth::user()->update(['twofa_key' => null]);
         return redirect()->back()->with('message', '2FA disabled.');
     }
 
-    public function requestSupportPin() {
+    public function requestSupportPin()
+    {
 //        $pin = Crypt::encryptString();
         Auth::user()->update(['support_pin' => rand(1000, 9999)]);
         return redirect()->back()->with('message', 'Support pin generated successfully.');
+    }
+
+    public function supportPinVerify(Request $request)
+    {
+        $code = '';
+        foreach ($request->code as $value) {
+            $code .= $value;
+        }
+        if (!is_null(Auth::user()->support_pin) && Auth::user()->support_pin == $code) {
+            Session::put('support_pin_verified', true);
+            return redirect('/');
+        }
+        return redirect()->back()->with('message', 'Invalid pin.');
     }
 }

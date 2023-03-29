@@ -56,32 +56,39 @@ return [
         ],
 
         'User management' => [
-            'List'   => [
+            'List'    => [
                 'displayName' => 'List',
                 'name'        => 'userList',
                 'guard_name'  => 'web',
                 'desc'        => 'Access to see users list.',
                 'marginLeft'  => 0
             ],
-            'Create' => [
+            'Create'  => [
                 'displayName' => 'Create',
                 'name'        => 'userCreate',
                 'guard_name'  => 'web',
                 'desc'        => 'Create a new user.',
                 'marginLeft'  => 0
             ],
-            'Update' => [
+            'Update'  => [
                 'displayName' => 'Update',
                 'name'        => 'userUpdate',
                 'guard_name'  => 'web',
                 'desc'        => 'Update a existing user.',
                 'marginLeft'  => 0
             ],
-            'Delete' => [
+            'Delete'  => [
                 'displayName' => 'Delete',
                 'name'        => 'userDelete',
                 'guard_name'  => 'web',
                 'desc'        => 'Delete a existing user.',
+                'marginLeft'  => 0
+            ],
+            'Login' => [
+                'displayName' => 'Login As',
+                'name'        => 'loginAs',
+                'guard_name'  => 'web',
+                'desc'        => 'Login to a user account.',
                 'marginLeft'  => 0
             ]
         ],

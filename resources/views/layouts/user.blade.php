@@ -28,7 +28,7 @@
             <div class="dropdown-divider"></div>
         </li>
         <li>
-            <span class="dropdown-item" href="javascript:void(0)">
+            <span class="mx-4" href="javascript:void(0)">
                 <i class="ti me-2 ti-sm">
                     <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-password" width="24"
                          height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none"

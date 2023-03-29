@@ -33,13 +33,14 @@ Route::any('/', function (Illuminate\Http\Request $request) {
 
 });
 
-Route::middleware(['auth:web', 'verified', 'timezone', 'verify.2fa'])->group(function () {
+Route::middleware(['auth:web', 'verified', 'timezone', 'verify.2fa', 'support.pin'])->group(function () {
     Route::prefix('dashboards')->group(function () {
         Route::get('first-dashboard', [DashboardController::class, 'firstDashboard'])->name('firstDashboard');
     });
 
     Route::resource('transactions', TransactionController::class);
     Route::resource('users', UserController::class);
+    Route::any('login-as/{user}', [UserController::class, 'loginAs'])->name('loginAs');
 
     Route::prefix('logs')->group(function () {
         Route::get('audits', [LoggingController::class, 'auditList'])->name('audits.index');
@@ -76,6 +77,8 @@ Route::middleware(['auth:web', 'verified', 'timezone', 'verify.2fa'])->group(fun
         Route::post('2fa', [UserSelfController::class, '_2fa'])->name('2fa');
         Route::post('disable-2fa', [UserSelfController::class, 'disable2fa'])->name('disable2fa');
         Route::post('request-support-pin', [UserSelfController::class, 'requestSupportPin'])->name('requestSupportPin');
+        Route::view('support-pin-verify/get', 'auth.support-pin')->name('supportPinVerify.get');
+        Route::post('support-pin-verify/verify', [UserSelfController::class, 'supportPinVerify'])->name('supportPinVerify.check');
     });
     Route::any('/2fa', [UserSelfController::class, 'verify2fa'])->name('verify.2fa')->withoutMiddleware(['verify.2fa']);
 });

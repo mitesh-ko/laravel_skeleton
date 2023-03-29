@@ -67,6 +67,7 @@ class Kernel extends HttpKernel
         'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
         'permission' => \Spatie\Permission\Middlewares\PermissionMiddleware::class,
         'timezone' => \App\Http\Middleware\Timezone::class,
-        'verify.2fa' => \App\Http\Middleware\Verify2FA::class
+        'verify.2fa' => \App\Http\Middleware\Verify2FA::class,
+        'support.pin' => \App\Http\Middleware\SupportPin::class,
     ];
 }

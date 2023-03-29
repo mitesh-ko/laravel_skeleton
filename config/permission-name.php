@@ -12,6 +12,7 @@ return [
 "user_management-create"=>"userCreate",
 "user_management-update"=>"userUpdate",
 "user_management-delete"=>"userDelete",
+"user_management-login"=>"loginAs",
 "setting-site_config"=>"siteConfigUpdate",
 "setting-mail_settings"=>"mailConfigUpdate",
 "setting-email_template_list"=>"emailTemplateList",

@@ -46,10 +46,11 @@ class UserController extends Controller
             $accessToDelete = auth()->user()->hasPermissionTo(config('permission-name.user_management-delete'));
             $accessToSeeAudit = auth()->user()->hasPermissionTo(config('permission-name.logs-list_audit_logs'));
             $accessToSeeAuthLog = auth()->user()->hasPermissionTo(config('permission-name.logs-list_authentication_logs'));
+            $LoginAsUser = auth()->user()->hasPermissionTo(config('permission-name.user_management-login'));
 
             $user = User::orderByDesc('id')->whereNotIn('id', [1, Auth::user()->id])->select(['id', 'name', 'email', 'created_at']);
             return DataTables::eloquent($user)
-                ->addColumn('action', function ($row) use ($accessToModify, $accessToDelete, $accessToSeeAudit, $accessToSeeAuthLog) {
+                ->addColumn('action', function ($row) use ($accessToModify, $accessToDelete, $accessToSeeAudit, $accessToSeeAuthLog, $LoginAsUser) {
 
                     $btn = '<div class="d-flex">';
                     $btn .= $accessToModify ? '<a href="' . route('users.edit', $row->id) . '" class="btn btn-primary btn-sm mx-1 my-1">View/Update</a>' :
@@ -59,6 +60,7 @@ class UserController extends Controller
                         '<span class="badge bg-label-gray mx-1 my-1">No Access</span>';
 
                     if ($accessToSeeAudit || $accessToSeeAuthLog) {
+                        $login = $LoginAsUser ? '<a class="dropdown-item" href="' . route('loginAs', $row->id) . '">Login</a>' : '';
                         $audit = $accessToSeeAudit ? '<a class="dropdown-item" target="_blank" href="' . route('audits.show.user', ['user_id' => $row->id]) . '">Audit Logs</a>' : '';
                         $authentication = $accessToSeeAuthLog ? '<a class="dropdown-item" target="_blank" href="' . route('authenticationLogs.show.user', $row->id) . '">Authentication Logs</a>' : '';
                         $btn .= "<div class='align-items-center mb-0 mb-md-2'>
@@ -67,6 +69,7 @@ class UserController extends Controller
                                         data-bs-toggle='dropdown' aria-haspopup='true' aria-expanded='false'>
                                       </i>
                                       <div class='dropdown-menu dropdown-menu-end' aria-labelledby='emailsActions'>
+                                            $login
                                             $audit
                                             $authentication
                                       </div>
@@ -76,7 +79,7 @@ class UserController extends Controller
                     $btn .= '</div>';
                     return $btn;
                 })
-                ->addColumn('joined_on', function ($row) use($request){
+                ->addColumn('joined_on', function ($row) use ($request) {
                     return Carbon::parse($row->created_at)->timezone($request->cookie('timezone'))->format('d/M/Y');
                 })
                 ->removeColumn('created_at')
@@ -192,5 +195,18 @@ class UserController extends Controller
         // delete user associated data from other tables.
         $user->delete();
         return Redirect::route('users.index')->with(['toastStatus' => 'success', 'message' => 'User deleted successfully.']);
+    }
+
+    public function loginAs(User $user)
+    {
+        if (session('backToAccount', false))
+            session()->forget('backToAccount');
+        else
+            session()->put('backToAccount', Auth::user()->id);
+            session()->forget('support_pin_verified');
+
+
+        Auth::loginUsingId($user->id);
+        return redirect()->route('profile');
     }
 }
