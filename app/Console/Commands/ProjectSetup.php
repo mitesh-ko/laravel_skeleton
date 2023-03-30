@@ -28,30 +28,27 @@ class ProjectSetup extends Command
      */
     public function handle(): void
     {
-        $this->info('Please wait composer and npm install running in background...');
-        $this->info('This may take long time to complete!');
-        [$first, $second] = Process::timeout(1800)->concurrently(function (Pool $pool) {
-            $pool->command('composer i');
-            $pool->command('npm i');
+        Process::run('npm i', function (string $type, string $output) {
+            $this->info($output);
         });
-        echo $first->output();
-        echo $second->output();
 
         Process::run('composer run-script post-root-package-install', function (string $type, string $output) {
             $this->info($output);
         });
 
-                Process::run('composer run-script post-create-project-cmd', function (string $type, string $output) {
+        Process::run('composer run-script post-create-project-cmd', function (string $type, string $output) {
             $this->info($output);
         });
 
         $this->info('Press enter to skip optional question.');
 
         $setupEnv = [];
-        $setupEnv['DB_CONNECTION'] = 'DB_CONNECTION=' . $this->choice('Choose your database connection', ['mysql', 'pgsql']);
+        $dbConnection = $this->choice('Choose your database connection', ['mysql', 'pgsql']);
+        $setupEnv['DB_CONNECTION'] = 'DB_CONNECTION=' . $dbConnection;
         $setupEnv['DB_HOST'] = 'DB_HOST=' . $this->ask('Enter database host (optional)', '127.0.0.1');
         $setupEnv['DB_PORT'] = 'DB_PORT=' . $this->ask('Enter database port (optional)', $setupEnv['DB_CONNECTION'] == 'DB_CONNECTION=mysql' ? '3306' : '5432');
-        $setupEnv['DB_DATABASE'] = 'DB_DATABASE=' . $this->ask('Enter database name');
+        $dbName = $this->ask('Enter database name');
+        $setupEnv['DB_DATABASE'] = 'DB_DATABASE=' . $dbName;
         $setupEnv['DB_USERNAME'] = 'DB_USERNAME=' . $this->ask('Enter database username');
         $setupEnv['DB_PASSWORD'] = 'DB_PASSWORD=' . $this->ask('Enter database password');
 
@@ -70,8 +67,20 @@ class ProjectSetup extends Command
             File::put('.env', $updatedEnv);
         }
 
-        Process::run('php artisan migrate --seed', function (string $type, string $output) {
+        Process::run('npm run build', function (string $type, string $output) {
             $this->info($output);
         });
+
+        $this->info(Process::run('php artisan storage:link')->output());
+
+        if($this->confirm("Create {$dbName} database on {$dbConnection} and enter yes.")) {
+            Process::run('php artisan migrate --seed', function (string $type, string $output) {
+                $this->info($output);
+            });
+
+            Process::run('php artisan serve', function (string $type, string $output) {
+                $this->info($output);
+            });
+        }
     }
 }
