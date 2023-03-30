@@ -31,18 +31,23 @@ class SiteSettingServiceProvider extends ServiceProvider
     public function boot()
     {
         $value = Cache::remember('siteConfig', 36000, function () {
-            if (Schema::hasTable('site_configs')) {
-                $value = SiteConfig::pluck('value', 'key')->all();
-                if(isset($value['mail_password'])) {
-                    try {
-                        $value['mail_password'] = Crypt::decryptString($value['mail_password']);
-                    } catch (DecryptException $e) {
-                        info($e);
+            try {
+                if (Schema::hasTable('site_configs')) {
+                    $value = SiteConfig::pluck('value', 'key')->all();
+                    if (isset($value['mail_password'])) {
+                        try {
+                            $value['mail_password'] = Crypt::decryptString($value['mail_password']);
+                        } catch (DecryptException $e) {
+                            info($e);
+                        }
                     }
-                }
-                return $value;
-            } else
+                    return $value;
+                } else
+                    return [];
+            } catch (\Exception $e) {
+                info($e);
                 return [];
+            }
         });
         Config::set('mail.mailers.smtp.port', $value['mail_port'] ?? '');
         Config::set('mail.mailers.smtp.host', $value['mail_host'] ?? '');
@@ -53,14 +58,19 @@ class SiteSettingServiceProvider extends ServiceProvider
         Config::set('app.name', $value['name'] ?? '');
         // ================================= email template
         $emailTemplates = Cache::remember('emailTemplates', 36000, function () {
-            if (Schema::hasTable('email_templates')) {
-                $emailTemplates = [];
-                foreach (EmailTemplate::get() as $value) {
-                    $emailTemplates['emailTemplate'][$value->key] = $value;
+            try {
+                if (Schema::hasTable('email_templates')) {
+                    $emailTemplates = [];
+                    foreach (EmailTemplate::get() as $value) {
+                        $emailTemplates['emailTemplate'][$value->key] = $value;
+                    }
+                    return $emailTemplates;
                 }
-                return $emailTemplates;
+                return [];
+            } catch (\Exception $e) {
+                info($e);
+                return [];
             }
-            return [];
         });
 
         $newArray = array_merge($value, $emailTemplates);
