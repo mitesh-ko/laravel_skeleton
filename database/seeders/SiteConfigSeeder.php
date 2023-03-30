@@ -39,27 +39,27 @@ class SiteConfigSeeder extends Seeder
             ],
             [
                 'key'   => 'mail_username',
-                'value' => null
+                'value' => ''
             ],
             [
                 'key'   => 'mail_password',
-                'value' => null
+                'value' => ''
             ],
             [
                 'key'   => 'mail_port',
-                'value' => null
+                'value' => ''
             ],
             [
                 'key'   => 'mail_host',
-                'value' => null
+                'value' => ''
             ],
             [
                 'key'   => 'mail_from_address',
-                'value' => null
+                'value' => ''
             ],
             [
                 'key'   => 'mail_from_name',
-                'value' => null
+                'value' => ''
             ],
         ];
         foreach ($insertData as $i => $value) {
