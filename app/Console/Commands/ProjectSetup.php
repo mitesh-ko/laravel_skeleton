@@ -40,6 +40,8 @@ class ProjectSetup extends Command
             $this->info($output);
         });
 
+        $this->info(Process::run('php artisan storage:link')->output());
+
         $this->info('Press enter to skip optional question.');
 
         $setupEnv = [];
@@ -70,8 +72,6 @@ class ProjectSetup extends Command
         Process::run('npm run build', function (string $type, string $output) {
             $this->info($output);
         });
-
-        $this->info(Process::run('php artisan storage:link')->output());
 
         if($this->confirm("Create {$dbName} database on {$dbConnection} and enter yes.")) {
             Process::run('php artisan migrate --seed', function (string $type, string $output) {
