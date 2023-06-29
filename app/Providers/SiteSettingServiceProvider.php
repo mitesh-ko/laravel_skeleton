@@ -50,6 +50,15 @@ class SiteSettingServiceProvider extends ServiceProvider
         Config::set('mail.mailers.smtp.password', $value['mail_password'] ?? '');
         Config::set('mail.from.address', $value['mail_from_address'] ?? '');
         Config::set('mail.from.name', $value['mail_from_name'] ?? '');
+
+        // if any mail configuration is missing then do not send authentication mail.
+        if(!(config('mail.mailers.smtp.port') && config('mail.mailers.smtp.host')
+        && config('mail.mailers.smtp.username') && config('mail.mailers.smtp.password')
+        && config('mail.from.address') && config('mail.from.name'))){
+            Config::set('authentication-log.notifications.new-device.enabled', false);
+            Config::set('authentication-log.notifications.failed-login.enabled', false);
+        }
+
         Config::set('app.name', $value['name'] ?? '');
         // ================================= email template
         $emailTemplates = Cache::remember('emailTemplates', 36000, function () {

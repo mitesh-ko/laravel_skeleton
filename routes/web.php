@@ -33,7 +33,11 @@ Route::any('/', function (Illuminate\Http\Request $request) {
 
 });
 
-Route::middleware(['auth:web', 'verified', 'timezone', 'verify.2fa', 'support.pin'])->group(function () {
+$middlewares = ['auth:web', 'timezone', 'verify.2fa', 'support.pin'];
+if(config('site.mail_verification'))
+    $middlewares[] = 'verified';
+
+Route::middleware($middlewares)->group(function () {
     Route::prefix('dashboards')->group(function () {
         Route::get('first-dashboard', [DashboardController::class, 'firstDashboard'])->name('firstDashboard');
     });

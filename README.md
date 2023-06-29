@@ -17,3 +17,21 @@
 - Run command on terminal `npm install` This installs all node dependencies.
 - Migrate the databases. run command `php artisan migrate`
 - To access storage files run command `php artisan storage:link`
+
+## Features
+#### User side
+- Register and login 
+- Logging user can update profile information
+#### Admin side
+- User management admin can add, update and delete users.
+- Settings 
+  - Admin can *manage site configuration*
+  - Admin can change *mail configuration*
+  - Admin can manage *email templates*
+- Activity logs
+  - Audit Logs show all user operation logs
+  - Auth Logs show all user login related logs
+- Access management
+  - Admin can manage user roles add, update and delete roles, also admin can manage permissions to each role
+  - Admin can see all permissions of site
+- Admin also can manage his profile information.

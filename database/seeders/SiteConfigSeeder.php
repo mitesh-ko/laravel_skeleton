@@ -6,6 +6,7 @@ use App\Models\SiteConfig;
 use Carbon\Carbon;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\Cache;
 
 class SiteConfigSeeder extends Seeder
 {
@@ -38,6 +39,10 @@ class SiteConfigSeeder extends Seeder
                 'value' => null
             ],
             [
+                'key'   => 'mail_verification',
+                'value' => null
+            ],
+            [
                 'key'   => 'mail_username',
                 'value' => null
             ],
@@ -63,9 +68,10 @@ class SiteConfigSeeder extends Seeder
             ],
         ];
         foreach ($insertData as $i => $value) {
-            if(!SiteConfig::where('key', $value['key'])->first()) {
+            if (!SiteConfig::where('key', $value['key'])->first()) {
                 SiteConfig::create($value);
             }
         }
+        Cache::delete('siteConfig');
     }
 }

@@ -9,51 +9,66 @@
             <!-- Header -->
             <div class="row">
                 <div class="col-12">
-                        <div class="card mb-4">
-                            <div class="card-header">
-                                <h4 class="card-title">General Settings</h4>
-                            </div>
-                            <div class="card-body">
-                                <form id="GeneralSettings" method="POST"
-                                      action="{{ route('siteConfig.siteSettings') }}">
-                                    @csrf
-                                    <div class="row">
-                                        <div class="mb-3 col-md-6">
-                                            <label for="site_name" class="form-label">Site name</label>
-                                            <input class="form-control" type="text" id="site_name" name="name"
-                                                   value="{{ $data['name'] ?? '' }}" autofocus/>
-                                        </div>
-                                        <div class="mb-3 col-md-6">
-                                            <label for="short_name" class="form-label">Site short name</label>
-                                            <input class="form-control" type="text" id="short_name"
-                                                   name="short_name"
-                                                   value="{{ $data['short_name'] ?? '' }}"/>
-                                        </div>
-                                        <div class="mb-3 col-md-6">
-                                            <label for="concurrent_session" class="form-label">Concurrent
-                                                session</label>
-                                            <div>
-                                                <label class="switch switch-success switch-lg">
-                                                    <input type="hidden" name="concurrent_session" value="0">
-                                                    <input type="checkbox" class="switch-input"
-                                                           name="concurrent_session"
-                                                           @checked($data['concurrent_session'] ?? false) value="1">
-                                                    <span class="switch-toggle-slider">
+                    <div class="card mb-4">
+                        <div class="card-header">
+                            <h4 class="card-title">General Settings</h4>
+                        </div>
+                        <div class="card-body">
+                            <form id="GeneralSettings" method="POST"
+                                  action="{{ route('siteConfig.siteSettings') }}">
+                                @csrf
+                                <div class="row">
+                                    <div class="mb-3 col-md-6">
+                                        <label for="site_name" class="form-label">Site name</label>
+                                        <input class="form-control" type="text" id="site_name" name="name"
+                                               value="{{ $data['name'] ?? '' }}" autofocus/>
+                                    </div>
+                                    <div class="mb-3 col-md-6">
+                                        <label for="short_name" class="form-label">Site short name</label>
+                                        <input class="form-control" type="text" id="short_name"
+                                               name="short_name"
+                                               value="{{ $data['short_name'] ?? '' }}"/>
+                                    </div>
+                                    <div class="mb-3 col-md-6">
+                                        <label for="concurrent_session" class="form-label">Concurrent
+                                            session</label>
+                                        <div>
+                                            <label class="switch switch-success switch-lg">
+                                                <input type="hidden" name="concurrent_session" value="0">
+                                                <input type="checkbox" class="switch-input"
+                                                       name="concurrent_session"
+                                                       @checked($data['concurrent_session'] ?? false) value="1">
+                                                <span class="switch-toggle-slider">
                                                 <span class="switch-on">On</span>
                                                 <span class="switch-off">Off</span>
                                             </span>
-                                                </label>
-                                            </div>
+                                            </label>
                                         </div>
                                     </div>
-                                    <div class="mt-2">
-                                        <button type="submit" class="btn btn-primary me-2">Save changes</button>
-                                        <button type="reset" class="btn btn-label-secondary">Cancel</button>
+                                    <div class="mb-3 col-md-6">
+                                        <label for="concurrent_session" class="form-label">Mail verification <p class="text-secondary">(Configure "Mail Setting" to enable this)</p></label>
+                                        <div>
+                                            <label class="switch switch-success switch-lg">
+                                                <input type="hidden" name="mail_verification" value="0">
+                                                <input type="checkbox" class="switch-input"
+                                                       name="mail_verification"
+                                                       @checked($data['mail_verification'] ?? false) value="1">
+                                                <span class="switch-toggle-slider">
+                                                <span class="switch-on">On</span>
+                                                <span class="switch-off">Off</span>
+                                            </span>
+                                            </label>
+                                        </div>
                                     </div>
-                                </form>
-                            </div>
+                                </div>
+                                <div class="mt-2">
+                                    <button type="submit" class="btn btn-primary me-2">Save changes</button>
+                                    <button type="reset" class="btn btn-label-secondary">Cancel</button>
+                                </div>
+                            </form>
                         </div>
                     </div>
+                </div>
             </div>
         </div>
     </div>

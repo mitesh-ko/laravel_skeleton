@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Casts\UserProfileCast;
+use Illuminate\Auth\Notifications\VerifyEmail;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -59,15 +60,15 @@ class User extends Authenticatable implements Auditable, MustVerifyEmail
      */
     public function sendPasswordResetNotification($token)
     {
-
         $token = route("password.reset", $token) . "?email={$this->getEmailForPasswordReset()}";
         $this->notify(new \App\Notifications\ResetPasswordNotification(['actionUrl' => $token, 'template' => config('site.emailTemplate.resetPassword')]));
     }
 
-//    public function sendEmailVerificationNotification()
-//    {
-//
-//    }
+    public function sendEmailVerificationNotification()
+    {
+        if (config('site.mail_verification'))
+            $this->notify(new VerifyEmail);
+    }
 
     public function getFullNameAttribute()
     {
