@@ -65,10 +65,11 @@ class SiteSettingsController extends Controller
         foreach ($request->all() as $key => $value) {
             $siteConfig = SiteConfig::where('key', $key)->first();
             if ($siteConfig && $siteConfig->value != $value) {
-                if($key == 'mail_password')
+                if ($key == 'mail_password')
                     $value = Crypt::encryptString($value);
                 SiteConfig::where('key', $key)->update(['value' => $value]);
 
+                // create a custom audit log
                 $siteConfig->auditEvent = 'updated';
                 $siteConfig->isCustomEvent = true;
                 $siteConfig->auditCustomOld = ['key' => $siteConfig->key, 'value' => $siteConfig->value];
@@ -76,6 +77,19 @@ class SiteSettingsController extends Controller
                 Event::dispatch(AuditCustom::class, [$siteConfig]);
             }
         }
+        if ($allEmailSet = SiteConfig::where('key', 'mail_username')->orWhere('key', 'mail_password')
+            ->orWhere('key', 'mail_port')->orWhere('key', 'mail_host')
+            ->orWhere('key', 'mail_from_address')->orWhere('key', 'mail_from_name')->get()) {
+            $allCredSet = 1; //true
+            foreach ($allEmailSet as $value) {
+                if (!$value->value) {
+                    $allCredSet = 0;
+                    break;
+                }
+            }
+            SiteConfig::where('key', 'mail_enabled')->update(['value' => $allCredSet]);
+        }
+
         Cache::delete('siteConfig');
         return Redirect::back()->with(['toastStatus' => 'success', 'message' => 'mail setting updated successfully.']);
     }
@@ -104,9 +118,9 @@ class SiteSettingsController extends Controller
     public function emailTemplateUpdate(Request $request, EmailTemplate $emailTemplate)
     {
         $validData = $request->validate([
-            'name'    => ['required', 'max:255'],
+            'name' => ['required', 'max:255'],
             'subject' => ['required', 'max:255'],
-            'body.*'  => ['required'],
+            'body.*' => ['required'],
         ]);
         if ($emailTemplate->update($validData)) {
             Cache::delete('emailTemplate');

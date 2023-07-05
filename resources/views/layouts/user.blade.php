@@ -49,7 +49,7 @@
                 @if(auth()->user()->support_pin)
                     <span class="align-middle text-info">{{ auth()->user()->support_pin }}</span>
                 @else
-                    <a class="align-middle text-success" href="{{ route('account') }}">Get</a>
+                    <a class="align-middle text-success" href="{{ route('account') }}?section=request-support-pin#request-support-pin">Get</a>
                 @endif
             </span>
         </li>

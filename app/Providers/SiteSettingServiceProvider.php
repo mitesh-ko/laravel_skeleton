@@ -34,7 +34,7 @@ class SiteSettingServiceProvider extends ServiceProvider
             if (Schema::hasTable('site_configs')) {
                 $value = SiteConfig::pluck('value', 'key')->all();
                 if(isset($value['mail_password'])) {
-                    try {
+                    try { // This is rare case to rise catch
                         $value['mail_password'] = Crypt::decryptString($value['mail_password']);
                     } catch (DecryptException $e) {
                         info($e);
@@ -50,14 +50,6 @@ class SiteSettingServiceProvider extends ServiceProvider
         Config::set('mail.mailers.smtp.password', $value['mail_password'] ?? '');
         Config::set('mail.from.address', $value['mail_from_address'] ?? '');
         Config::set('mail.from.name', $value['mail_from_name'] ?? '');
-
-        // if any mail configuration is missing then do not send authentication mail.
-        if(!(config('mail.mailers.smtp.port') && config('mail.mailers.smtp.host')
-        && config('mail.mailers.smtp.username') && config('mail.mailers.smtp.password')
-        && config('mail.from.address') && config('mail.from.name'))){
-            Config::set('authentication-log.notifications.new-device.enabled', false);
-            Config::set('authentication-log.notifications.failed-login.enabled', false);
-        }
 
         Config::set('app.name', $value['name'] ?? '');
         // ================================= email template
@@ -76,5 +68,11 @@ class SiteSettingServiceProvider extends ServiceProvider
 
         Config::set('site', $newArray);
 
+        // if any mail configuration is missing then do not send authentication mail.
+        // Developer can remove this check if they always use a mail configuration.
+        if(config('site.mail_enabled') == 1){
+            Config::set('authentication-log.notifications.new-device.enabled', false);
+            Config::set('authentication-log.notifications.failed-login.enabled', false);
+        }
     }
 }

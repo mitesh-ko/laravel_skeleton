@@ -25,6 +25,8 @@ class WelcomeMailListener
      */
     public function handle($event)
     {
-        $event->user->notify(new \App\Notifications\WelcomeNotification(['template' => config('site.emailTemplate.welcomeEmail')]));
+        // Developer can remove this check if they always use a mail configuration.
+        if (config('site.mail_enabled'))
+            $event->user->notify(new \App\Notifications\WelcomeNotification(['template' => config('site.emailTemplate.welcomeEmail')]));
     }
 }

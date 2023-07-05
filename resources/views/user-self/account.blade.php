@@ -254,7 +254,9 @@
                     </div>
                 </div>
                 <div class="col-md-6">
-                    <div class="card mb-4">
+                    <div
+                        class="card mb-4 {{ request()->section == 'request-support-pin' ? 'border-2 border-info' : ''}}"
+                        id="request-support-pin">
                         <h5 class="card-header">Request Support Pin</h5>
                         <div class="card-body">
                             <div class="mb-3 col-12 mb-0">
@@ -268,7 +270,8 @@
                             </div>
                             <form action="{{ route('requestSupportPin') }}" method="POST">
                                 @csrf
-                                <button class="btn btn-success">{{ $user->support_pin ? 'Re-generate' : 'Send Request' }}</button>
+                                <button
+                                    class="btn btn-success">{{ $user->support_pin ? 'Re-generate' : 'Send Request' }}</button>
                             </form>
                         </div>
                     </div>

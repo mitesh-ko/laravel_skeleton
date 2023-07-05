@@ -39,6 +39,10 @@ class SiteConfigSeeder extends Seeder
                 'value' => null
             ],
             [
+                'key'   => 'mail_enabled',
+                'value' => null
+            ],
+            [
                 'key'   => 'mail_verification',
                 'value' => null
             ],

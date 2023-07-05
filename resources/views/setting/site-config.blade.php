@@ -46,17 +46,32 @@
                                         </div>
                                     </div>
                                     <div class="mb-3 col-md-6">
-                                        <label for="concurrent_session" class="form-label">Mail verification <p class="text-secondary">(Configure "Mail Setting" to enable this)</p></label>
+                                        @if (config('mail.mailers.smtp.port') && config('mail.mailers.smtp.host')
+                                                     && config('mail.mailers.smtp.username') && config('mail.mailers.smtp.password')
+                                                       && config('mail.from.address') && config('mail.from.name'))
+                                            <p class="text-success mb-0">Mail system is enabled.</p>
+                                        @else
+                                            <p class="text-warning mb-0">Mail system is not enabled <b>(Configure "Mail
+                                                    Setting" to enable mail system).</b></p>
+                                        @endif
+                                        <label for="concurrent_session" class="form-label">
+                                            Mail verification
+                                        </label>
                                         <div>
                                             <label class="switch switch-success switch-lg">
                                                 <input type="hidden" name="mail_verification" value="0">
                                                 <input type="checkbox" class="switch-input"
                                                        name="mail_verification"
-                                                       @checked($data['mail_verification'] ?? false) value="1">
+                                                       @checked($data['mail_verification'] ?? false) value="1"
+                                                       @if (!(config('mail.mailers.smtp.port') && config('mail.mailers.smtp.host')
+                                                           && config('mail.mailers.smtp.username') && config('mail.mailers.smtp.password')
+                                                           && config('mail.from.address') && config('mail.from.name')))
+                                                           disabled
+                                                    @endif
+                                                >
                                                 <span class="switch-toggle-slider">
                                                 <span class="switch-on">On</span>
-                                                <span class="switch-off">Off</span>
-                                            </span>
+                                                <span class="switch-off">Off</span></span>
                                             </label>
                                         </div>
                                     </div>

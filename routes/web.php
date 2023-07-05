@@ -34,7 +34,7 @@ Route::any('/', function (Illuminate\Http\Request $request) {
 });
 
 $middlewares = ['auth:web', 'timezone', 'verify.2fa', 'support.pin'];
-if(config('site.mail_verification'))
+if(cache('siteConfig')['mail_verification'] ?? 0)
     $middlewares[] = 'verified';
 
 Route::middleware($middlewares)->group(function () {
