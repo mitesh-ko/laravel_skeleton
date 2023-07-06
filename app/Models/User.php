@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Casts\TimezoneConvert;
 use App\Casts\UserProfileCast;
 use Illuminate\Auth\Notifications\VerifyEmail;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
@@ -49,8 +50,8 @@ class User extends Authenticatable implements Auditable, MustVerifyEmail
 
     protected $casts = [
         'email_verified_at' => 'datetime',
-        'created_at'        => 'datetime:d-m-Y',
-        'updated_at'        => 'datetime:d-m-Y',
+        'created_at'        => TimezoneConvert::class,
+        'updated_at'        => TimezoneConvert::class,
         'profile'           => UserProfileCast::class
     ];
 
@@ -58,13 +59,13 @@ class User extends Authenticatable implements Auditable, MustVerifyEmail
      * @param $token
      * @return void
      */
-    public function sendPasswordResetNotification($token)
+    public function sendPasswordResetNotification($token): void
     {
         $token = route("password.reset", $token) . "?email={$this->getEmailForPasswordReset()}";
         $this->notify(new \App\Notifications\ResetPasswordNotification(['actionUrl' => $token, 'template' => config('site.emailTemplate.resetPassword')]));
     }
 
-    public function sendEmailVerificationNotification()
+    public function sendEmailVerificationNotification(): void
     {
         if (config('site.mail_verification'))
             $this->notify(new VerifyEmail);
