@@ -54,13 +54,15 @@
                             <div class="table-responsive border">
                                 <table class="table m-0">
                                     <tbody>
-                                    @foreach($audit->old_values as $key => $value)
+                                    @forelse($audit->old_values as $key => $value)
                                         <tr>
                                             <td class="text-nowrap">{{ $key }} <span class="badge text-info">:</span>
                                             </td>
                                             <td class="text-nowrap">{{ json_encode($value) }}</td>
                                         </tr>
-                                    @endforeach
+                                    @empty
+                                        <p class="text-center mt-3">No old value</p>
+                                    @endforelse
                                     </tbody>
                                 </table>
                             </div>
@@ -70,13 +72,15 @@
                             <div class="table-responsive border">
                                 <table class="table m-0">
                                     <tbody>
-                                    @foreach($audit->new_values as $key => $value)
+                                    @forelse($audit->new_values as $key => $value)
                                         <tr>
                                             <td class="text-nowrap">{{ $key }} <span class="badge text-info">:</span>
                                             </td>
                                             <td class="text-nowrap">{{ json_encode($value) }}</td>
                                         </tr>
-                                    @endforeach
+                                    @empty
+                                        <p class="text-center mt-3">No new value</p>
+                                    @endforelse
                                     </tbody>
                                 </table>
                             </div>
