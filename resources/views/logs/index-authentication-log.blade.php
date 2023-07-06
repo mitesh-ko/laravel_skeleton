@@ -42,7 +42,7 @@
                             <th>User Agent</th>
                             <th>Login at</th>
                             <th>Login successful</th>
-                            <th>Logout</th>
+                            <th>Logout at</th>
                         </tr>
                         </thead>
                     </table>
