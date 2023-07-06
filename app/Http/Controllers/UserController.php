@@ -80,7 +80,7 @@ class UserController extends Controller
                     return $btn;
                 })
                 ->addColumn('joined_on', function ($row) use ($request) {
-                    return $row->created_at->date;
+                    return $row->getRawOriginal('created_at');
                 })
                 ->removeColumn('created_at')
                 ->rawColumns(['action'])
@@ -113,7 +113,7 @@ class UserController extends Controller
             'role'  => ['required'],
             'phone' => 'nullable'
         ]);
-        $validData['username'] = \Faker\Factory::create()->userName();
+        $validData['username'] = Str::random(16);
         $validData['password'] = Hash::make(Str::random(5));
         if ($request->profile) {
             $validData['profile'] = Storage::disk('public')->put('user_profile', $request->profile);

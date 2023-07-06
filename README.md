@@ -13,7 +13,7 @@
   DB_USERNAME=<DATABASE USERNAME>
   DB_PASSWORD=<DATABASE PASSWORD>
 ```
-- Run command on terminal `composer install` This installs all PHP dependencies.
+- For **development** `composer install` and for **production** `composer install --no-dev` run this command on terminal this installs all necessary PHP dependency.
 - Run command on terminal `npm install` This installs all node dependencies.
 - Migrate the databases. run command `php artisan migrate`
 - To access storage files run command `php artisan storage:link`
@@ -25,9 +25,9 @@
 #### Admin side
 - User management admin can add, update and delete users.
 - Settings 
-  - Admin can *manage site configuration*
-  - Admin can change *mail configuration*
-  - Admin can manage *email templates*
+  - Admin can **manage site configuration**
+  - Admin can change **mail configuration**
+  - Admin can manage **email templates**
 - Activity logs
   - Audit Logs show all user operation logs
   - Auth Logs show all user login related logs

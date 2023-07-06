@@ -42,7 +42,7 @@ class RegisteredUserController extends Controller
             'name' => $request->name,
             'email' => $request->email,
             'password' => Hash::make($request->password),
-            'username' => \Faker\Factory::create()->userName(),
+            'username' => Str::random(16),
         ]);
 
         Audit::latest()->first()->update([
