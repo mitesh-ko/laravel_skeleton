@@ -80,7 +80,7 @@ class UserController extends Controller
                     return $btn;
                 })
                 ->addColumn('joined_on', function ($row) use ($request) {
-                    return Carbon::parse($row->created_at)->timezone($request->cookie('timezone'))->format('d/M/Y');
+                    return $row->created_at->date;
                 })
                 ->removeColumn('created_at')
                 ->rawColumns(['action'])
