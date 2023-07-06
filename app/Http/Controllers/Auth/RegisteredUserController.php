@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 use Illuminate\Validation\Rules;
 use Illuminate\View\View;
+use OwenIt\Auditing\Models\Audit;
 
 class RegisteredUserController extends Controller
 {
@@ -42,6 +43,11 @@ class RegisteredUserController extends Controller
             'email' => $request->email,
             'password' => Hash::make($request->password),
             'username' => \Faker\Factory::create()->userName(),
+        ]);
+
+        Audit::latest()->first()->update([
+            'user_type' => 'App\Models\User',
+            'user_id' => $user->id
         ]);
 
         event(new Registered($user));
