@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Transaction;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redirect;
 use Yajra\DataTables\Facades\DataTables;
@@ -50,6 +51,9 @@ class TransactionController extends Controller
                         '<span class="badge bg-label-gray mx-1 my-1">No Access</span>';
                     return $btn;
                 })
+                ->editColumn('payment_date', function ($row){
+                    return $row->payment_date->date;
+                })
                 ->editColumn('amount', function ($row) {
                     return '₹ ' . $row->amount;
                 })
@@ -73,6 +77,8 @@ class TransactionController extends Controller
     public function store(Request $request)
     {
         $validData = $request->validate($this->validationRule);
+        $validData['payment_date'] = Carbon::parse($request->payment_date, \Cookie::get('timezone'))
+            ->setTimezone(config('app.timezone'))->format('Y-m-d');
         Transaction::create($validData);
         return Redirect::route('transactions.index')->with(['toastStatus' => 'success', 'message' => 'Transaction added successfully.']);
     }

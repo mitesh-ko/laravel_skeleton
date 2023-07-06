@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Casts\TimezoneConvert;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -18,13 +19,12 @@ class Transaction extends Model
         'status',
     ];
 
-//    protected function amount(): Attribute
-//    {
-//        return new Attribute(
-//            get: fn ($value) =>  '₹ ' . $value,
-//            set: fn ($value) =>  $value,
-//        );
-//    }
+    protected $casts = [
+        'created_at' => TimezoneConvert::class,
+        'updated_at' => TimezoneConvert::class,
+        'payment_date' => TimezoneConvert::class,
+    ];
+
     protected function status(): Attribute
     {
         $type = [
@@ -38,10 +38,11 @@ class Transaction extends Model
             ]
         ];
         return new Attribute(
-            get: fn ($value) =>  $type['text'][$value],
-            set: fn ($value) =>  $type['id'][$value],
+            get: fn($value) => $type['text'][$value],
+            set: fn($value) => $type['id'][$value],
         );
     }
+
     protected function type(): Attribute
     {
         $type = [
@@ -55,8 +56,8 @@ class Transaction extends Model
             ]
         ];
         return new Attribute(
-            get: fn ($value) =>  $type['text'][$value],
-            set: fn ($value) =>  $type['id'][$value],
+            get: fn($value) => $type['text'][$value],
+            set: fn($value) => $type['id'][$value],
         );
     }
 }
