@@ -2,6 +2,10 @@
 return [
     'debug_ip' => env('DEBUG_IP', ''),
 
+    //date and date time format
+    'date' => 'd/M/Y',
+    'dateTime' => 'd/M/Y H:i',
+
     'permissions' => [
 
         'Role Management' => [
