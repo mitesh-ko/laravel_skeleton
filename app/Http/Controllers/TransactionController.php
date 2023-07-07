@@ -52,7 +52,7 @@ class TransactionController extends Controller
                     return $btn;
                 })
                 ->editColumn('payment_date', function ($row){
-                    return $row->payment_date->date;
+                    return $row->t_payment_date;
                 })
                 ->editColumn('amount', function ($row) {
                     return '₹ ' . $row->amount;

@@ -2,19 +2,15 @@
 
 namespace App\Http\Controllers;
 
+use App\Contracts\UserContract;
 use App\Models\Role;
 use App\Models\User;
-use Carbon\Carbon;
-use DB;
-use Exception;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
-use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
-use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Redirect;
@@ -23,7 +19,7 @@ use Illuminate\Validation\Rule;
 use Str;
 use Yajra\DataTables\Facades\DataTables;
 
-class UserController extends Controller
+class UserController extends Controller implements UserContract
 {
     function __construct()
     {
@@ -33,84 +29,81 @@ class UserController extends Controller
         $this->middleware('permission:' . config('permission-name.user_management-delete'), ['only' => ['destroy']]);
     }
 
+    private function giveDataTable($user, $request)
+    {
+        $accessToModify = auth()->user()->hasPermissionTo(config('permission-name.user_management-update'));
+        $accessToDelete = auth()->user()->hasPermissionTo(config('permission-name.user_management-delete'));
+        $accessToSeeAudit = auth()->user()->hasPermissionTo(config('permission-name.logs-list_audit_logs'));
+        $accessToSeeAuthLog = auth()->user()->hasPermissionTo(config('permission-name.logs-list_authentication_logs'));
+        $LoginAsUser = auth()->user()->hasPermissionTo(config('permission-name.user_management-login'));
+
+        return DataTables::eloquent($user)
+            ->addColumn('action', function ($row) use ($accessToModify, $accessToDelete, $accessToSeeAudit, $accessToSeeAuthLog, $LoginAsUser) {
+
+                $btn = '<div class="d-flex">';
+                $btn .= $accessToModify ? '<a href="' . route('users.edit', $row->id) . '" class="btn btn-primary btn-sm mx-1 my-1">View/Update</a>' :
+                    '<div class="d-flex"></div><span class="badge bg-label-gray mx-1 my-1">No Access</span>';
+
+                $btn .= $accessToDelete ? '<button data-url="' . route('users.destroy', $row->id) . '" class="btn btn-danger btn-sm mx-1 my-1 delete-user">Delete</button>' :
+                    '<span class="badge bg-label-gray mx-1 my-1">No Access</span>';
+
+                if ($accessToSeeAudit || $accessToSeeAuthLog) {
+                    $login = $LoginAsUser ? '<a class="dropdown-item" href="' . route('loginAs', $row->id) . '">Login</a>' : '';
+                    $audit = $accessToSeeAudit ? '<a class="dropdown-item" target="_blank" href="' . route('audits.show.user', ['user_id' => $row->id]) . '">Audit Logs</a>' : '';
+                    $authentication = $accessToSeeAuthLog ? '<a class="dropdown-item" target="_blank" href="' . route('authenticationLogs.show.user', $row->id) . '">Authentication Logs</a>' : '';
+                    $btn .= "<div class='align-items-center mb-0 mb-md-2'>
+                                        <div class='dropdown'>
+                                          <i class='ti ti-dots-vertical cursor-pointer'
+                                            data-bs-toggle='dropdown' aria-haspopup='true' aria-expanded='false'>
+                                          </i>
+                                          <div class='dropdown-menu dropdown-menu-end' aria-labelledby='emailsActions'>
+                                                $login
+                                                $audit
+                                                $authentication
+                                          </div>
+                                        </div>
+                                    </div>";
+                }
+                $btn .= '</div>';
+                return $btn;
+            })
+            ->addColumn('joined_on', function ($row) use ($request) {
+                return $row->t_created_at->date;
+            })
+            ->removeColumn('created_at')
+            ->rawColumns(['action'])
+            ->make();
+    }
+
     /**
-     * Display a listing of the resource.
-     *
-     * @return Application|Factory|View|JsonResponse
-     * @throws Exception
+     * {@inheritdoc}
      */
-    public function index(Request $request)
+    public function index(Request $request): View|Application|Factory|\Illuminate\Http\JsonResponse
     {
         if ($request->ajax()) {
-            $accessToModify = auth()->user()->hasPermissionTo(config('permission-name.user_management-update'));
-            $accessToDelete = auth()->user()->hasPermissionTo(config('permission-name.user_management-delete'));
-            $accessToSeeAudit = auth()->user()->hasPermissionTo(config('permission-name.logs-list_audit_logs'));
-            $accessToSeeAuthLog = auth()->user()->hasPermissionTo(config('permission-name.logs-list_authentication_logs'));
-            $LoginAsUser = auth()->user()->hasPermissionTo(config('permission-name.user_management-login'));
-
             $user = User::orderByDesc('id')->whereNotIn('id', [1, Auth::user()->id])->select(['id', 'name', 'email', 'created_at']);
-            return DataTables::eloquent($user)
-                ->addColumn('action', function ($row) use ($accessToModify, $accessToDelete, $accessToSeeAudit, $accessToSeeAuthLog, $LoginAsUser) {
-
-                    $btn = '<div class="d-flex">';
-                    $btn .= $accessToModify ? '<a href="' . route('users.edit', $row->id) . '" class="btn btn-primary btn-sm mx-1 my-1">View/Update</a>' :
-                        '<div class="d-flex"></div><span class="badge bg-label-gray mx-1 my-1">No Access</span>';
-
-                    $btn .= $accessToDelete ? '<button data-url="' . route('users.destroy', $row->id) . '" class="btn btn-danger btn-sm mx-1 my-1 delete-user">Delete</button>' :
-                        '<span class="badge bg-label-gray mx-1 my-1">No Access</span>';
-
-                    if ($accessToSeeAudit || $accessToSeeAuthLog) {
-                        $login = $LoginAsUser ? '<a class="dropdown-item" href="' . route('loginAs', $row->id) . '">Login</a>' : '';
-                        $audit = $accessToSeeAudit ? '<a class="dropdown-item" target="_blank" href="' . route('audits.show.user', ['user_id' => $row->id]) . '">Audit Logs</a>' : '';
-                        $authentication = $accessToSeeAuthLog ? '<a class="dropdown-item" target="_blank" href="' . route('authenticationLogs.show.user', $row->id) . '">Authentication Logs</a>' : '';
-                        $btn .= "<div class='align-items-center mb-0 mb-md-2'>
-                                    <div class='dropdown'>
-                                      <i class='ti ti-dots-vertical cursor-pointer'
-                                        data-bs-toggle='dropdown' aria-haspopup='true' aria-expanded='false'>
-                                      </i>
-                                      <div class='dropdown-menu dropdown-menu-end' aria-labelledby='emailsActions'>
-                                            $login
-                                            $audit
-                                            $authentication
-                                      </div>
-                                    </div>
-                                </div>";
-                    }
-                    $btn .= '</div>';
-                    return $btn;
-                })
-                ->addColumn('joined_on', function ($row) use ($request) {
-                    return $row->getRawOriginal('created_at');
-                })
-                ->removeColumn('created_at')
-                ->rawColumns(['action'])
-                ->make();
+            return $this->giveDataTable($user, $request);
         }
         return view('user.index-user');
     }
 
     /**
-     * Show the form for creating a new resource.
-     *
-     * @return Application|Factory|View
+     * {@inheritdoc}
      */
-    public function create()
+    public function create(): View|Factory|Application
     {
         return view('user.create-update-user');
     }
 
     /**
-     * Store a newly created resource in storage.
-     *
-     * @param Request $request
-     * @return RedirectResponse
+     * {@inheritdoc}
      */
-    public function store(Request $request)
+    public function store(Request $request): RedirectResponse
     {
         $validData = $request->validate([
-            'name'  => ['required', 'string', 'max:255'],
+            'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:' . User::class],
-            'role'  => ['required'],
+            'role' => ['required'],
             'phone' => 'nullable'
         ]);
         $validData['username'] = Str::random(16);
@@ -126,23 +119,9 @@ class UserController extends Controller
     }
 
     /**
-     * Display the specified resource.
-     *
-     * @param int $id
-     * @return Response
+     * {@inheritdoc}
      */
-    public function show($id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param User $user
-     * @return Application|Factory|View|RedirectResponse
-     */
-    public function edit(User $user)
+    public function edit(User $user): View|Factory|RedirectResponse
     {
         if ($user->id == 1) {
             return Redirect::route('users.index');
@@ -151,18 +130,14 @@ class UserController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
-     *
-     * @param Request $request
-     * @param User $user
-     * @return RedirectResponse
+     * {@inheritdoc}
      */
-    public function update(Request $request, User $user)
+    public function update(Request $request, User $user): RedirectResponse
     {
         $validData = $request->validate([
-            'name'  => ['required', 'max:255'],
+            'name' => ['required', 'max:255'],
             'email' => ['required', 'email', 'max:255', Rule::unique(User::class)->ignore($user->id)],
-            'role'  => ['required'],
+            'role' => ['required'],
             'phone' => ['nullable']
         ]);
         if ($user->isDirty('email')) {
@@ -184,14 +159,10 @@ class UserController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
-     *
-     * @param int $id
-     * @return RedirectResponse
+     * {@inheritdoc}
      */
-    public function destroy(int $id)
+    public function destroy(User $user): RedirectResponse
     {
-        $user = User::findOrFail($id);
         // delete user associated data from other tables.
         $user->delete();
         return Redirect::route('users.index')->with(['toastStatus' => 'success', 'message' => 'User deleted successfully.']);
@@ -203,7 +174,7 @@ class UserController extends Controller
             session()->forget('backToAccount');
         else
             session()->put('backToAccount', Auth::user()->id);
-            session()->forget('support_pin_verified');
+        session()->forget('support_pin_verified');
 
 
         Auth::loginUsingId($user->id);

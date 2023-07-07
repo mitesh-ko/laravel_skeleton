@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Casts\TimezoneConvert;
 use App\Casts\UserProfileCast;
+use App\Traits\ConvertToTimezone;
 use Illuminate\Auth\Notifications\VerifyEmail;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -18,7 +19,8 @@ use Spatie\Permission\Traits\HasRoles;
 
 class User extends Authenticatable implements Auditable, MustVerifyEmail
 {
-    use HasApiTokens, HasFactory, Notifiable, HasRoles, \OwenIt\Auditing\Auditable, SoftDeletes, AuthenticationLoggable;
+    use HasApiTokens, HasFactory, Notifiable, HasRoles, \OwenIt\Auditing\Auditable,
+        SoftDeletes, AuthenticationLoggable, ConvertToTimezone;
 
     protected $fillable = [
         'username',
@@ -50,8 +52,6 @@ class User extends Authenticatable implements Auditable, MustVerifyEmail
 
     protected $casts = [
         'email_verified_at' => 'datetime',
-        'created_at'        => TimezoneConvert::class,
-        'updated_at'        => TimezoneConvert::class,
         'profile'           => UserProfileCast::class
     ];
 
@@ -59,6 +59,8 @@ class User extends Authenticatable implements Auditable, MustVerifyEmail
      * @param $token
      * @return void
      */
+
+
     public function sendPasswordResetNotification($token): void
     {
         $token = route("password.reset", $token) . "?email={$this->getEmailForPasswordReset()}";
