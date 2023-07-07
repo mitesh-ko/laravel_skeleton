@@ -32,7 +32,8 @@
                             <div class="mb-3 col-md-6">
                                 <label for="payment_date" class="form-label">Payment Date</label>
                                 <input class="form-control @error('payment_date') is-invalid @enderror" type="date" id="payment_date" name="payment_date"
-                                       value="{{ old('payment_date', $transaction->payment_date ?? '') }}"/>
+                                       value="{{ old('payment_date', \Carbon\Carbon::parse($transaction->payment_date, config('app.timezone'))
+                                       ->setTimezone(Cookie::get('timezone'))->format('Y-m-d') ?? '') }}"/>
                                 <x-input-error :messages="$errors->get('payment_date')" class="mt-1" />
                             </div>
                             <div class="mb-3 col-md-6">
