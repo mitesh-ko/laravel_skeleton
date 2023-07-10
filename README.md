@@ -33,13 +33,14 @@ APP_DEBUG=false
       DB_PASSWORD=<DATABASE PASSWORD>
     ```
 - Run following command one by one
-- `composer run-script post-root-package-install`
-- `composer run-script post-create-project-cmd`
-- `php artisan migrate`
-- `php artisan db:seed`
-- `php artisan storage:link`
-- `npm install`
-- `npm run build`
+  - `composer run-script post-root-package-install`
+  - `composer run-script post-create-project-cmd`
+  - `php artisan migrate`
+  - `php artisan db:seed`
+  - `php artisan storage:link`
+  - `npm install`
+  - `npm run build`
+### ***After the project setup very first update "Mail Setting" in the Settings section***
 
 ## Features
 #### User side
