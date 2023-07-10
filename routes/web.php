@@ -42,8 +42,8 @@ Route::middleware($middlewares)->group(function () {
         Route::get('first-dashboard', [DashboardController::class, 'firstDashboard'])->name('firstDashboard');
     });
 
-    Route::resource('transactions', TransactionController::class);
-    Route::resource('users', UserController::class);
+    Route::resource('transactions', TransactionController::class)->except('show');
+    Route::resource('users', UserController::class)->except('show');
     Route::any('login-as/{user}', [UserController::class, 'loginAs'])->name('loginAs');
 
     Route::prefix('logs')->group(function () {

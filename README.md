@@ -1,22 +1,45 @@
 <p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
 
-## Project Setup steps
+## System requirements
+- PHP 8.2^
+- composer 2.5^
+- node 19.8^
+- npm 9.5^
+- On production, it require supervisor or similar service.
+
+## How to set up
 - Clone this project `git clone https://git.staging.securemetasys.com/securemetasys/laravelvuexy.git`
-- Copy the **.env.example** file and rename it to **.env**
-- run command to add APP_KEY in .env `php artisan key:generate --ansi`
-- Update the .env to connect with database.
+
+### Production
+- Run command `composer install --no-dev`
+- Update the .env
 ```
-  DB_CONNECTION=mysql (recommended)
-  DB_HOST=<DATABASE HOST>
-  DB_PORT=<DATABASE PORT>
-  DB_DATABASE=<DATABASE NAME>
-  DB_USERNAME=<DATABASE USERNAME>
-  DB_PASSWORD=<DATABASE PASSWORD>
+APP_ENV=production
+APP_DEBUG=false
 ```
-- For **development** `composer install` and for **production** `composer install --no-dev` run this command on terminal this installs all necessary PHP dependency.
-- Run command on terminal `npm install` This installs all node dependencies.
-- Migrate the databases. run command `php artisan migrate`
-- To access storage files run command `php artisan storage:link`
+
+### Development
+- Run command `composer install`
+- No need to update **APP_ENV** and **APP_DEBUG**
+
+### Common steps
+- Connect database
+    ```
+      DB_CONNECTION=mysql (recommended)
+      DB_HOST=<DATABASE HOST>
+      DB_PORT=<DATABASE PORT>
+      DB_DATABASE=<DATABASE NAME>
+      DB_USERNAME=<DATABASE USERNAME>
+      DB_PASSWORD=<DATABASE PASSWORD>
+    ```
+- Run following command one by one
+- `composer run-script post-root-package-install`
+- `composer run-script post-create-project-cmd`
+- `php artisan migrate`
+- `php artisan db:seed`
+- `php artisan storage:link`
+- `npm install`
+- `npm run build`
 
 ## Features
 #### User side

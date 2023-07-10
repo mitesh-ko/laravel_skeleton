@@ -29,7 +29,7 @@ class UserController extends Controller implements UserContract
         $this->middleware('permission:' . config('permission-name.user_management-delete'), ['only' => ['destroy']]);
     }
 
-    private function giveDataTable($user, $request)
+    private function prepareDataTable($user, $request)
     {
         $accessToModify = auth()->user()->hasPermissionTo(config('permission-name.user_management-update'));
         $accessToDelete = auth()->user()->hasPermissionTo(config('permission-name.user_management-delete'));
@@ -82,7 +82,7 @@ class UserController extends Controller implements UserContract
     {
         if ($request->ajax()) {
             $user = User::orderByDesc('id')->whereNotIn('id', [1, Auth::user()->id])->select(['id', 'name', 'email', 'created_at']);
-            return $this->giveDataTable($user, $request);
+            return $this->prepareDataTable($user, $request);
         }
         return view('user.index-user');
     }
