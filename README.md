@@ -8,7 +8,7 @@
 - On production, it require supervisor or similar service.
 
 ## How to set up
-- Clone this project `git clone https://git.staging.securemetasys.com/securemetasys/laravelvuexy.git`
+- Clone this project `git clone https://github.com/mitesh-ko/laravel_skeleton.git`
 
 ### Production
 - Run command `composer install --no-dev`
