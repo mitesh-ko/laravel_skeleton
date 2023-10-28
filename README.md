@@ -6,6 +6,6 @@
 - node 19.8.*
 
 ## Run Project
-- Clone this project `git clone https://git.staging.securemetasys.com/product/rightcomb-crm.git`
+- Clone this project `git clone https://github.com/mitesh-ko/laravel_skeleton.git`
 - Run command on terminal `composer install` to installs all PHP dependencies.
 - Run command on terminal `php artisan project-setup` to set up project.
