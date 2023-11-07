@@ -1,0 +1,1 @@
+$(function(){let a=$(".email_template_table");a.length&&a.DataTable({dom:"<'row'<'col-sm-12'tr>><'row'<'col-sm-12 col-md-6'i><'col-sm-12 col-md-6 dataTables_pager'p>>",ajax:a.attr("data-url"),processing:!0,serverSide:!0,columns:[{data:"name"},{data:"subject"},{data:"action"}],aaSorting:[],columnDefs:[{className:"action",orderable:!1,targets:2}],orderCellsTop:!0})});
