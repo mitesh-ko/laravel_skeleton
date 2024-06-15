@@ -39,7 +39,7 @@
                                            aria-describedby="password"/>
                                     <span class="input-group-text cursor-pointer"
                                           style="@error('password') border-radius: 0 5px 5px 0 @enderror">
-                                        <i class="ti ti-eye-off"></i>
+                                        <i class="ti ti-eye"></i>
                                     </span>
                                     <x-input-error :messages="$errors->get('password')" class="mt-1"/>
                                 </div>
