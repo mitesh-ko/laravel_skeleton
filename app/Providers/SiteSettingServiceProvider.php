@@ -4,12 +4,12 @@ namespace App\Providers;
 
 use App\Models\EmailTemplate;
 use App\Models\SiteConfig;
-use Config;
+use Illuminate\Support\Facades\Config;
 use Illuminate\Contracts\Encryption\DecryptException;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\ServiceProvider;
-use Schema;
+use Illuminate\Support\Facades\Schema;
 
 class SiteSettingServiceProvider extends ServiceProvider
 {
@@ -28,7 +28,7 @@ class SiteSettingServiceProvider extends ServiceProvider
      *
      * @return void
      */
-    public function boot()
+    public function boot(): void
     {
         $value = Cache::remember('siteConfig', 36000, function () {
             if (Schema::hasTable('site_configs')) {

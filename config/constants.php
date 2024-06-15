@@ -141,7 +141,7 @@ return [
                 'name'        => 'auditLogDetail',
                 'guard_name'  => 'web',
                 'desc'        => 'Access to check details of a log',
-                'marginLeft'  => 59
+                'marginLeft'  => 47
             ],
             'List authentication logs' => [
                 'displayName' => 'List authentication logs',

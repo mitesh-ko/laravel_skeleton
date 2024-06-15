@@ -37,7 +37,7 @@
                                     <input type="password" id="password" class="form-control" name="password"
                                            placeholder="&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;"
                                            aria-describedby="password"/>
-                                    <span class="input-group-text cursor-pointer"><i class="ti ti-eye-off"></i></span>
+                                    <span class="input-group-text cursor-pointer"><i class="ti ti-eye"></i></span>
                                 </div>
                                 <x-input-error :messages="$errors->get('password')" class="mt-1" />
                             </div>
@@ -64,15 +64,15 @@
                         </div>
 
                         <div class="d-flex justify-content-center">
-                            <a href="javascript:;" class="btn btn-icon btn-label-facebook me-3">
+                            <a href="javascript:void(0);" class="btn btn-icon btn-label-facebook me-3">
                                 <i class="tf-icons fa-brands fa-facebook-f fs-5"></i>
                             </a>
 
-                            <a href="javascript:;" class="btn btn-icon btn-label-google-plus me-3">
+                            <a href="javascript:void(0);" class="btn btn-icon btn-label-google-plus me-3">
                                 <i class="tf-icons fa-brands fa-google fs-5"></i>
                             </a>
 
-                            <a href="javascript:;" class="btn btn-icon btn-label-twitter">
+                            <a href="javascript:void(0);" class="btn btn-icon btn-label-twitter">
                                 <i class="tf-icons fa-brands fa-twitter fs-5"></i>
                             </a>
                         </div>

@@ -95,5 +95,16 @@ document.addEventListener('DOMContentLoaded', function (e) {
             $(this).prev().trigger('focus')
         else if ($(this).next().val() === '')
             $(this).next().trigger('focus')
+    });
+
+    $(".cursor-pointer").click(function () {
+        if ($(this).closest('.input-group').find('input').attr('type') === 'password') {
+            $(this).html("<i class=\"ti ti-eye-off\"></i>");
+            $(this).closest('.input-group').find('input').attr('type', 'text');
+        } else {
+            $(this).html("<i class=\"ti ti-eye\"></i>");
+            $(this).closest('.input-group').find('input').attr('type', 'password');
+        }
+
     })
 });

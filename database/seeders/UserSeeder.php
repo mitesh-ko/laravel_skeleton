@@ -3,7 +3,6 @@
 namespace Database\Seeders;
 
 use App\Models\User;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Spatie\Permission\Models\Role;
 
@@ -29,7 +28,7 @@ class UserSeeder extends Seeder
             $user->assignRole($role);
         }
         if (!User::where('email', 'user@example.com')->first()) {
-            User::create([
+            $user = User::create([
                 'username'          => 'user',
                 'name'              => 'Jon',
                 'email'             => 'user@example.com',
